@@ -1,6 +1,5 @@
 <?php
 
-use Behat\Behat\Exception\PendingException;
 use Behat\MinkExtension\Context\MinkContext;
 
 //
@@ -18,9 +17,9 @@ require_once __DIR__ .'/../../web/application/includes/common.inc.php';
 class FeatureContext extends MinkContext
 {
     private $homeurl = 'http://www.phpyabs.local/';
-    
+
     private $fields = array();
-    
+
     /**
      * Initializes context.
      * Every scenario gets it's own context object.
@@ -39,7 +38,7 @@ class FeatureContext extends MinkContext
         global $conn;
         $conn->Execute('DELETE FROM phpyabs_libri');
     }
-    
+
     /**
      * @Given /^I am on book add page$/
      */
@@ -62,12 +61,12 @@ class FeatureContext extends MinkContext
             'publisher' => 'Editore',
             'price'     => 'Prezzo'
         );
-        
+
         $this->fields[$arg2] = $arg1;
-        
+
         $session = $this->getSession();
         $page = $session->getPage();
-        
+
         $page->fillField($fields[$arg2], $arg1);
     }
 
@@ -79,15 +78,15 @@ class FeatureContext extends MinkContext
         $translate = array (
             'Add' => 'Aggiungi'
         );
-        
+
         $button = $translate[$arg1];
-        
+
         $this
             ->getSession()
             ->getPage()
             ->pressButton($button)
         ;
-        
+
         $this->getSession()->wait(200);
     }
 
@@ -98,7 +97,7 @@ class FeatureContext extends MinkContext
     {
         $this->assertPageContainsText('Libro inserito');
     }
-    
+
         /**
      * @Given /^I am on book list page$/
      */
@@ -113,11 +112,11 @@ class FeatureContext extends MinkContext
      */
     public function iShouldSeeBookFields()
     {
-        foreach($this->fields as $value) {
+        foreach ($this->fields as $value) {
             $this->assertPageContainsText($value);
         }
     }
-    
+
     /**
      * @Given /^I select "([^"]*)" on field "([^"]*)"$/
      */
@@ -125,5 +124,4 @@ class FeatureContext extends MinkContext
     {
         $this->getSession()->getPage()->selectFieldOption($arg2, $arg1);
     }
-
 }

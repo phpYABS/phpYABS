@@ -82,7 +82,7 @@ class FeatureContext extends MinkContext
         
         $button = $translate[$arg1];
         
-        $page = $this
+        $this
             ->getSession()
             ->getPage()
             ->pressButton($button)

@@ -16,8 +16,6 @@ require_once __DIR__ .'/../../web/application/includes/common.inc.php';
  */
 class FeatureContext extends MinkContext
 {
-    private $homeurl = 'http://www.phpyabs.local/';
-
     private $fields = array();
 
     /**

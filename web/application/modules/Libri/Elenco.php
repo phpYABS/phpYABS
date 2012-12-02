@@ -6,9 +6,7 @@
 </HEAD>
 <BODY>
 <?php
-  $limit=$_GET['Limit'];
-  if(!isset($limit) || !ereg('^[0-9]+$', $limit))
-    $limit=0;
+$limit = isset($_GET['limit']) && preg_match('/\d+/') ? $_GET['limit'] : 0;
 
   $rset=$conn->Execute("SELECT ISBN FROM ".$prefix."_valutazioni LIMIT $limit, 50");
   echo "<table border=\"1\" align=\"center\" width=\"755\">\n";
@@ -33,7 +31,7 @@
     echo "</tr>";
     $rset->MoveNext();
 
-    $book=NULL;
+    unset($book);
   }
   echo "</table>";
 

@@ -19,6 +19,8 @@ class FeatureContext extends MinkContext
 {
     private $homeurl = 'http://www.phpyabs.local/';
     
+    private $fields = array();
+    
     /**
      * Initializes context.
      * Every scenario gets it's own context object.
@@ -61,6 +63,8 @@ class FeatureContext extends MinkContext
             'price'     => 'Prezzo'
         );
         
+        $this->fields[$arg2] = $arg1;
+        
         $session = $this->getSession();
         $page = $session->getPage();
         
@@ -78,11 +82,13 @@ class FeatureContext extends MinkContext
         
         $button = $translate[$arg1];
         
-        $this
+        $page = $this
             ->getSession()
             ->getPage()
             ->pressButton($button)
         ;
+        
+        $this->getSession()->wait(200);
     }
 
     /**
@@ -92,4 +98,32 @@ class FeatureContext extends MinkContext
     {
         $this->assertPageContainsText('Libro inserito');
     }
+    
+        /**
+     * @Given /^I am on book list page$/
+     */
+    public function iAmOnBookListPage()
+    {
+        $session = $this->getSession();
+        $session->visit('http://www.phpyabs.local/modules.php?Nome=Libri&Azione=Elenco');
+    }
+
+    /**
+     * @Then /^I should see book fields$/
+     */
+    public function iShouldSeeBookFields()
+    {
+        foreach($this->fields as $value) {
+            $this->assertPageContainsText($value);
+        }
+    }
+    
+    /**
+     * @Given /^I select "([^"]*)" on field "([^"]*)"$/
+     */
+    public function iSelectOnField($arg1, $arg2)
+    {
+        $this->getSession()->getPage()->selectFieldOption($arg2, $arg1);
+    }
+
 }

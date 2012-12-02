@@ -156,8 +156,8 @@ class PhpYabs_Book extends PhpYabs_Db
 
             $rset->Close();
 
-            if ($this->Valutazione) {
-                $valfields=array ("ISBN" => $this->fields['ISBN'], "Valutazione" => $this->Valutazione);
+            if ($this->_valutazione) {
+                $valfields=array ("ISBN" => $this->fields['ISBN'], "Valutazione" => $this->_valutazione);
 
                 $rset=$this->_db->Execute("SELECT * FROM ".$prefix."_valutazioni WHERE ISBN='".$this->fields['ISBN']."'");
 
@@ -182,7 +182,7 @@ class PhpYabs_Book extends PhpYabs_Db
         $esiste=$rset->RecordCount();
         $rset->Close();
 
-        return $esiste;
+        return $esiste > 0;
     }
 
     //carica i dati dal database, specificato l'isbn

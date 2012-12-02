@@ -11,5 +11,8 @@ Feature: Add book
     And  I type "George Orwell" on "author" field
     And  I type "Fabbri" on "publisher" field
     And  I type "3" on "price" field
+    And I select "Macero" on field "Valutazione"
     And I click on "Add" button
     Then I should get a success message
+    Given I am on book list page
+    Then I should see book fields

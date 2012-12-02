@@ -1,5 +1,5 @@
 <p>
-<form action="<?=$_SERVER['PHP_SELF']?>" method="get">
+<form action="<?=$_SERVER['PHP_SELF']?>" method="POST">
 <table width="600" border="1" align="center">
   <tr>
     <th width="80">ISBN:</th>
@@ -33,8 +33,8 @@
     </select></td>
   </tr>
   <tr>
-    <td><input type="Submit" value="Aggiungi"></td>
-    <td><input type="Reset" value="Annulla"></td>
+    <td><input type="submit" value="Aggiungi"/></td>
+    <td><input type="reset" value="Annulla"></td>
   </tr>
 </table>
 <input type="hidden" name="Nome" value="Libri">

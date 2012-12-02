@@ -1,5 +1,5 @@
 {
-    "hash": "a53a8c60f98d7591fe463d42ed332f3f",
+    "hash": "b0f6a4c8d4c131f39908e5c9de348b29",
     "packages": [
         {
             "name": "adodb/adodb",
@@ -20,6 +20,47 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "alexandresalome/php-selenium",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/alexandresalome/PHP-Selenium.git",
+                "reference": "1.0.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/alexandresalome/PHP-Selenium/archive/1.0.1.zip",
+                "reference": "1.0.1",
+                "shasum": ""
+            },
+            "require-dev": {
+                "symfony/dom-crawler": "dev-master"
+            },
+            "time": "2012-07-10 11:39:20",
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Selenium": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexandre Salomé",
+                    "email": "alexandre.salome@gmail.com",
+                    "homepage": "http://alexandre-salome.fr/"
+                }
+            ],
+            "description": "PHP Library for Selenium",
+            "keywords": [
+                "selenium"
+            ]
+        },
         {
             "name": "behat/behat",
             "version": "v2.4.4",
@@ -253,6 +294,55 @@
             ]
         },
         {
+            "name": "behat/mink-selenium-driver",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git://github.com/Behat/MinkSeleniumDriver.git",
+                "reference": "9d7f0993a3b5750ef8926bcecf9cfe946c1990b4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/Behat/MinkSeleniumDriver/archive/9d7f0993a3b5750ef8926bcecf9cfe946c1990b4.zip",
+                "reference": "9d7f0993a3b5750ef8926bcecf9cfe946c1990b4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.1",
+                "behat/mink": ">=1.4.0,<1.5.0",
+                "symfony/dom-crawler": ">=2.0.0,<2.2.0",
+                "alexandresalome/php-selenium": "@dev"
+            },
+            "time": "2012-10-07 16:04:20",
+            "type": "mink-driver",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Behat\\Mink\\Driver": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Konstantin Kudryashov",
+                    "email": "ever.zet@gmail.com",
+                    "homepage": "http://everzet.com"
+                }
+            ],
+            "description": "Selenium driver for Mink framework",
+            "homepage": "http://mink.behat.org/",
+            "keywords": [
+                "javascript",
+                "testing",
+                "browser",
+                "ajax",
+                "selenium"
+            ]
+        },
+        {
             "name": "symfony/config",
             "version": "2.1.x-dev",
             "target-dir": "Symfony/Component/Config",
@@ -450,6 +540,60 @@
                 }
             ],
             "description": "Symfony DependencyInjection Component",
+            "homepage": "http://symfony.com"
+        },
+        {
+            "name": "symfony/dom-crawler",
+            "version": "2.1.x-dev",
+            "target-dir": "Symfony/Component/DomCrawler",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/DomCrawler",
+                "reference": "647bfe5a19ccbe2e06c0335011e3f553ebd6d55c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/symfony/DomCrawler/archive/647bfe5a19ccbe2e06c0335011e3f553ebd6d55c.zip",
+                "reference": "647bfe5a19ccbe2e06c0335011e3f553ebd6d55c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "symfony/css-selector": "2.1.*"
+            },
+            "suggest": {
+                "symfony/css-selector": "2.1.*"
+            },
+            "time": "2012-11-29 10:32:18",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1-dev"
+                }
+            },
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\DomCrawler": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony DomCrawler Component",
             "homepage": "http://symfony.com"
         },
         {

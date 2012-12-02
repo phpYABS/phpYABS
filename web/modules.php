@@ -23,7 +23,7 @@
 
 require_once 'application/includes/common.inc.php';
 
-if(!eregi('^[a-z0-9]+$', $module=$_GET['Nome']))
+if(!eregi('^[a-z0-9]+$', $module=$_REQUEST['Nome']))
     die('Invalid module');
 
 $modpath="application/modules/$module/";

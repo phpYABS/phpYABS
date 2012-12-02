@@ -8,14 +8,14 @@
 <?php
 loadClass('PhpYabs_Book');
 $addbook=new PhpYabs_Book();
-  if (!$addbook->IsValidISBN($_GET['ISBN'])) {
+  if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !$addbook->IsValidISBN($_POST['ISBN'])) {
     include PATH_TEMPLATES.'/oldones/libri/tabadd.php';
   } else {
-    $fields=Array("ISBN" => $_GET['ISBN'],"Titolo" => $_GET['Titolo'], "Autore" => $_GET['Autore'],
-    "Editore" => $_GET['Editore'], "Prezzo" => $_GET['Prezzo']);
+    $fields=Array("ISBN" => $_POST['ISBN'],"Titolo" => $_POST['Titolo'], "Autore" => $_POST['Autore'],
+    "Editore" => $_POST['Editore'], "Prezzo" => $_POST['Prezzo']);
 
     $addbook->SetFields($fields);
-    $addbook->SetValutazione($_GET['Valutazione']);
+    $addbook->SetValutazione($_POST['Valutazione']);
 
     if($addbook->SaveToDB())
       echo "<p>Libro inserito</p>";

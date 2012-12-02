@@ -35,13 +35,13 @@
 </head>
 
 <body>
-<p>Libri acquistati: <b><? echo $libriacq; ?></b></p>
-<p>Libri (unici) non trovati: <b><? echo $nerrori; ?></b></p>
+<p>Libri acquistati: <b><?php echo $libriacq; ?></b></p>
+<p>Libri (unici) non trovati: <b><?php echo $nerrori; ?></b></p>
 <p>&nbsp;</pA
 ><p><b>"Spari"</b></p>
-<p>Trovati: <b><? echo $spariok; ?></b></p>
-<p>Non trovati: <b><? echo $errspari; ?></b></p>
-<p>Totali: <b><? echo $totspari; ?></b></p>
+<p>Trovati: <b><?php echo $spariok; ?></b></p>
+<p>Non trovati: <b><?php echo $errspari; ?></b></p>
+<p>Totali: <b><?php echo $totspari; ?></b></p>
 
 </body>
 </html>

@@ -9,10 +9,10 @@
 document.form1.ISBN.focus()
 </script>
 <h1 align="center">Modifica Libro</h1>
-<?
+<?php
   if(!isset($_GET['ISBN'])) {?>
 <div align="center"> 
-  <form action="<? echo $_SERVER['PHP_SELF']; ?>" method="get" name="form1">
+  <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" name="form1">
     ISBN 
     <input type="text" name="ISBN">
     <input type="submit" name="Invia" value="Ok">
@@ -20,7 +20,7 @@ document.form1.ISBN.focus()
     <input type="hidden" name="Azione" value="<?=$_GET['Azione']?>">
   </form>
 </div>
-<? }
+<?php }
   else {
     loadClass('PhpYabs_Book'); 
   	$modbook=new PhpYabs_Book();
@@ -61,7 +61,7 @@ document.form1.ISBN.focus()
 
       else { ?>
 <p align="center">Libro non trovato</p>
-<? 
+<?php 
     }
   }
 ?>

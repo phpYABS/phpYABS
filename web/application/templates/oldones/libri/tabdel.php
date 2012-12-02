@@ -36,5 +36,5 @@
   </tr>
 </table>
 </p>
-<div align="center"><a href="<? echo $_SERVER['PHP_SELF']."?Nome=".$_GET['Nome']."&Azione=".$_GET['Azione']."&ISBN=".
+<div align="center"><a href="<?php echo $_SERVER['PHP_SELF']."?Nome=".$_GET['Nome']."&Azione=".$_GET['Azione']."&ISBN=".
 $ISBN."&cancella=on"; ?>">Cancella Libro</a>

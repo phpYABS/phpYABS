@@ -45,21 +45,21 @@ elseif (isset($_GET['Cancella']))
 <body onLoad="document.libro.newISBN.focus()">
 <font face="Arial, Helvetica, sans-serif">
 <h1 align="center">Valutazione dei libri in acquisto</h1>
-<h2 align="center">Acquisto N° <? echo $IdAcquisto; ?></h2>
-<? if($errmsg) echo "<p align=\"center\"><font color=\"RED\">$errmsg</font></p>" ?>
-<?
+<h2 align="center">Acquisto N° <?php echo $IdAcquisto; ?></h2>
+<?php if($errmsg) echo "<p align=\"center\"><font color=\"RED\">$errmsg</font></p>" ?>
+<?php
   $acquisto->PrintAcquisto();
   if(!$trovato)
     echo "<script language=\"Javascript\">alert('Libro non trovato!');</script>";
   $bill=$acquisto->GetBill();
 ?>
-<p align="center"><? echo $acquisto->NumBook(); ?> Libri acquistati<br>Totale contanti: <? echo $bill['totalec'] ?> &euro;
-&nbsp;&nbsp;&nbsp;&nbsp;Totale buono: <? echo $bill['totaleb']; ?> &euro; 
-&nbsp;&nbsp;&nbsp;&nbsp;Totale rottamazione: <? echo $bill['totaler']; ?> &euro;</p>
+<p align="center"><?php echo $acquisto->NumBook(); ?> Libri acquistati<br>Totale contanti: <?php echo $bill['totalec'] ?> &euro;
+&nbsp;&nbsp;&nbsp;&nbsp;Totale buono: <?php echo $bill['totaleb']; ?> &euro; 
+&nbsp;&nbsp;&nbsp;&nbsp;Totale rottamazione: <?php echo $bill['totaler']; ?> &euro;</p>
 <div align="center">
     <input type="hidden" name="Nome" value="<?=$_GET['Nome']?>">
     <input type="hidden" name="Azione" value="<?=$_GET['Azione']?>">
-    <form action="<? echo $_SERVER['PHP_SELF']."?Nome=".$_GET['Nome'].
+    <form action="<?php echo $_SERVER['PHP_SELF']."?Nome=".$_GET['Nome'].
 	"&Azione=Acquisto" ?>" method="post" name="libro">
     ISBN o EAN 
     <input name="newISBN" type="text" maxlength="13">

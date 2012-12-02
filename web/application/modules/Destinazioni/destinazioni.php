@@ -56,8 +56,8 @@
 <body>
 <h1 align="center">Aggiunta destinazioni</h1>
 <p align="center">Pagina <?=$pag; ?></p>
-<form action="<? echo $_SERVER['PHP_SELF']; ?>" method="GET">
-<?
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="GET">
+<?php
 
  if(strlen($destinazione)>0) {
     $locked=" disabled";
@@ -70,10 +70,10 @@
 <table width="100%" border="1" align="center">
 <tr>
 <td colspan="7">
-<p align="center"><input type="text" name="destinazione" value="<? echo htmlentities(strtoupper($destinazione)); ?>" style="width: 400px"<?=$locked ?>></p>
+<p align="center"><input type="text" name="destinazione" value="<?php echo htmlentities(strtoupper($destinazione)); ?>" style="width: 400px"<?=$locked ?>></p>
 </td>
 </tr>
-<?
+<?php
     if(strlen($destinazione)>0) {
 	  if (is_array($_GET['destina'])) {
       while(list($chiave,$valore)=each($_GET['destina']))
@@ -110,11 +110,11 @@
 	  <tr>
         <td>
           S&igrave;
-            <input name="destina[<?=$risultati[0] ?>]" type="radio" value="on" <? echo $checkedSI; ?>>
+            <input name="destina[<?=$risultati[0] ?>]" type="radio" value="on" <?php echo $checkedSI; ?>>
           No
-          <input name="destina[<?=$risultati[0] ?>]" type="radio" value="off" <? echo $checkedNO; ?>>
+          <input name="destina[<?=$risultati[0] ?>]" type="radio" value="off" <?php echo $checkedNO; ?>>
         </td>
-	  <?
+	  <?php
 	  $risultati[0]=fullisbn($risultati[0]);
 	  for($i=0; $i<count($risultati); $i++) {
 	    if(strlen($risultati[$i])<1)
@@ -123,7 +123,7 @@
 	      $risultati[$i]=htmlentities($risultati[$i]);
 	    echo "<td>$risultati[$i]</td>\n";
 	  }
-	  ?> </tr> <?
+	  ?> </tr> <?php
     }	
     mysql_free_result($risultato);
   }
@@ -140,7 +140,7 @@
 </tr>
 </table>
 </form>
-<?
+<?php
 if(strlen($destinazione)) {
   $npag=(int)($totlibri/50);
   if($totlibri%50)
@@ -151,6 +151,6 @@ if(strlen($destinazione)) {
   }
 }
 ?>
-<p align="center"><a href="<? echo $_SERVER['PHP_SELF']; ?>?destinazione=_NEW">Nuova destinazione</a></p>
+<p align="center"><a href="<?php echo $_SERVER['PHP_SELF']; ?>?destinazione=_NEW">Nuova destinazione</a></p>
 </body>
 </html>

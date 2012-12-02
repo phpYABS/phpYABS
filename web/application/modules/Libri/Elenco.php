@@ -5,7 +5,7 @@
 <link href="css/main.css" rel="stylesheet" type="text/css">
 </HEAD>
 <BODY>
-<?
+<?php
   $limit=$_GET['Limit'];
   if(!isset($limit) || !ereg('^[0-9]+$', $limit))
     $limit=0;

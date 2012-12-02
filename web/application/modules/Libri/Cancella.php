@@ -8,9 +8,9 @@
 <h1 align="center">ATTENZIONE!!</h1>
 <h1 align="center">Il seguente libro sta per essere cancellato</h1>
 <h2 align="center">L'operazione &egrave; IRREVERSIBILE</h2>
-<? if(!isset($_GET['ISBN'])) {?>
+<?php if(!isset($_GET['ISBN'])) {?>
   <div align="center">
-  <form action="<? echo $_SERVER['PHP_SELF']; ?>" method="get" name="form1">
+  <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" name="form1">
   ISBN
   <input type="text" name="ISBN">
   <input type="submit" name="Invia" value="Ok">
@@ -21,7 +21,7 @@
     document.form1.ISBN.focus();
   </script>
 </div>
-<? }
+<?php }
   else 
   	{
    

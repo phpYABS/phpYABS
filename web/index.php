@@ -25,7 +25,7 @@ require_once 'application/includes/common.inc.php';
 ?>
 <html>
 <head>
-  <title>phpYabs <? echo $ver; ?> - <? echo $intestazione; ?></title>
+  <title>phpYabs <?php echo $ver; ?> - <?php echo $intestazione; ?></title>
 </head>
 <frameset cols="160,*">
   <frame src="menu.php" name="menu">

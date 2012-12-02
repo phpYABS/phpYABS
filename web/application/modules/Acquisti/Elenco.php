@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-  <title>phpYabs <? echo $version; ?></title>
+  <title>phpYabs <?php echo $version; ?></title>
 <link href="css/main.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -11,7 +11,7 @@
   <td>Acquisto</td>
   <td>N° Libri</td>
 </tr>
-<?
+<?php
   $rset=$conn->Execute("SELECT IdAcquisto, COUNT(IdAcquisto) FROM ".$prefix."_acquisti GROUP BY IdAcquisto");
   
   while(!$rset->EOF) {

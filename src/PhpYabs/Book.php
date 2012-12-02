@@ -21,7 +21,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once 'PhpYabs/Db.php';
 
 class PhpYabs_Book extends PhpYabs_Db
 {

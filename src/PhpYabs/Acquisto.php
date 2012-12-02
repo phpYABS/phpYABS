@@ -21,7 +21,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once 'PhpYabs/Book.php';
 /**
  * @author Davide Bellettini <dvbellet@users.sourceforge.net>
  * @license GNU General Public License

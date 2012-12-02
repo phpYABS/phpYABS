@@ -27,7 +27,8 @@ require_once 'functions.inc.php';
 //starting session
 session_start();
 
-require_once __DIR__ .'/../../../vendor/autoload.php';
+$loader = require_once __DIR__ .'/../../../vendor/autoload.php';
+$loader->add('PhpYabs', __DIR__ .'/../../../src');
 
 set_include_path(get_include_path().PATH_SEPARATOR.PATH_LIBRARY);
 

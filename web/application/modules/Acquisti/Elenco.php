@@ -13,16 +13,16 @@
 </tr>
 <?php
   $rset=$conn->Execute("SELECT IdAcquisto, COUNT(IdAcquisto) FROM ".$prefix."_acquisti GROUP BY IdAcquisto");
-  
-  while(!$rset->EOF) {
+
+  while (!$rset->EOF) {
     list($IdAcquisto, $nlibri)=$rset->fields;
 
     echo "<tr>";
     echo "  <td><a href=\"modules.php?Nome=Acquisti&Azione=Acquisto&IdAcquisto=$IdAcquisto\">$IdAcquisto</a></td>";
     echo "  <td>$nlibri</td>";
     echo "</tr>";
-	
-	$rset->MoveNext();
+
+    $rset->MoveNext();
   }
   $rset->Close();
 ?>

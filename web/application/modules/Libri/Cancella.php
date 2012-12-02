@@ -8,7 +8,7 @@
 <h1 align="center">ATTENZIONE!!</h1>
 <h1 align="center">Il seguente libro sta per essere cancellato</h1>
 <h2 align="center">L'operazione &egrave; IRREVERSIBILE</h2>
-<?php if(!isset($_GET['ISBN'])) {?>
+<?php if (!isset($_GET['ISBN'])) {?>
   <div align="center">
   <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" name="form1">
   ISBN
@@ -21,30 +21,26 @@
     document.form1.ISBN.focus();
   </script>
 </div>
-<?php }
-  else 
-  	{
-   
-  	loadClass('PhpYabs_Book');
+<?php } else {
+
+      loadClass('PhpYabs_Book');
     $delbook=new PhpYabs_Book();
-	$delbook->GetFromDB($_GET['ISBN']);
-	
-    if($_GET['cancella']=="on") {
-	    $delbook->Delete();
-		echo "<p>Libro Cancellato!</p>";
-    }	
-	else if(list($ISBN, $Titolo, $Autore, $Editore,$Prezzo)=$delbook->GetFields()) {
-	  $ISBN=$delbook->GetFullISBN();
+    $delbook->GetFromDB($_GET['ISBN']);
+
+    if ($_GET['cancella']=="on") {
+        $delbook->Delete();
+        echo "<p>Libro Cancellato!</p>";
+    } elseif (list($ISBN, $Titolo, $Autore, $Editore,$Prezzo)=$delbook->GetFields()) {
+      $ISBN=$delbook->GetFullISBN();
 
       $Valutazione=$delbook->GetValutazione();
-				
-	  if($Valutazione=="")
-		$Valutazione="&nbsp;";
+
+      if($Valutazione=="")
+        $Valutazione="&nbsp;";
 
       include PATH_TEMPLATES.'/oldones/libri/tabdel.php';
-    }
-    else { 
-	  echo "<p align=\"center\">Libro ".$delbook->GetFullIsbn()." non trovato!</p>";
+    } else {
+      echo "<p align=\"center\">Libro ".$delbook->GetFullIsbn()." non trovato!</p>";
     }
   }
 ?>

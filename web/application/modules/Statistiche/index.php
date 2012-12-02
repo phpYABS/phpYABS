@@ -8,7 +8,7 @@
   $rset=$conn->Execute("SELECT COUNT(*) FROM ".$prefix."_acquisti");
   list($libriacq)=$rset->fields;
   $rset->Close();
-  
+
   //conto i libri non trovati
   $rset=$conn->Execute("SELECT COUNT(ISBN) FROM ".$prefix."_hits WHERE trovato='no'");
   list($nerrori)=$rset->fields;

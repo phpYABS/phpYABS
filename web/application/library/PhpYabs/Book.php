@@ -25,10 +25,10 @@ require_once 'PhpYabs/Db.php';
 
 class PhpYabs_Book extends PhpYabs_Db
 {
-    var $_fields;
-    var $_valutazione;
+    public $_fields;
+    public $_valutazione;
 
-    function Book ()
+    public function Book ()
     {
         $this->PhpYabs_Db();
 
@@ -36,59 +36,48 @@ class PhpYabs_Book extends PhpYabs_Db
         $this->setValutazione(false);
     }
 
-    function _getDb()
+    public function _getDb()
     {
         return $this->_db;
     }
 
-    function checkFields($fields)
+    public function checkFields($fields)
     {
-        if($this->isValidISBN($fields['ISBN']) && strlen($fields['Titolo'])>0)
-        {
+        if ($this->isValidISBN($fields['ISBN']) && strlen($fields['Titolo'])>0) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
 
     //imposta i campi del libro
-    function setFields($fields)
+    public function setFields($fields)
     {
         $fields['ISBN']=$this->GetShortISBN($fields['ISBN']);
 
-        if($this->CheckFields($fields))
-        {
-            foreach ($fields as $key => $value)
-            {
+        if ($this->CheckFields($fields)) {
+            foreach ($fields as $key => $value) {
                 $this->fields[$key]=strtoupper(addslashes($value));
             }
 
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
 
-    function getFields()
+    public function getFields()
     {
-        if($this->CheckFields($this->fields))
-        {
+        if ($this->CheckFields($this->fields)) {
             return $this->fields;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
 
-    function setValutazione($valutazione)
+    public function setValutazione($valutazione)
     {
-        switch ($valutazione)
-        {
+        switch ($valutazione) {
             case 'zero':
             case 'rotmed':
             case 'rotsup':
@@ -101,15 +90,14 @@ class PhpYabs_Book extends PhpYabs_Db
         $this->_valutazione = $valutazione;
     }
 
-    function getValutazione()
+    public function getValutazione()
     {
         return $this->_valutazione;
     }
 
-    function getBuono()
+    public function getBuono()
     {
-        switch ($this->getValutazione())
-        {
+        switch ($this->getValutazione()) {
             default:
             case 'zero':
                 $prezzoa = '0.00';
@@ -127,10 +115,9 @@ class PhpYabs_Book extends PhpYabs_Db
         return $prezzoa;
     }
 
-    function getContanti()
+    public function getContanti()
     {
-        switch ($this->getValutazione())
-        {
+        switch ($this->getValutazione()) {
             default:
             case 'zero':
                 $prezzoa = '0.00';
@@ -145,63 +132,50 @@ class PhpYabs_Book extends PhpYabs_Db
                 $prezzoa=round($this->fields['Prezzo']/4,2);
                 break;
         }
+
         return $prezzoa;
     }
 
-    function saveToDB ()
+    public function saveToDB ()
     {
         global $prefix;
-        	
-        if($this->checkFields($this->fields))
-        {
+
+        if ($this->checkFields($this->fields)) {
             $rset=$this->_db->Execute("SELECT * FROM ".$prefix."_libri WHERE ISBN='".$this->fields['ISBN']."'");
 
-            if(!$rset->EOF)
-            {
+            if (!$rset->EOF) {
                 $updateSQL = $this->_db->GetUpdateSQL($rset, $this->fields);
-                if($updateSQL)
-                {
+                if ($updateSQL) {
                     $this->_db->Execute($updateSQL);
                 }
-            }
-            else
-            {
+            } else {
                 $insertSQL = $this->_db->GetInsertSQL($rset, $this->fields);
 
-                if($insertSQL)
-                {
+                if ($insertSQL) {
                     $this->_db->Execute($insertSQL);
                 }
             }
-            	
+
             $rset->Close();
 
-            if($this->Valutazione)
-            {
+            if ($this->Valutazione) {
                 $valfields=array ("ISBN" => $this->fields['ISBN'], "Valutazione" => $this->Valutazione);
 
                 $rset=$this->_db->Execute("SELECT * FROM ".$prefix."_valutazioni WHERE ISBN='".$this->fields['ISBN']."'");
 
-                if($rset->RecordCount())
-                {
+                if ($rset->RecordCount()) {
                     $updateSQL = $this->_db->GetUpdateSQL($rset, $valfields);
-                    if($updateSQL)
-                    {
+                    if ($updateSQL) {
                         $this->_db->Execute($updateSQL);
                     }
-                }
-                else
-                {
+                } else {
                     $insertSQL = $this->_db->GetInsertSQL($rset, $valfields);
-                    if($insertSQL)
-                    {
+                    if ($insertSQL) {
                         $this->_db->Execute($insertSQL);
                     }
                 }
                 $rset->Close();
-            }
-            else
-            {
+            } else {
                 $this->_db->Execute("DELETE FROM ".$prefix."_valutazioni WHERE ISBN='".$this->fields['ISBN']."'");
             }
         }
@@ -209,24 +183,22 @@ class PhpYabs_Book extends PhpYabs_Db
         $rset=$this->_db->Execute("SELECT ISBN FROM ".$prefix."_libri WHERE ISBN='".$this->fields['ISBN']."'");
         $esiste=$rset->RecordCount();
         $rset->Close();
-        	
+
         return $esiste;
     }
 
     //carica i dati dal database, specificato l'isbn
-    function getFromDB ($ISBN)
+    public function getFromDB ($ISBN)
     {
         global $prefix;
-        	
+
         $ISBN=$this->getShortISBN($ISBN);
 
-        if($this->isValidISBN($ISBN))
-        {
+        if ($this->isValidISBN($ISBN)) {
             $rset=$this->_db->Execute("SELECT ISBN, Titolo, Autore, Editore, Prezzo FROM ".$prefix."_libri WHERE ISBN='$ISBN'");
             $this->SetFields($rset->fields);
 
-            if($rset->RecordCount())
-            {
+            if ($rset->RecordCount()) {
                 $rset->Close();
 
                 $rset=$this->_db->Execute("SELECT valutazione FROM ".$prefix."_valutazioni WHERE ISBN='$ISBN'");
@@ -236,119 +208,108 @@ class PhpYabs_Book extends PhpYabs_Db
                 $this->setValutazione($Valutazione);
 
                 return true;
-            }
-            else
-            {
+            } else {
                 $rset->Close();
+
                 return false;
             }
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
 
-    function delete ()
+    public function delete ()
     {
         global $prefix;
-        	
+
         $ISBN=$this->fields['ISBN'];
-        if($this->IsValidISBN($ISBN))
-        {
+        if ($this->IsValidISBN($ISBN)) {
             $this->_db->Execute("DELETE FROM ".$prefix."_libri WHERE ISBN = '$ISBN'");
             $this->_db->Execute("DELETE FROM ".$prefix."_valutazioni WHERE ISBN = '$ISBN'");
             $this->_db->Execute("DELETE FROM ".$prefix."_destinazioni WHERE ISBN = '$ISBN'");
+
             return true;
         }
 
         return false;
     }
 
-    function isValidISBN ($ISBN)
+    public function isValidISBN ($ISBN)
     {
         return (is_numeric($ISBN) && strlen($ISBN)==9 && $ISBN!=0);
     }
 
-    function getShortISBN ($ISBN)
+    public function getShortISBN ($ISBN)
     {
-        if(strlen($ISBN)>9)
-        {
+        if (strlen($ISBN)>9) {
             $ISBN=substr($ISBN,0,strlen($ISBN)-1);
         }
 
-        while(strlen($ISBN)>9)
-        {
+        while (strlen($ISBN)>9) {
             $ISBN=substr($ISBN,1,strlen($ISBN)-1);
         }
 
-        if($this->isValidISBN($ISBN))
-        {
+        if ($this->isValidISBN($ISBN)) {
             return $ISBN;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
 
-    function getFullIsbn ()
+    public function getFullIsbn ()
     {
         $ISBN=$this->fields['ISBN'];
         $ISBN.=$this->ISBNCheck($ISBN);
+
         return $ISBN;
     }
 
-    function isbnCheck($ISBN)
+    public function isbnCheck($ISBN)
     {
 
         $checksum=0;
 
         for ($i = 0; $i < 9; ++$i)
-        $checksum += ($i + 1) * (int)$ISBN[$i];
+        $checksum += ($i + 1) * (int) $ISBN[$i];
 
         $checksum%=11;
         if($checksum==10)
         $checksum='X';
-        	
+
         return $checksum;
     }
 
-    function getEAN ($ISBN=-1)
+    public function getEAN ($ISBN=-1)
     {
         if($ISBN==-1)
         $ISBN=$this->fields['ISBN'];
 
-        if($this->GetShortISBN($ISBN))
-        {
+        if ($this->GetShortISBN($ISBN)) {
             $EAN='978'.$ISBN;
             $EAN.=EANCheck($EAN);
-        }
-        else
-        {
+        } else {
             $EAN=false;
         }
-        	
+
         return $EAN;
     }
 
-    function EANCheck ($EAN)
+    public function EANCheck ($EAN)
     {
         $checksum=0;
 
-        for($i=2; $i<=12; $i+=2)
-        {
+        for ($i=2; $i<=12; $i+=2) {
             $checksum+=substr($ean,$i-1,1);
         }
 
         $checksum *= 3;
 
-        for($i=1; $i<=11; $i+=2)
-        {
+        for ($i=1; $i<=11; $i+=2) {
             $checksum+=substr($ean,$i-1,1);
         }
 
         $checksum=10-($checksum%10);
+
         return $checksum;
     }
 }

@@ -3,8 +3,8 @@
 // V4.50 6 July 2004
 
 error_reporting(E_ALL);
-include_once( "../adodb.inc.php" );
-include_once( "../adodb-xmlschema03.inc.php" );
+include_once '../adodb.inc.php';
+include_once '../adodb-xmlschema03.inc.php';
 
 // To build the schema, start by creating a normal ADOdb connection:
 $db = ADONewConnection( 'mysql' );
@@ -13,7 +13,7 @@ $db->Connect( 'localhost', 'root', '', 'test' ) || die('fail connect1');
 // To create a schema object and build the query array.
 $schema = new adoSchema( $db );
 
-// To upgrade an existing schema object, use the following 
+// To upgrade an existing schema object, use the following
 // To upgrade an existing database to the provided schema,
 // uncomment the following line:
 #$schema->upgradeSchema();

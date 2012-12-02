@@ -23,9 +23,9 @@
 
 class PhpYabs_Db
 {
-    var $_db;
+    public $_db;
 
-    function PhpYabs_Db()
+    public function PhpYabs_Db()
     {
         global $conn;
 

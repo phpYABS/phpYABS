@@ -1,36 +1,36 @@
-<p> 
+<p>
 <table width="590" border="1" align="center">
-  <tr> 
+  <tr>
     <th width="80">ISBN:</th>
-    <td> 
+    <td>
       <?=$ISBN?>
     </td>
   </tr>
-  <tr> 
+  <tr>
     <th width="80">Titolo:</th>
-    <td> 
+    <td>
       <?=$Titolo?>
     </td>
   </tr>
-  <tr> 
+  <tr>
     <th width="80">Autore:</th>
-    <td> 
+    <td>
       <?=$Autore?>
     </td>
   </tr>
-  <tr> 
+  <tr>
     <th width="80">Editore:</th>
-    <td> 
+    <td>
       <?=$Editore?>
     </td>
   </tr>
-  <tr> 
+  <tr>
     <th width="80">Prezzo:</th>
-    <td> 
+    <td>
       <?=$Prezzo?>
     </td>
   </tr>
-  <tr> 
+  <tr>
     <th width="80">Valutazione:</th>
     <td><u><?=$Valutazione?></u></td>
   </tr>

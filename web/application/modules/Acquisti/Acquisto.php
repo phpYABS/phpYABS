@@ -1,37 +1,29 @@
 <?php
 loadClass('PhpYabs_Acquisto');
 
-//se c'è una richiesta di nuovo acquisto, elimino il precedente 
-if($_GET['Azione']=='Nuovo') 
-{
-	unset($_SESSION['IdAcquisto']);
-	unset($_SESSION['totalec']);
-	unset($_SESSION['totaleb']);
+//se c'è una richiesta di nuovo acquisto, elimino il precedente
+if ($_GET['Azione']=='Nuovo') {
+    unset($_SESSION['IdAcquisto']);
+    unset($_SESSION['totalec']);
+    unset($_SESSION['totaleb']);
 }
 
 $acquisto=new PhpYabs_Acquisto();
-if(isset($_GET['IdAcquisto']))
-{
-	if(!$acquisto->SetID($_GET['IdAcquisto'])) 
-	{
-		$errmsg="L'acquisto ".$_GET['IdAcquisto']." non esiste!";
-	}
+if (isset($_GET['IdAcquisto'])) {
+    if (!$acquisto->SetID($_GET['IdAcquisto'])) {
+        $errmsg="L'acquisto ".$_GET['IdAcquisto']." non esiste!";
+    }
+} else {
+    $acquisto->setId($_SESSION['IdAcquisto']);
 }
-else
-{
-	$acquisto->setId($_SESSION['IdAcquisto']);
-}
-	
+
 $IdAcquisto=$_SESSION['IdAcquisto']=$acquisto->GetID();
 
 $trovato=true;
 
-if(isset($_POST['newISBN']))
-{
+if (isset($_POST['newISBN'])) {
     $trovato=($acquisto->addBook($_POST['newISBN']));
-}
-elseif (isset($_GET['Cancella'])) 
-{
+} elseif (isset($_GET['Cancella'])) {
     $acquisto->delBook($_GET['Cancella']);
 }
 ?>
@@ -54,14 +46,14 @@ elseif (isset($_GET['Cancella']))
   $bill=$acquisto->GetBill();
 ?>
 <p align="center"><?php echo $acquisto->NumBook(); ?> Libri acquistati<br>Totale contanti: <?php echo $bill['totalec'] ?> &euro;
-&nbsp;&nbsp;&nbsp;&nbsp;Totale buono: <?php echo $bill['totaleb']; ?> &euro; 
+&nbsp;&nbsp;&nbsp;&nbsp;Totale buono: <?php echo $bill['totaleb']; ?> &euro;
 &nbsp;&nbsp;&nbsp;&nbsp;Totale rottamazione: <?php echo $bill['totaler']; ?> &euro;</p>
 <div align="center">
     <input type="hidden" name="Nome" value="<?=$_GET['Nome']?>">
     <input type="hidden" name="Azione" value="<?=$_GET['Azione']?>">
     <form action="<?php echo $_SERVER['PHP_SELF']."?Nome=".$_GET['Nome'].
-	"&Azione=Acquisto" ?>" method="post" name="libro">
-    ISBN o EAN 
+    "&Azione=Acquisto" ?>" method="post" name="libro">
+    ISBN o EAN
     <input name="newISBN" type="text" maxlength="13">
   <input type="submit" value="Ok">
 </form>

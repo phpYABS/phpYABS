@@ -28,98 +28,90 @@ require_once 'PhpYabs/Book.php';
  */
 class PhpYabs_Acquisto extends PhpYabs_Db
 {
-    var $books, $ID;
+    public $books, $ID;
 
-    function Acquisto()
+    public function Acquisto()
     {
         $this->books=array();
         global $prefix;
-         
+
         $rset=$conn->Execute("SELECT MAX(IdAcquisto) FROM ".$prefix."_acquisti");
         list($IdAcquisto)=$rset->fields;
         $rset->Close();
-         
+
         $this->ID=$IdAcquisto+1;
     }
 
-    function getID ()
+    public function getID ()
     {
         return $this->ID;
     }
 
-    function setID ($ID)
+    public function setID ($ID)
     {
         global $prefix;
-         
-        if($ID!=$this->ID) {
+
+        if ($ID!=$this->ID) {
             $rset=$this->_db->Execute("SELECT * FROM ".$prefix."_acquisti WHERE IdAcquisto='$ID'");
-             
-            if(!$rset->EOF) {
+
+            if (!$rset->EOF) {
                 $this->ID=$ID;
                 $ok=true;
-            }
-            else
+            } else
             $ok=false;
             $rset->Close();
-        }
-        else
+        } else
         $ok=true;
-         
+
         return $ok;
     }
 
-    function addBook($ISBN)
+    public function addBook($ISBN)
     {
         global $prefix;
 
         $book=new PhpYabs_Book();
 
-        if($book->getFromDB($ISBN))
-        {
+        if ($book->getFromDB($ISBN)) {
             $this->_db->Execute("INSERT INTO ".$prefix."_acquisti (IdAcquisto,ISBN) VALUES ('".$this->ID."','$ISBN')");
             $trovato="si";
-        }
-        else
-        {
+        } else {
             $trovato="no";
         }
     }
 
-    function delBook($IdLibro)
+    public function delBook($IdLibro)
     {
         global $prefix;
 
-        if(is_numeric($IdLibro))
-        {
+        if (is_numeric($IdLibro)) {
             $this->_db->Execute("DELETE FROM ".$prefix."_acquisti WHERE IdLibro='$IdLibro' AND IdAcquisto='".$this->ID."'");
+
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
 
-    function numBook()
+    public function numBook()
     {
         global $prefix;
         $rset=$this->_db->Execute("SELECT * FROM ".$prefix."_acquisti WHERE IdAcquisto='".$this->ID."'");
+
         return $rset->RecordCount();
     }
 
-    function printAcquisto()
+    public function printAcquisto()
     {
         global $prefix;
         $rset=$this->_db->Execute("SELECT IdLibro, ISBN FROM ".$prefix."_acquisti WHERE IdAcquisto='".$this->ID."'");
         $numero=1;
 
-        while(!$rset->EOF)
-        {
+        while (!$rset->EOF) {
             list($IdLibro,$ISBN)=$rset->fields;
             $book=new PhpYabs_Book();
-            	
-            if($book->getFromDB($ISBN))
-            {
+
+            if ($book->getFromDB($ISBN)) {
                 list($ISBN,$Titolo,$Autore,$Editore,$Prezzo)=$book->GetFields();
                 $sISBN=$ISBN;
                 $ISBN=$book->GetFullISBN();
@@ -130,29 +122,26 @@ class PhpYabs_Acquisto extends PhpYabs_Db
                 include PATH_TEMPLATES.'/oldones/acquisti/tabview.php';
                 $numero++;
             }
-            	
+
             $rset->MoveNext();
         }
     }
 
-    function getBill ()
+    public function getBill ()
     {
         global $prefix;
-         
+
         $totaleb="0.00";
         $totalec="0.00";
         $totaler="0.00";
 
         $rset=$this->_db->Execute("SELECT ISBN From ".$prefix."_acquisti WHERE IdAcquisto ='".$this->ID."'");
 
-        while(!$rset->EOF)
-        {
+        while (!$rset->EOF) {
             $book=new PhpYabs_Book();
 
-            if($book->GetFromDB($rset->fields['ISBN']))
-            {
-                switch($book->getValutazione())
-                {
+            if ($book->GetFromDB($rset->fields['ISBN'])) {
+                switch ($book->getValutazione()) {
                     case 'rotmed':
                         $totaler+=0.5;
                         break;
@@ -165,9 +154,10 @@ class PhpYabs_Acquisto extends PhpYabs_Db
                         break;
                 }
             }
-             
+
             $rset->MoveNext();
         }
+
         return array("totaleb" => $totaleb, "totalec" => $totalec, "totaler" => $totaler);
     }
 }

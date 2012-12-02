@@ -6,17 +6,17 @@
  *
  * phpYABS - Web-based book management
  * Copyright (C) 2009 Davide Bellettini
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -35,13 +35,13 @@ require_once 'application/includes/common.inc.php';
 <h1>Menu</h1>
 <p><a href="modules.php?Nome=Acquisti&Azione=Nuovo">Nuovo Acquisto</a></p>
 <form action="modules.php" method="get" name="acquisto">
-  Recupera acquisto: 
+  Recupera acquisto:
   <input name="IdAcquisto" type="text" id="IdAcquisto" maxlength="10" style="width:90px">
   <input name="Nome" value="Acquisti" type="hidden">
   <input name="Azione" value="Acquisto" type="hidden">
   <input type="submit" value="Ok">
 </form>
-<?php if(edit) {?>
+<?php if (edit) {?>
 <p><a href="modules.php?Nome=Libri&Azione=Aggiungi">Aggiungi Libro</a></p>
 <p><a href="modules.php?Nome=Libri&Azione=Modifica">Modifica Libro</a></p>
 <p><a href="modules.php?Nome=Libri&Azione=Cancella">Cancella Libro</a></p>

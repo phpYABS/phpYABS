@@ -16,7 +16,7 @@ require_once __DIR__ .'/../../web/application/includes/common.inc.php';
  */
 class FeatureContext extends MinkContext
 {
-    private $fields = array();
+     private $fields = array();
 
     /**
      * Initializes context.
@@ -96,7 +96,7 @@ class FeatureContext extends MinkContext
         $this->assertPageContainsText('Libro inserito');
     }
 
-        /**
+    /**
      * @Given /^I am on book list page$/
      */
     public function iAmOnBookListPage()

@@ -23,7 +23,14 @@
             }
         }
     ],
+    "config": {
+        "bin-dir": "bin/"
+    },
     "require": {
         "adodb/adodb": "5.*"
+    },
+    "require-dev": {
+        "behat/behat": "2.4.*@stable",
+        "behat/mink-extension": "*"
     }
 }

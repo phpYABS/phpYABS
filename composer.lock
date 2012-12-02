@@ -1,0 +1,30 @@
+{
+    "hash": "7307e51beff6a7ef772dac939c147cd1",
+    "packages": [
+        {
+            "name": "adodb/adodb",
+            "version": "5.18",
+            "dist": {
+                "type": "zip",
+                "url": "http://downloads.sourceforge.net/project/adodb/adodb-php5-only/adodb-518-for-php5/adodb518a.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "files": [
+                    "adodb.inc.php"
+                ]
+            }
+        }
+    ],
+    "packages-dev": null,
+    "aliases": [
+
+    ],
+    "minimum-stability": "dev",
+    "stability-flags": [
+
+    ]
+}

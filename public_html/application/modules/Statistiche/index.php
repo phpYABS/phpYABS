@@ -1,0 +1,47 @@
+<?php
+  //conto gli acquisti
+  $rset=$conn->Execute("SELECT COUNT(IdAcquisto) FROM ".$prefix."_acquisti");
+  list($nacquisti)=$rset->fields;
+  $rset->Close();
+
+  //conto i libri acquistati
+  $rset=$conn->Execute("SELECT COUNT(*) FROM ".$prefix."_acquisti");
+  list($libriacq)=$rset->fields;
+  $rset->Close();
+  
+  //conto i libri non trovati
+  $rset=$conn->Execute("SELECT COUNT(ISBN) FROM ".$prefix."_hits WHERE trovato='no'");
+  list($nerrori)=$rset->fields;
+  $rset->Close();
+
+  //conto gli spari totali
+  $rset=$conn->Execute("SELECT SUM(hits) FROM ".$prefix."_hits");
+  list($totspari)=$rset->fields;
+  $rset->Close();
+
+  //conto gli spari falliti
+  $rset=$conn->Execute("SELECT SUM(hits) FROM ".$prefix."_hits WHERE trovato='no'");
+  list($errspari)=$rset->fields;
+  $rset->Close();
+
+  //calcolo gli spari con successo
+  $spariok=$totspari-$errspari;
+?>
+<html>
+<head>
+<title>Statistiche</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="css/main.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<p>Libri acquistati: <b><? echo $libriacq; ?></b></p>
+<p>Libri (unici) non trovati: <b><? echo $nerrori; ?></b></p>
+<p>&nbsp;</pA
+><p><b>"Spari"</b></p>
+<p>Trovati: <b><? echo $spariok; ?></b></p>
+<p>Non trovati: <b><? echo $errspari; ?></b></p>
+<p>Totali: <b><? echo $totspari; ?></b></p>
+
+</body>
+</html>

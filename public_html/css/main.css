@@ -1,0 +1,18 @@
+body {
+	background-color: #CCCCFF;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #111111;
+}
+a:link, a:active, a:visited {
+  text-decoration: none;
+}
+a:link {
+  color: #9900FF;
+}
+a:active {
+  color: #FF3333;
+}
+a:hover {
+  text-decoration: underline;
+   color: #FF00FF;
+}

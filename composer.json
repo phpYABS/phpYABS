@@ -1,0 +1,13 @@
+{
+    "name": "phpyabs/phpyabs",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Davide Bellettini",
+            "email": "davide.bellettini@gmail.com"
+        }
+    ],
+    "require": {
+
+    }
+}

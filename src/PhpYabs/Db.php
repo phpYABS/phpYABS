@@ -2,10 +2,8 @@
 // vim: set shiftwidth=4 tabstop=4 expandtab cindent :
 
 /**
- * $Id: file-header.php 299 2009-11-21 17:09:54Z dvbellet $
- *
  * phpYABS - Web-based book management
- * Copyright (C) 2009 Davide Bellettini
+ * Copyright (C) 2003-2012 Davide Bellettini
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,12 +17,28 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @author Davide Bellettini <davide.bellettini@gmail.com>
  */
 
+
+/**
+ * Base DB class
+ */
 class PhpYabs_Db
 {
+    /**
+     * Database connection
+     *
+     * @var ADOConnection
+     */
     protected $_db;
 
+    /**
+     * Table prefix
+     *
+     * @var string
+     */
     private $prefix = 'phpyabs';
 
     /**

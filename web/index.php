@@ -2,10 +2,8 @@
 // vim: set shiftwidth=4 tabstop=4 expandtab cindent :
 
 /**
- * $Id: file-header.php 299 2009-11-21 17:09:54Z dvbellet $
- *
  * phpYABS - Web-based book management
- * Copyright (C) 2009 Davide Bellettini
+ * Copyright (C) 2003-2012 Davide Bellettini
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

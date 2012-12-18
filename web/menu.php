@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once 'application/includes/common.inc.php';
+require_once __DIR__ .'/../application/includes/common.inc.php';
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML>
@@ -41,7 +41,7 @@ require_once 'application/includes/common.inc.php';
   <input name="Azione" value="Acquisto" type="hidden">
   <input type="submit" value="Ok">
 </form>
-<?php if (edit) {?>
+<?php if ($edit) {?>
 <p><a href="modules.php?Nome=Libri&Azione=Aggiungi">Aggiungi Libro</a></p>
 <p><a href="modules.php?Nome=Libri&Azione=Modifica">Modifica Libro</a></p>
 <p><a href="modules.php?Nome=Libri&Azione=Cancella">Cancella Libro</a></p>

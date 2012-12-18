@@ -21,10 +21,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once 'application/includes/common.inc.php';
+require_once __DIR__ .'/../application/includes/common.inc.php';
 
 if(!eregi('^[a-z0-9]+$', $module=$_REQUEST['Nome']))
     die('Invalid module');
 
-$modpath="application/modules/$module/";
-include $modpath.'index.php';
+require_once PATH_APPLICATION . "/modules/$module/index.php";

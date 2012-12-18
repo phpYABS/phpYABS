@@ -11,7 +11,7 @@ use Behat\Behat\Exception\UndefinedException;
 //   require_once 'PHPUnit/Framework/Assert/Functions.php';
 //
 
-require_once __DIR__ .'/../../web/application/includes/common.inc.php';
+require_once __DIR__ .'/../../application/includes/common.inc.php';
 
 /**
  * Features context.

@@ -21,16 +21,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once 'config.inc.php';
+$DS = DIRECTORY_SEPARATOR;
 
-//starting session
-session_start();
+define('PATH_ROOT', realpath(dirname(__FILE__).'/../..'));
 
-$loader = require __DIR__ .'/../../../vendor/autoload.php';
-$loader->add('PhpYabs', __DIR__ .'/../../../src');
+define('PATH_APPLICATION', PATH_ROOT . $DS . 'application');
+define('PATH_TEMPLATES'  , PATH_APPLICATION . $DS . 'templates');
 
-set_include_path(get_include_path().PATH_SEPARATOR.PATH_LIBRARY);
+$dbhost = 'localhost';
+$dbuser = 'phpyabs';
+$dbpass = 'yabbadabbadoo';
+$dbname = 'phpyabs';
 
-global $conn;
-$conn=&ADONewConnection('mysql');
-$conn->PConnect($dbhost,$dbuser,$dbpass,$dbname);
+$startmodule = 'acquisti';
+$intestazione = 'My Customer';
+$edit = true;
+
+$prefix = 'phpyabs';
+
+$debug=true;
+
+$ver="0.1.4";

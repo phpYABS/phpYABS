@@ -19,7 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once 'application/includes/common.inc.php';
+require_once __DIR__. '/../application/includes/common.inc.php';
 ?>
 <html>
 <head>

@@ -4,9 +4,9 @@ switch ($_GET['Azione']) {
     default:
     case 'Acquisto':
     case 'Nuovo':
-        include 'Acquisto.php';
+        include __DIR__ .'/Acquisto.php';
         break;
     case 'Elenco':
-        include 'Elenco.php';
+        include __DIR__.'/Elenco.php';
         break;
 }

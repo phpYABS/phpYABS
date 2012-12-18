@@ -26,9 +26,9 @@ class PhpYabs_Book extends PhpYabs_Db
     public $_fields;
     public $_valutazione;
 
-    public function Book ()
+    public function __construct()
     {
-        $this->PhpYabs_Db();
+        parent::__construct();
 
         $this->fields=array();
         $this->setValutazione(false);
@@ -49,7 +49,7 @@ class PhpYabs_Book extends PhpYabs_Db
     }
 
     //imposta i campi del libro
-    public function setFields($fields)
+    public function setFields(array $fields)
     {
         $fields['ISBN']=$this->GetShortISBN($fields['ISBN']);
 
@@ -136,10 +136,11 @@ class PhpYabs_Book extends PhpYabs_Db
 
     public function saveToDB ()
     {
-        global $prefix;
+        $prefix = $this->getPrefix();
 
         if ($this->checkFields($this->fields)) {
             $rset=$this->_db->Execute("SELECT * FROM ".$prefix."_libri WHERE ISBN='".$this->fields['ISBN']."'");
+
 
             if (!$rset->EOF) {
                 $updateSQL = $this->_db->GetUpdateSQL($rset, $this->fields);

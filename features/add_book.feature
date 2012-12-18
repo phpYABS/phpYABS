@@ -13,6 +13,6 @@ Feature: Add book
     And  I type "3" on "price" field
     And I select "Macero" on field "Valutazione"
     And I click on "Add" button
-    Then I should get a success message
+    Then I should get a "book successfully added" message
     Given I am on book list page
     Then I should see book fields

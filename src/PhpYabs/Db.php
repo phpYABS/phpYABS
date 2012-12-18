@@ -23,12 +23,32 @@
 
 class PhpYabs_Db
 {
-    public $_db;
+    protected $_db;
 
-    public function PhpYabs_Db()
+    private $prefix = 'phpyabs';
+
+    /**
+     * Class constructor
+     *
+     * @param ADOConnection $connection
+     */
+    public function __construct(ADOConnection $connection = null)
     {
-        global $conn;
+        if(is_null($connection)) {
+            global $conn;
+            $connection = $conn;
+        }
 
-        $this->_db = $conn;
+        $this->_db = $connection;
+    }
+
+    /**
+     * Table prefix getter
+     *
+     * @return string  (e.g. phpyabs)
+     */
+    protected function getPrefix()
+    {
+        return $this->prefix;
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use Behat\MinkExtension\Context\MinkContext;
+use Behat\Behat\Exception\PendingException;
 
 //
 // Require 3rd-party libraries here:
@@ -71,13 +72,13 @@ class FeatureContext extends MinkContext
     /**
      * @Given /^I click on "([^"]*)" button$/
      */
-    public function iClickOnButton($arg1)
+    public function iClickOnButton($buttonName)
     {
         $translate = array (
             'Add' => 'Aggiungi'
         );
 
-        $button = $translate[$arg1];
+        $button = array_key_exists($buttonName, $translate) ? $translate[$buttonName] : $buttonName;
 
         $this
             ->getSession()
@@ -89,12 +90,20 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @Then /^I should get a success message$/
+     * @Then /^I should get a "([^"]*)" message$/
      */
-    public function iShouldGetASuccessMessage()
+    public function iShouldGetAMessage($message)
     {
-        $this->assertPageContainsText('Libro inserito');
+        $translations = array(
+            'book successfully added' => 'Libro inserito',
+            'book successfully deleted' => 'Libro Cancellato!'
+        );
+
+        $actualMessage = array_key_exists($message, $translations) ? $translations[$message] : $message;
+
+        $this->assertPageContainsText($actualMessage);
     }
+
 
     /**
      * @Given /^I am on book list page$/
@@ -122,4 +131,61 @@ class FeatureContext extends MinkContext
     {
         $this->getSession()->getPage()->selectFieldOption($arg2, $arg1);
     }
+
+    /**
+     * @Given /^a book with ISBN "([^"]*)" and title "([^"]*)" and author "([^"]*)" and publisher "([^"]*)" and price "([^"]*)" and valutazione "([^"]*)" is added$/
+     */
+    public function aBookWithIsbnAndTitleAndAuthorAndPublisherAndPriceAndValutazioneIsAdded($isbn, $title, $author, $publisher, $price, $valutazione)
+    {
+        $book = new PhpYabs_Book();
+
+        $book->setFields(array(
+            'ISBN' => $isbn,
+            'Titolo' => $title,
+            'Autore' => $author,
+            'Editore' => $publisher,
+            'Prezzo' => $price,
+            'Valutazione' => $valutazione
+        ));
+
+        $book->saveToDB();
+    }
+
+    /**
+     * @Given /^I am on book delete page$/
+     */
+    public function iAmOnBookDeletePage()
+    {
+        $session = $this->getSession();
+        $session->visit('http://www.phpyabs.local/modules.php?Nome=Libri&Azione=Cancella');
+    }
+
+    /**
+     * @Given /^I click on "([^"]*)" link$/
+     */
+    public function iClickOnLink($buttonName)
+    {
+        $translate = array (
+            'Delete Book' => 'Cancella Libro'
+        );
+
+        $button = array_key_exists($buttonName, $translate) ? $translate[$buttonName] : $buttonName;
+
+        $this
+            ->getSession()
+            ->getPage()
+            ->clickLink($button)
+        ;
+
+        $this->getSession()->wait(200);
+    }
+
+    /**
+     * @Then /^I should see no book$/
+     */
+    public function iShouldSeeNoBook()
+    {
+        $this->assertPageContainsText('0 libri presenti');
+    }
+
 }

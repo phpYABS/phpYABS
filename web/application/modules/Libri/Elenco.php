@@ -6,7 +6,10 @@
 </HEAD>
 <BODY>
 <?php
-$limit = isset($_GET['limit']) && preg_match('/\d+/') ? $_GET['limit'] : 0;
+$rset = $conn->Execute('SELECT COUNT(*) FROM '.$prefix.'_valutazioni');
+$count = $rset->fields[0];
+
+$limit = isset($_GET['limit']) && preg_match('/\d+/', $_GET['limit']) ? $_GET['limit'] : 0;
 
   $rset=$conn->Execute("SELECT ISBN FROM ".$prefix."_valutazioni LIMIT $limit, 50");
   echo "<table border=\"1\" align=\"center\" width=\"755\">\n";
@@ -37,5 +40,6 @@ $limit = isset($_GET['limit']) && preg_match('/\d+/') ? $_GET['limit'] : 0;
 
   echo "<a href=\"modules.php?Nome=Libri&Azione=Elenco&Limit=".($limit+50)."\">Pagina ".($limit/50+2)."</a>";
 ?>
+<p><?=$count?> libri presenti.</p>
 </BODY>
 </HTML>

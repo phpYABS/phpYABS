@@ -23,7 +23,7 @@
 
 require_once __DIR__ .'/../application/includes/common.inc.php';
 
-if(!eregi('^[a-z0-9]+$', $module=$_REQUEST['Nome']))
+if(!preg_match('/^[a-z0-9]+$/i', $module=$_REQUEST['Nome']))
     die('Invalid module');
 
 require_once PATH_APPLICATION . "/modules/$module/index.php";

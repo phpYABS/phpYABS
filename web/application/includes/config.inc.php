@@ -25,9 +25,6 @@ $DS = DIRECTORY_SEPARATOR;
 
 define('PATH_ROOT', realpath(dirname(__FILE__).'/../..'));
 define('PATH_APPLICATION', PATH_ROOT . $DS . 'application');
-
-define('PATH_THIRDPARTY' , PATH_APPLICATION . $DS . 'thirdparty');
-define('PATH_LIBRARY'    , PATH_APPLICATION . $DS . 'library');
 define('PATH_TEMPLATES'  , PATH_APPLICATION . $DS . 'templates');
 
 $dbhost = 'localhost';

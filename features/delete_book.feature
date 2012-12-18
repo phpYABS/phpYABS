@@ -10,6 +10,6 @@ Feature: Delete Book
     When I type "880450745" on "ISBN" field
     And I click on "Ok" button
     And I click on "Delete Book" link
-    Then I should get a "book successfully deleted" message
+    Then Text "book successfully deleted" should be present
     Given I am on book list page
     Then I should see no book

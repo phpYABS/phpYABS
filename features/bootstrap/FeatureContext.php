@@ -93,13 +93,14 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @Then /^I should get a "([^"]*)" message$/
+     * @Then /^Text "([^"]*)" should be present$/
      */
-    public function iShouldGetAMessage($message)
+    public function textShouldBePresent($message)
     {
         $translations = array(
             'book successfully added' => 'Libro inserito',
-            'book successfully deleted' => 'Libro Cancellato!'
+            'book successfully deleted' => 'Libro Cancellato!',
+            '0 books purchased' => '0 Libri acquistati'
         );
 
         $actualMessage = array_key_exists($message, $translations) ? $translations[$message] : $message;

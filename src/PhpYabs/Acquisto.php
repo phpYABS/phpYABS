@@ -35,6 +35,7 @@ class PhpYabs_Acquisto extends PhpYabs_Db
 
         $this->books=array();
         $prefix = $this->getPrefix();
+        $conn = $this->_db;
 
         $rset=$conn->Execute("SELECT MAX(IdAcquisto) FROM ".$prefix."_acquisti");
         list($IdAcquisto)=$rset->fields;

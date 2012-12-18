@@ -2,6 +2,7 @@
 
 use Behat\MinkExtension\Context\MinkContext;
 use Behat\Behat\Exception\PendingException;
+use Behat\Behat\Exception\UndefinedException;
 
 //
 // Require 3rd-party libraries here:
@@ -61,12 +62,14 @@ class FeatureContext extends MinkContext
             'price'     => 'Prezzo'
         );
 
+        $actualField = array_key_exists($arg2, $fields) ? $fields[$arg2] : $arg2;
+
         $this->fields[$arg2] = $arg1;
 
         $session = $this->getSession();
         $page = $session->getPage();
 
-        $page->fillField($fields[$arg2], $arg1);
+        $page->fillField($actualField, $arg1);
     }
 
     /**
@@ -188,4 +191,19 @@ class FeatureContext extends MinkContext
         $this->assertPageContainsText('0 libri presenti');
     }
 
+    /**
+     * @Given /^I am on "([^"]*)" page$/
+     */
+    public function iAmOnPage($pageName)
+    {
+        $session = $this->getSession();
+
+        $pages = array ('new cart' => 'http://www.phpyabs.local/modules.php?Nome=Acquisti&Azione=Nuovo');
+
+        if(!array_key_exists($pageName, $pages)) {
+            throw new UndefinedException('Page not defined');
+        }
+
+        $session->visit($pages[$pageName]);
+    }
 }

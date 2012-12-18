@@ -19,6 +19,8 @@ $limit = isset($_GET['limit']) && preg_match('/\d+/', $_GET['limit']) ? $_GET['l
   echo "<td>Autore</td>\n";
   echo "<td>Editore</td>\n";
   echo "<td>Prezzo</td>\n";
+echo '</tr>', PHP_EOL;
+
   while (!$rset->EOF) {
     echo "<tr>\n";
 

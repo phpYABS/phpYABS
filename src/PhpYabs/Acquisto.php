@@ -29,10 +29,12 @@ class PhpYabs_Acquisto extends PhpYabs_Db
 {
     public $books, $ID;
 
-    public function Acquisto()
+    public function __construct(ADOConnection $connection = null)
     {
+        parent::__construct($connection);
+
         $this->books=array();
-        global $prefix;
+        $prefix = $this->getPrefix();
 
         $rset=$conn->Execute("SELECT MAX(IdAcquisto) FROM ".$prefix."_acquisti");
         list($IdAcquisto)=$rset->fields;

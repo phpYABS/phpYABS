@@ -100,7 +100,8 @@ class FeatureContext extends MinkContext
         $translations = array(
             'book successfully added' => 'Libro inserito',
             'book successfully deleted' => 'Libro Cancellato!',
-            '0 books purchased' => '0 Libri acquistati'
+            '0 books purchased' => '0 Libri acquistati',
+            'book updated' => 'Libro modificato!'
         );
 
         $actualMessage = array_key_exists($message, $translations) ? $translations[$message] : $message;
@@ -108,15 +109,6 @@ class FeatureContext extends MinkContext
         $this->assertPageContainsText($actualMessage);
     }
 
-
-    /**
-     * @Given /^I am on book list page$/
-     */
-    public function iAmOnBookListPage()
-    {
-        $session = $this->getSession();
-        $session->visit('http://www.phpyabs.local/modules.php?Nome=Libri&Azione=Elenco');
-    }
 
     /**
      * @Then /^I should see book fields$/
@@ -156,15 +148,6 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @Given /^I am on book delete page$/
-     */
-    public function iAmOnBookDeletePage()
-    {
-        $session = $this->getSession();
-        $session->visit('http://www.phpyabs.local/modules.php?Nome=Libri&Azione=Cancella');
-    }
-
-    /**
      * @Given /^I click on "([^"]*)" link$/
      */
     public function iClickOnLink($buttonName)
@@ -199,10 +182,16 @@ class FeatureContext extends MinkContext
     {
         $session = $this->getSession();
 
-        $pages = array ('new cart' => 'http://www.phpyabs.local/modules.php?Nome=Acquisti&Azione=Nuovo');
+        $pages = array (
+            'new cart' => 'http://www.phpyabs.local/modules.php?Nome=Acquisti&Azione=Nuovo',
+            'delete book' => 'http://www.phpyabs.local/modules.php?Nome=Libri&Azione=Cancella',
+            'edit book' => 'http://www.phpyabs.local/modules.php?Nome=Libri&Azione=Modifica',
+            'book list' =>'http://www.phpyabs.local/modules.php?Nome=Libri&Azione=Elenco',
+            'add book' =>'http://www.phpyabs.local/modules.php?Nome=Libri&Azione=Aggiungi',
+        );
 
         if(!array_key_exists($pageName, $pages)) {
-            throw new UndefinedException('Page not defined');
+            throw new PendingException('Page not defined');
         }
 
         $session->visit($pages[$pageName]);

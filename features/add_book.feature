@@ -5,7 +5,7 @@ Feature: Add book
 
   Scenario: Add a book
     Given there is no book in database
-    And I am on book add page
+    And I am on "add book" page
     When I type "880450745" on "ISBN" field
     And  I type "1984" on "title" field
     And  I type "George Orwell" on "author" field
@@ -14,5 +14,5 @@ Feature: Add book
     And I select "Macero" on field "Valutazione"
     And I click on "Add" button
     Then Text "book successfully added" should be present
-    Given I am on book list page
+    Given I am on "book list" page
     Then I should see book fields

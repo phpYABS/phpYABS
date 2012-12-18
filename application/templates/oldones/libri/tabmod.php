@@ -1,5 +1,4 @@
-<p>
-<form action="<?=$_SERVER['PHP_SELF']?>" method="get">
+<form action="<?=$_SERVER['PHP_SELF']?>" method="POST">
 <table width="600" border="1" align="center">
   <tr>
     <th width="80">ISBN:</th>
@@ -25,7 +24,7 @@
   </tr>
   <tr>
     <th width="80">Valutazione:</th>
-    <td><select name="Valutazione" style="width:300px">
+    <td><select name="Valutazione">
       <option value="NULL" <?=$selnull?>>Nessuna</option>
       <option value="zero" <?=$selzero?>>Macero</option>
       <option value="rotmed" <?=$selrotmed?>>Rottamazione Medie</option>
@@ -34,11 +33,10 @@
     </select></td>
   </tr>
   <tr>
-    <td><input type="Submit" value="Modifica"></td>
-    <td><input type="Reset" value="Annulla"></td>
+    <td><input type="Submit" value="Modifica"/></td>
+    <td><input type="Reset" value="Annulla"/></td>
   </tr>
 </table>
   <input type="hidden" name="Nome" value="<?=$_GET['Nome']?>">
   <input type="hidden" name="Azione" value="<?=$_GET['Azione']?>">
 </form>
-</p>

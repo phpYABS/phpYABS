@@ -12,5 +12,25 @@ namespace PhpYabs\Facade;
  */
 abstract class AbstractFacade
 {
+    private $connection;
 
+    /**
+     * Class constructor, needs a DB connection
+     *
+     * @param \ADOConnection $connection
+     */
+    public function __construct(\ADOConnection $connection)
+    {
+        $this->connection = $connection;
+    }
+
+    /**
+     * Connection getter
+     *
+     * @return \ADOConnection
+     */
+    protected function getConnection()
+    {
+        return $this->connection;
+    }
 }

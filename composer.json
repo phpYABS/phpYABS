@@ -27,7 +27,8 @@
         "bin-dir": "bin/"
     },
     "require": {
-        "adodb/adodb": "5.*"
+        "adodb/adodb": "5.*",
+        "silex/silex": "1.0.*@dev"
     },
     "require-dev": {
         "behat/behat": "2.4.*@stable",

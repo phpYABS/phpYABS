@@ -6,7 +6,6 @@
 </head>
 <body>
 <?php
-loadClass('PhpYabs_Book');
 $addbook=new PhpYabs_Book();
   if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !$addbook->IsValidISBN($_POST['ISBN'])) {
     include PATH_TEMPLATES.'/oldones/libri/tabadd.php';

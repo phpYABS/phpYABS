@@ -1,7 +1,7 @@
 <?php
 namespace PhpYabs\Facade;
 
-class BookFacade
+class BookFacade extends AbstractFacade
 {
 
 }

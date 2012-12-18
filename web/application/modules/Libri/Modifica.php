@@ -21,7 +21,6 @@ document.form1.ISBN.focus()
   </form>
 </div>
 <?php } else {
-    loadClass('PhpYabs_Book');
       $modbook=new PhpYabs_Book();
 
      $fields=Array("ISBN" => $_GET['ISBN'],  "Titolo" => $_GET['Titolo'], "Autore" => $_GET['Autore'],

@@ -23,7 +23,6 @@
 </div>
 <?php } else {
 
-      loadClass('PhpYabs_Book');
     $delbook=new PhpYabs_Book();
     $delbook->GetFromDB($_GET['ISBN']);
 

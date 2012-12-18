@@ -24,7 +24,6 @@ echo '</tr>', PHP_EOL;
   while (!$rset->EOF) {
     echo "<tr>\n";
 
-    loadClass('PhpYabs_Book');
     $book=new PhpYabs_Book();
     $book->GetFromDB($rset->fields['ISBN']);
 

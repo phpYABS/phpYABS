@@ -1,6 +1,4 @@
 <?php
-loadClass('PhpYabs_Acquisto');
-
 //se c'è una richiesta di nuovo acquisto, elimino il precedente
 if ($_GET['Azione']=='Nuovo') {
     unset($_SESSION['IdAcquisto']);

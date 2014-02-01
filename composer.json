@@ -1,6 +1,6 @@
 {
     "name": "phpyabs/phpyabs",
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "authors": [
         {
             "name": "Davide Bellettini",
@@ -28,10 +28,10 @@
     },
     "require": {
         "adodb/adodb": "5.*",
-        "silex/silex": "1.0.*@dev"
+        "silex/silex": "~1.0"
     },
     "require-dev": {
-        "behat/behat": "2.4.*@stable",
+        "behat/behat": "~2.4",
         "behat/mink-extension": "*",
         "behat/mink-selenium-driver": "*"
     }

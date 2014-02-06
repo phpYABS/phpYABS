@@ -12,12 +12,12 @@ document.form1.ISBN.focus()
 <?php
   if (!isset($_GET['ISBN'])) {?>
 <div align="center">
-  <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" name="form1">
+  <form action="/modules.php" method="get" name="form1">
     ISBN
     <input type="text" name="ISBN">
     <input type="submit" name="Invia" value="Ok">
-    <input type="hidden" name="Nome" value="<?=$_GET['Nome']?>">
-    <input type="hidden" name="Azione" value="<?=$_GET['Azione']?>">
+    <input type="hidden" name="Nome" value="Libri">
+    <input type="hidden" name="Azione" value="Modifica">
   </form>
 </div>
 <?php } else {

@@ -1,4 +1,4 @@
-<form action="<?=$_SERVER['PHP_SELF']?>" method="POST">
+<form action="/modules.php" method="GET">
 <table width="600" border="1" align="center">
   <tr>
     <th width="80">ISBN:</th>
@@ -33,10 +33,10 @@
     </select></td>
   </tr>
   <tr>
-    <td><input type="Submit" value="Modifica"/></td>
+    <td><input id="frm_book_edit_submit" type="submit" value="Modifica"/></td>
     <td><input type="Reset" value="Annulla"/></td>
   </tr>
 </table>
-  <input type="hidden" name="Nome" value="<?=$_GET['Nome']?>">
-  <input type="hidden" name="Azione" value="<?=$_GET['Azione']?>">
+  <input type="hidden" name="Nome" value="Libri">
+  <input type="hidden" name="Azione" value="Modifica">
 </form>

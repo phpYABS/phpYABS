@@ -1,8 +1,11 @@
 <?php
 
 use Behat\MinkExtension\Context\MinkContext;
+use Behat\Mink\Driver\Selenium2Driver;
+use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Behat\Behat\Exception\PendingException;
 use Behat\Behat\Exception\UndefinedException;
+
 
 //
 // Require 3rd-party libraries here:
@@ -78,7 +81,8 @@ class FeatureContext extends MinkContext
     public function iClickOnButton($buttonName)
     {
         $translate = array (
-            'Add' => 'Aggiungi'
+            'Add' => 'Aggiungi',
+            'Edit' => 'Modifica'
         );
 
         $button = array_key_exists($buttonName, $translate) ? $translate[$buttonName] : $buttonName;
@@ -195,5 +199,25 @@ class FeatureContext extends MinkContext
         }
 
         $session->visit($pages[$pageName]);
+    }
+
+    /**
+     * Take screenshot when step fails.
+     * Works only with Selenium2Driver.
+     *
+     * @AfterStep
+     */
+    public function takeScreenshotAfterFailedStep($event)
+    {
+        if (4 === $event->getResult()) {
+            $driver = $this->getSession()->getDriver();
+
+            if (!$driver instanceof Selenium2Driver) {
+                throw new UnsupportedDriverActionException('Taking screenshots is not supported by %s, use Selenium2Driver instead.', $driver);
+            }
+
+            $screenshot = $driver->getScreenshot();
+            file_put_contents(__DIR__ . '/failure.png', $screenshot);
+        }
     }
 }

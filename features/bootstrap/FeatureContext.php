@@ -53,29 +53,6 @@ class FeatureContext extends MinkContext
 
 
     /**
-     * @When /^I type "([^"]*)" on "([^"]*)" field$/
-     */
-    public function iTypeOnField($arg1, $arg2)
-    {
-        $fields = array (
-            'ISBN' => 'ISBN',
-            'title' => 'Titolo',
-            'author' => 'Autore',
-            'publisher' => 'Editore',
-            'price'     => 'Prezzo'
-        );
-
-        $actualField = array_key_exists($arg2, $fields) ? $fields[$arg2] : $arg2;
-
-        $this->fields[$arg2] = $arg1;
-
-        $session = $this->getSession();
-        $page = $session->getPage();
-
-        $page->fillField($actualField, $arg1);
-    }
-
-    /**
      * @Then /^I should see book fields$/
      */
     public function iShouldSeeBookFields()

@@ -33,7 +33,7 @@
     "require-dev": {
         "behat/behat": "~2.4",
         "behat/mink-extension": "*",
-        "behat/mink-selenium-driver": "*"
+        "behat/mink-selenium2-driver": "*"
     },
     "autoload": {
         "psr-0": {

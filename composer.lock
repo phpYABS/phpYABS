@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "a9e68f87b215ca83b8325222b43a70d6",
+    "hash": "52ddb860beea67e137a0302a480735f4",
     "packages": [
         {
             "name": "adodb/adodb",
@@ -488,46 +488,6 @@
     ],
     "packages-dev": [
         {
-            "name": "alexandresalome/php-selenium",
-            "version": "v1.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/alexandresalome/PHP-Selenium.git",
-                "reference": "a9997e74d8016a5cdb995ca8d06263d1843e3cc0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/alexandresalome/PHP-Selenium/zipball/a9997e74d8016a5cdb995ca8d06263d1843e3cc0",
-                "reference": "a9997e74d8016a5cdb995ca8d06263d1843e3cc0",
-                "shasum": ""
-            },
-            "require-dev": {
-                "symfony/dom-crawler": "dev-master"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Selenium": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Alexandre Salomé",
-                    "email": "alexandre.salome@gmail.com",
-                    "homepage": "http://alexandre-salome.fr/"
-                }
-            ],
-            "description": "PHP Library for Selenium",
-            "keywords": [
-                "selenium"
-            ],
-            "time": "2014-02-05 08:32:37"
-        },
-        {
             "name": "behat/behat",
             "version": "v2.5.1",
             "source": {
@@ -760,24 +720,23 @@
             "time": "2013-08-17 19:01:06"
         },
         {
-            "name": "behat/mink-selenium-driver",
-            "version": "v1.1.0",
+            "name": "behat/mink-selenium2-driver",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Behat/MinkSeleniumDriver.git",
-                "reference": "a782b031cb8a94b449b9ccecdcd0e79206bbc882"
+                "url": "https://github.com/Behat/MinkSelenium2Driver.git",
+                "reference": "bcf1b537de37db6db0822d9e7bd97e600fd7a476"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Behat/MinkSeleniumDriver/zipball/a782b031cb8a94b449b9ccecdcd0e79206bbc882",
-                "reference": "a782b031cb8a94b449b9ccecdcd0e79206bbc882",
+                "url": "https://api.github.com/repos/Behat/MinkSelenium2Driver/zipball/bcf1b537de37db6db0822d9e7bd97e600fd7a476",
+                "reference": "bcf1b537de37db6db0822d9e7bd97e600fd7a476",
                 "shasum": ""
             },
             "require": {
-                "alexandresalome/php-selenium": "~1.0.1",
                 "behat/mink": "~1.5.0",
-                "php": ">=5.3.1",
-                "symfony/dom-crawler": "~2.0"
+                "instaclick/php-webdriver": "~1.0.12",
+                "php": ">=5.3.1"
             },
             "type": "mink-driver",
             "extra": {
@@ -799,18 +758,82 @@
                     "name": "Konstantin Kudryashov",
                     "email": "ever.zet@gmail.com",
                     "homepage": "http://everzet.com"
+                },
+                {
+                    "name": "Pete Otaqui",
+                    "email": "pete@otaqui.com",
+                    "homepage": "https://github.com/pete-otaqui"
                 }
             ],
-            "description": "Selenium driver for Mink framework",
+            "description": "Selenium2 (WebDriver) driver for Mink framework",
             "homepage": "http://mink.behat.org/",
             "keywords": [
                 "ajax",
                 "browser",
                 "javascript",
                 "selenium",
-                "testing"
+                "testing",
+                "webdriver"
             ],
-            "time": "2013-04-13 23:50:14"
+            "time": "2013-06-02 19:09:45"
+        },
+        {
+            "name": "instaclick/php-webdriver",
+            "version": "1.0.17",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/instaclick/php-webdriver.git",
+                "reference": "47a6019553a7a5b42d35493276ffc2c9252c53d5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/instaclick/php-webdriver/zipball/47a6019553a7a5b42d35493276ffc2c9252c53d5",
+                "reference": "47a6019553a7a5b42d35493276ffc2c9252c53d5",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3.2"
+            },
+            "bin": [
+                "bin/webunit"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "WebDriver": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Justin Bishop",
+                    "email": "jubishop@gmail.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Anthon Pang",
+                    "email": "apang@softwaredevelopment.ca",
+                    "role": "Fork Maintainer"
+                }
+            ],
+            "description": "PHP WebDriver for Selenium 2",
+            "homepage": "http://instaclick.com/",
+            "keywords": [
+                "browser",
+                "selenium",
+                "webdriver",
+                "webtest"
+            ],
+            "time": "2013-10-04 15:03:51"
         },
         {
             "name": "symfony/config",
@@ -1020,59 +1043,6 @@
             "description": "Symfony DependencyInjection Component",
             "homepage": "http://symfony.com",
             "time": "2014-01-01 09:02:49"
-        },
-        {
-            "name": "symfony/dom-crawler",
-            "version": "v2.4.1",
-            "target-dir": "Symfony/Component/DomCrawler",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/DomCrawler.git",
-                "reference": "58e85928ad277c67102a41a046160de86df44d55"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/DomCrawler/zipball/58e85928ad277c67102a41a046160de86df44d55",
-                "reference": "58e85928ad277c67102a41a046160de86df44d55",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "symfony/css-selector": "~2.0"
-            },
-            "suggest": {
-                "symfony/css-selector": ""
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.4-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Symfony\\Component\\DomCrawler\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony DomCrawler Component",
-            "homepage": "http://symfony.com",
-            "time": "2013-12-29 20:33:52"
         },
         {
             "name": "symfony/filesystem",

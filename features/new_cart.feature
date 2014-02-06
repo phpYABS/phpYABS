@@ -5,8 +5,8 @@ Feature: New cart
 
   Scenario:
     Given I am on "new cart" page
-    Then Text "Valutazione dei libri in acquisto" should be present
-    Then Text "0 books purchased" should be present
-    And Text "Totale contanti: 0.00 €" should be present
-    And Text "Totale buono: 0.00 €" should be present
-    And Text "Totale rottamazione: 0.00 €" should be present
+    Then the response should contain "Valutazione dei libri in acquisto"
+    Then the response should contain "0 Libri acquistati"
+    And the response should contain "Totale contanti: 0.00 €"
+    And the response should contain "Totale buono: 0.00 €"
+    And the response should contain "Totale rottamazione: 0.00 €"

@@ -76,45 +76,6 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @Given /^I click on "([^"]*)" button$/
-     */
-    public function iClickOnButton($buttonName)
-    {
-        $translate = array (
-            'Add' => 'Aggiungi',
-            'Edit' => 'Modifica'
-        );
-
-        $button = array_key_exists($buttonName, $translate) ? $translate[$buttonName] : $buttonName;
-
-        $this
-            ->getSession()
-            ->getPage()
-            ->pressButton($button)
-        ;
-
-        $this->getSession()->wait(200);
-    }
-
-    /**
-     * @Then /^Text "([^"]*)" should be present$/
-     */
-    public function textShouldBePresent($message)
-    {
-        $translations = array(
-            'book successfully added' => 'Libro inserito',
-            'book successfully deleted' => 'Libro Cancellato!',
-            '0 books purchased' => '0 Libri acquistati',
-            'book updated' => 'Libro modificato!'
-        );
-
-        $actualMessage = array_key_exists($message, $translations) ? $translations[$message] : $message;
-
-        $this->assertPageContainsText($actualMessage);
-    }
-
-
-    /**
      * @Then /^I should see book fields$/
      */
     public function iShouldSeeBookFields()
@@ -122,14 +83,6 @@ class FeatureContext extends MinkContext
         foreach ($this->fields as $value) {
             $this->assertPageContainsText($value);
         }
-    }
-
-    /**
-     * @Given /^I select "([^"]*)" on field "([^"]*)"$/
-     */
-    public function iSelectOnField($arg1, $arg2)
-    {
-        $this->getSession()->getPage()->selectFieldOption($arg2, $arg1);
     }
 
     /**
@@ -149,34 +102,6 @@ class FeatureContext extends MinkContext
         ));
 
         $book->saveToDB();
-    }
-
-    /**
-     * @Given /^I click on "([^"]*)" link$/
-     */
-    public function iClickOnLink($buttonName)
-    {
-        $translate = array (
-            'Delete Book' => 'Cancella Libro'
-        );
-
-        $button = array_key_exists($buttonName, $translate) ? $translate[$buttonName] : $buttonName;
-
-        $this
-            ->getSession()
-            ->getPage()
-            ->clickLink($button)
-        ;
-
-        $this->getSession()->wait(200);
-    }
-
-    /**
-     * @Then /^I should see no book$/
-     */
-    public function iShouldSeeNoBook()
-    {
-        $this->assertPageContainsText('0 libri presenti');
     }
 
     /**
@@ -216,8 +141,7 @@ class FeatureContext extends MinkContext
                 throw new UnsupportedDriverActionException('Taking screenshots is not supported by %s, use Selenium2Driver instead.', $driver);
             }
 
-            $screenshot = $driver->getScreenshot();
-            file_put_contents(__DIR__ . '/failure.png', $screenshot);
+            file_put_contents(__DIR__ . '/../failure.png', $driver->getScreenshot());
         }
     }
 }

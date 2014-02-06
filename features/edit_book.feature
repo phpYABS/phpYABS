@@ -9,13 +9,13 @@ Feature: Edit Book
     And I am on "edit book" page
     When I type "880450745" on "ISBN" field
     And I press "Ok"
-    Then Text "Modifica Libro" should be present
-    And Text "880450745" should be present
+    Then the response should contain "Modifica Libro"
+    And the response should contain "880450745"
     When I type "Hello World" on "title" field
-    And I select "Macero" on field "Valutazione"
+    And I select "Macero" from "Valutazione"
     And I press "Modifica"
-    Then Text "book updated" should be present
-    And Text "880450745" should be present
+    Then the response should contain "Libro modificato!"
+    And the response should contain "880450745"
     Given I am on "book list" page
     Then the response should contain "880450745"
     And the response should contain "Hello World"

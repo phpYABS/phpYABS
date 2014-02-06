@@ -34,5 +34,10 @@
         "behat/behat": "~2.4",
         "behat/mink-extension": "*",
         "behat/mink-selenium-driver": "*"
+    },
+    "autoload": {
+        "psr-0": {
+            "": "src"
+        }
     }
 }

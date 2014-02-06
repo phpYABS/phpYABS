@@ -27,7 +27,6 @@ require_once 'config.inc.php';
 session_start();
 
 $loader = require __DIR__ .'/../../vendor/autoload.php';
-$loader->add('PhpYabs', __DIR__ .'/../../src');
 
 global $conn;
 $conn=&ADONewConnection('mysql');

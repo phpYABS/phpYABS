@@ -45,7 +45,7 @@ class FeatureContext extends MinkContext
     public function iAmOnBookAddPage()
     {
         $session = $this->getSession();
-        $session->visit('http://www.phpyabs.local/modules.php?Nome=Libri&Azione=Aggiungi');
+        $session->visit('http://www.phpyabs.dev/modules.php?Nome=Libri&Azione=Aggiungi');
     }
 
 
@@ -183,11 +183,11 @@ class FeatureContext extends MinkContext
         $session = $this->getSession();
 
         $pages = array (
-            'new cart' => 'http://www.phpyabs.local/modules.php?Nome=Acquisti&Azione=Nuovo',
-            'delete book' => 'http://www.phpyabs.local/modules.php?Nome=Libri&Azione=Cancella',
-            'edit book' => 'http://www.phpyabs.local/modules.php?Nome=Libri&Azione=Modifica',
-            'book list' =>'http://www.phpyabs.local/modules.php?Nome=Libri&Azione=Elenco',
-            'add book' =>'http://www.phpyabs.local/modules.php?Nome=Libri&Azione=Aggiungi',
+            'new cart' => 'http://www.phpyabs.dev/modules.php?Nome=Acquisti&Azione=Nuovo',
+            'delete book' => 'http://www.phpyabs.dev/modules.php?Nome=Libri&Azione=Cancella',
+            'edit book' => 'http://www.phpyabs.dev/modules.php?Nome=Libri&Azione=Modifica',
+            'book list' =>'http://www.phpyabs.dev/modules.php?Nome=Libri&Azione=Elenco',
+            'add book' =>'http://www.phpyabs.dev/modules.php?Nome=Libri&Azione=Aggiungi',
         );
 
         if(!array_key_exists($pageName, $pages)) {

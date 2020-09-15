@@ -6,3 +6,11 @@ services:
       - "8088:80"
     volumes:
       - .:/var/www/project
+    links:
+      - db
+  db:
+    image: mariadb:latest
+    volumes:
+      - ./application/data/sql:/sql
+    environment:
+      - MYSQL_ROOT_PASSWORD=phpyabs

@@ -28,7 +28,7 @@ define('PATH_ROOT', realpath(dirname(__FILE__).'/../..'));
 define('PATH_APPLICATION', PATH_ROOT . $DS . 'application');
 define('PATH_TEMPLATES'  , PATH_APPLICATION . $DS . 'templates');
 
-$dbhost = 'localhost';
+$dbhost = 'db';
 $dbuser = 'phpyabs';
 $dbpass = 'yabbadabbadoo';
 $dbname = 'phpyabs';

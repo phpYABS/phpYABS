@@ -29,5 +29,5 @@ session_start();
 $loader = require __DIR__ .'/../../vendor/autoload.php';
 
 global $conn;
-$conn=&ADONewConnection('mysql');
+$conn=&ADONewConnection('mysqli');
 $conn->PConnect($dbhost,$dbuser,$dbpass,$dbname);

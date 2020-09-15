@@ -42,3 +42,4 @@ $prefix = 'phpyabs';
 $debug=true;
 
 $ver="0.1.4";
+date_default_timezone_set('Europe/Rome');

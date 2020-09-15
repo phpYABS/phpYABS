@@ -11,6 +11,7 @@
         "bin-dir": "bin/"
     },
     "require": {
+        "php":"^5.4",
         "adodb/adodb-php": "5.*",
         "silex/silex": "~1.0"
     },

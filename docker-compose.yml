@@ -14,3 +14,12 @@ services:
       - ./application/data/sql:/docker-entrypoint-initdb.d
     environment:
       - MYSQL_ROOT_PASSWORD=phpyabs
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    ports:
+      - "8090:80"
+    links:
+      - db:db_server
+    depends_on:
+      - db

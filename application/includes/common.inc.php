@@ -29,7 +29,7 @@ session_start();
 $loader = require __DIR__ .'/../../vendor/autoload.php';
 
 global $conn;
-$conn=ADONewConnection('mysqli');
+$conn=ADONewConnection('pdo');
 assert($conn instanceof ADOConnection);
 
-$conn->PConnect($dbhost,$dbuser,$dbpass,$dbname);
+$conn->PConnect(getenv('DB_URL'), getenv('DB_USER'), getenv('DB_PASS'));

@@ -10,7 +10,7 @@ RUN apt-get update &&\
     apt-get clean &&\
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN docker-php-ext-install mysqli
+RUN docker-php-ext-install pdo_mysql
 
 ENV CONFIG docker/config
 

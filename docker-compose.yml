@@ -4,6 +4,10 @@ services:
     build: .
     ports:
       - "8088:80"
+    environment:
+      - DB_URL=mysql:host=db;dbname=phpyabs
+      - DB_USER=phpyabs
+      - DB_PASS=yabbadabbadoo
     volumes:
       - .:/var/www/project
     links:

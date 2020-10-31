@@ -22,8 +22,13 @@
         "behat/mink-selenium2-driver": "*"
     },
     "autoload": {
-        "psr-0": {
-            "": "src"
+        "psr-4": {
+            "PhpYabs\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PhpYabs\\Tests\\": "tests"
         }
     }
 }

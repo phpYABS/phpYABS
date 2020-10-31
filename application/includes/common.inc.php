@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once 'config.inc.php';
+require_once __DIR__ . '/config.inc.php';
 
 //starting session
 session_start();
@@ -29,5 +29,7 @@ session_start();
 $loader = require __DIR__ .'/../../vendor/autoload.php';
 
 global $conn;
-$conn=&ADONewConnection('mysqli');
+$conn=ADONewConnection('mysqli');
+assert($conn instanceof ADOConnection);
+
 $conn->PConnect($dbhost,$dbuser,$dbpass,$dbname);

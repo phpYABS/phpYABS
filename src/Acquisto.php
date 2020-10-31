@@ -1,5 +1,8 @@
 <?php
 // vim: set shiftwidth=4 tabstop=4 expandtab cindent :
+namespace PhpYabs;
+
+use ADOConnection;
 
 /**
  * $Id: file-header.php 299 2009-11-21 17:09:54Z dvbellet $
@@ -25,7 +28,7 @@
  * @author Davide Bellettini <dvbellet@users.sourceforge.net>
  * @license GNU General Public License
  */
-class PhpYabs_Acquisto extends PhpYabs_Db
+class Acquisto extends Db
 {
     public $books, $ID;
 
@@ -72,7 +75,7 @@ class PhpYabs_Acquisto extends PhpYabs_Db
     {
         global $prefix;
 
-        $book=new PhpYabs_Book();
+        $book=new Book();
 
         if ($book->getFromDB($ISBN)) {
             $this->_db->Execute("INSERT INTO ".$prefix."_acquisti (IdAcquisto,ISBN) VALUES ('".$this->ID."','$ISBN')");
@@ -111,7 +114,7 @@ class PhpYabs_Acquisto extends PhpYabs_Db
 
         while (!$rset->EOF) {
             list($IdLibro,$ISBN)=$rset->fields;
-            $book=new PhpYabs_Book();
+            $book=new Book();
 
             if ($book->getFromDB($ISBN)) {
                 list($ISBN,$Titolo,$Autore,$Editore,$Prezzo)=$book->GetFields();
@@ -140,7 +143,7 @@ class PhpYabs_Acquisto extends PhpYabs_Db
         $rset=$this->_db->Execute("SELECT ISBN From ".$prefix."_acquisti WHERE IdAcquisto ='".$this->ID."'");
 
         while (!$rset->EOF) {
-            $book=new PhpYabs_Book();
+            $book=new Book();
 
             if ($book->GetFromDB($rset->fields['ISBN'])) {
                 switch ($book->getValutazione()) {

@@ -1,6 +1,10 @@
 <?php
 // vim: set shiftwidth=4 tabstop=4 expandtab cindent :
 
+namespace PhpYabs;
+
+use ADOConnection;
+
 /**
  * phpYABS - Web-based book management
  * Copyright (C) 2003-2012 Davide Bellettini
@@ -25,7 +29,7 @@
 /**
  * Base DB class
  */
-class PhpYabs_Db
+class Db
 {
     /**
      * Database connection

@@ -1,6 +1,8 @@
 <?php
 // vim: set shiftwidth=4 tabstop=4 expandtab cindent :
 
+namespace PhpYabs;
+
 /**
  * $Id: file-header.php 299 2009-11-21 17:09:54Z dvbellet $
  *
@@ -21,7 +23,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class PhpYabs_Book extends PhpYabs_Db
+class Book extends Db
 {
     public $_fields;
     public $_valutazione;

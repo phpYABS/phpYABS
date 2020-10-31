@@ -1,12 +1,14 @@
 <?php
 //se c'è una richiesta di nuovo acquisto, elimino il precedente
+use PhpYabs\Acquisto;
+
 if ($_GET['Azione']=='Nuovo') {
     unset($_SESSION['IdAcquisto']);
     unset($_SESSION['totalec']);
     unset($_SESSION['totaleb']);
 }
 
-$acquisto=new PhpYabs_Acquisto();
+$acquisto=new Acquisto();
 if (isset($_GET['IdAcquisto'])) {
     if (!$acquisto->SetID($_GET['IdAcquisto'])) {
         $errmsg="L'acquisto ".$_GET['IdAcquisto']." non esiste!";

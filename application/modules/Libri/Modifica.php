@@ -1,3 +1,6 @@
+<?php
+use PhpYabs\Book;
+?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -21,7 +24,7 @@ document.form1.ISBN.focus()
   </form>
 </div>
 <?php } else {
-      $modbook=new PhpYabs_Book();
+      $modbook=new Book();
 
      $fields=Array("ISBN" => $_GET['ISBN'],  "Titolo" => $_GET['Titolo'], "Autore" => $_GET['Autore'],
      "Editore" => $_GET['Editore'], "Prezzo" => $_GET['Prezzo']);

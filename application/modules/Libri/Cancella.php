@@ -1,3 +1,6 @@
+<?php
+use PhpYabs\Book;
+?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -23,7 +26,7 @@
 </div>
 <?php } else {
 
-    $delbook=new PhpYabs_Book();
+    $delbook=new Book();
     $delbook->GetFromDB($_GET['ISBN']);
 
     if ($_GET['cancella']=="on") {

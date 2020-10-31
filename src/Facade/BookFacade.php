@@ -1,6 +1,8 @@
 <?php
 namespace PhpYabs\Facade;
 
+use PhpYabs\Book;
+
 class BookFacade extends AbstractFacade
 {
 
@@ -16,7 +18,7 @@ class BookFacade extends AbstractFacade
 </head>
 <body>
 <?php
-$addbook=new \PhpYabs_Book($this->getConnection());
+$addbook=new Book($this->getConnection());
   if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !$addbook->IsValidISBN($_POST['ISBN'])) {
       include PATH_TEMPLATES.'/oldones/libri/tabadd.php';
   } else {
@@ -69,7 +71,7 @@ $addbook=new \PhpYabs_Book($this->getConnection());
         while (!$rset->EOF) {
             echo "<tr>\n";
 
-            $book=new \PhpYabs_Book();
+            $book=new Book();
             $book->GetFromDB($rset->fields['ISBN']);
 
             foreach ($book->fields as $chiave => $valore) {

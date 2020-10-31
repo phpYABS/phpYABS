@@ -5,6 +5,7 @@ use Behat\Mink\Driver\Selenium2Driver;
 use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Behat\Behat\Exception\PendingException;
 use Behat\Behat\Exception\UndefinedException;
+use PhpYabs\Book;
 
 
 //
@@ -67,7 +68,7 @@ class FeatureContext extends MinkContext
      */
     public function aBookWithIsbnAndTitleAndAuthorAndPublisherAndPriceAndValutazioneIsAdded($isbn, $title, $author, $publisher, $price, $valutazione)
     {
-        $book = new PhpYabs_Book();
+        $book = new Book();
 
         $book->setFields(array(
             'ISBN' => $isbn,

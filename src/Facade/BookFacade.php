@@ -1,14 +1,14 @@
 <?php
+
 namespace PhpYabs\Facade;
 
 use PhpYabs\Book;
 
 class BookFacade extends AbstractFacade
 {
-
     public function aggiungi()
     {
-?>
+        ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -18,22 +18,22 @@ class BookFacade extends AbstractFacade
 </head>
 <body>
 <?php
-$addbook=new Book($this->getConnection());
-  if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !$addbook->IsValidISBN($_POST['ISBN'])) {
-      include PATH_TEMPLATES.'/oldones/libri/tabadd.php';
-  } else {
-      $fields=Array("ISBN" => $_POST['ISBN'],"Titolo" => $_POST['Titolo'], "Autore" => $_POST['Autore'],
-          "Editore" => $_POST['Editore'], "Prezzo" => $_POST['Prezzo']);
+$addbook = new Book($this->getConnection());
+        if ('POST' !== $_SERVER['REQUEST_METHOD'] || !$addbook->IsValidISBN($_POST['ISBN'])) {
+            include PATH_TEMPLATES . '/oldones/libri/tabadd.php';
+        } else {
+            $fields = ['ISBN' => $_POST['ISBN'], 'Titolo' => $_POST['Titolo'], 'Autore' => $_POST['Autore'],
+                'Editore' => $_POST['Editore'], 'Prezzo' => $_POST['Prezzo'], ];
 
-      $addbook->SetFields($fields);
-      $addbook->SetValutazione($_POST['Valutazione']);
+            $addbook->SetFields($fields);
+            $addbook->SetValutazione($_POST['Valutazione']);
 
-      if($addbook->SaveToDB())
-          echo "<p>Libro inserito</p>";
-      else
-          echo "<p>Errore nell'inserimento del libro</p>";
-  }
-?>
+            if ($addbook->SaveToDB()) {
+                echo '<p>Libro inserito</p>';
+            } else {
+                echo "<p>Errore nell'inserimento del libro</p>";
+            }
+        } ?>
 </body>
 </html>
 <?php
@@ -41,7 +41,7 @@ $addbook=new Book($this->getConnection());
 
     public function elenco()
     {
-?>
+        ?>
 
     <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
     <HTML>
@@ -53,12 +53,12 @@ $addbook=new Book($this->getConnection());
         <?php
         global $conn, $prefix;
 
-        $rset = $conn->Execute('SELECT COUNT(*) FROM '.$prefix.'_valutazioni');
+        $rset = $conn->Execute('SELECT COUNT(*) FROM ' . $prefix . '_valutazioni');
         $count = $rset->fields[0];
 
-        $limit = isset($_GET['limit']) && preg_match('/\d+/', $_GET['limit']) ? $_GET['limit'] : 0;
+        $limit = isset($_GET['limit']) && preg_match('/\\d+/', $_GET['limit']) ? $_GET['limit'] : 0;
 
-        $rset=$conn->Execute("SELECT ISBN FROM ".$prefix."_valutazioni LIMIT $limit, 50");
+        $rset = $conn->Execute('SELECT ISBN FROM ' . $prefix . "_valutazioni LIMIT $limit, 50");
         echo "<table border=\"1\" align=\"center\" width=\"755\">\n";
         echo "<tr>\n";
         echo "<td>ISBN</td>\n";
@@ -71,27 +71,26 @@ $addbook=new Book($this->getConnection());
         while (!$rset->EOF) {
             echo "<tr>\n";
 
-            $book=new Book();
+            $book = new Book();
             $book->GetFromDB($rset->fields['ISBN']);
 
             foreach ($book->fields as $chiave => $valore) {
-                if(!is_numeric($chiave))
+                if (!is_numeric($chiave)) {
                     echo "<td>$valore</td>";
+                }
             }
 
-            echo "</tr>";
+            echo '</tr>';
             $rset->MoveNext();
 
             unset($book);
         }
-        echo "</table>";
+        echo '</table>';
 
-        echo "<a href=\"modules.php?Nome=Libri&Azione=Elenco&Limit=".($limit+50)."\">Pagina ".($limit/50+2)."</a>";
-        ?>
-    <p><?=$count?> libri presenti.</p>
+        echo '<a href="modules.php?Nome=Libri&Azione=Elenco&Limit=' . ($limit + 50) . '">Pagina ' . ($limit / 50 + 2) . '</a>'; ?>
+    <p><?php echo $count; ?> libri presenti.</p>
     </BODY>
     </HTML>
 <?php
-
     }
 }

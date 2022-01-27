@@ -1,5 +1,7 @@
 <?php
+
 namespace PhpYabs\Facade;
+
 use Psr\Http\Message\RequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
@@ -9,9 +11,7 @@ class MainFacade extends AbstractFacade
     {
         ob_start();
 
-        global $ver, $intestazione;
-
-?>
+        global $ver, $intestazione; ?>
     <html>
     <head>
         <title>phpYabs <?php echo $ver; ?> - <?php echo $intestazione; ?></title>
@@ -32,8 +32,7 @@ class MainFacade extends AbstractFacade
     public function menu(Request $request, Response $response)
     {
         global $edit;
-        ob_start();
-?>
+        ob_start(); ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML>
 <HEAD>
@@ -52,11 +51,11 @@ class MainFacade extends AbstractFacade
   <input name="Azione" value="Acquisto" type="hidden">
   <input type="submit" value="Ok">
 </form>
-<?php if ($edit):?>
+<?php if ($edit) { ?>
     <p><a href="modules.php?Nome=Libri&Azione=Aggiungi">Aggiungi Libro</a></p>
     <p><a href="modules.php?Nome=Libri&Azione=Modifica">Modifica Libro</a></p>
     <p><a href="modules.php?Nome=Libri&Azione=Cancella">Cancella Libro</a></p>
-    <?php endif ?>
+    <?php } ?>
 <p><a href="modules.php?Nome=Acquisti&Azione=Elenco">Elenco Acquisti</a></p>
 <p><a href="modules.php?Nome=Statistiche">Statistiche</a></p>
 <p><a href="modules.php?Nome=Libri&Azione=Elenco" target="_blank">Elenco Libri</a></p>

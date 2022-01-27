@@ -1,4 +1,5 @@
 <?php
+
 // vim: set shiftwidth=4 tabstop=4 expandtab cindent :
 
 namespace PhpYabs;
@@ -7,7 +8,7 @@ use ADOConnection;
 
 /**
  * phpYABS - Web-based book management
- * Copyright (C) 2003-2012 Davide Bellettini
+ * Copyright (C) 2003-2012 Davide Bellettini.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,34 +26,33 @@ use ADOConnection;
  * @author Davide Bellettini <davide.bellettini@gmail.com>
  */
 
-
 /**
- * Base DB class
+ * Base DB class.
  */
 class Db
 {
     /**
-     * Database connection
+     * Database connection.
      *
      * @var ADOConnection
      */
     protected $_db;
 
     /**
-     * Table prefix
+     * Table prefix.
      *
      * @var string
      */
     private $prefix = 'phpyabs';
 
     /**
-     * Class constructor
+     * Class constructor.
      *
      * @param ADOConnection $connection
      */
     public function __construct(ADOConnection $connection = null)
     {
-        if(is_null($connection)) {
+        if (is_null($connection)) {
             global $conn;
             $connection = $conn;
         }
@@ -61,9 +61,9 @@ class Db
     }
 
     /**
-     * Table prefix getter
+     * Table prefix getter.
      *
-     * @return string  (e.g. phpyabs)
+     * @return string (e.g. phpyabs)
      */
     protected function getPrefix()
     {

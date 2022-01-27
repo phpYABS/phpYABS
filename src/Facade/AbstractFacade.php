@@ -8,16 +8,14 @@
 namespace PhpYabs\Facade;
 
 /**
- * Base class for Façade pattern
+ * Base class for Façade pattern.
  */
 abstract class AbstractFacade
 {
     private $connection;
 
     /**
-     * Class constructor, needs a DB connection
-     *
-     * @param \ADOConnection $connection
+     * Class constructor, needs a DB connection.
      */
     public function __construct(\ADOConnection $connection)
     {
@@ -25,7 +23,7 @@ abstract class AbstractFacade
     }
 
     /**
-     * Connection getter
+     * Connection getter.
      *
      * @return \ADOConnection
      */

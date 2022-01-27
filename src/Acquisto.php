@@ -1,11 +1,13 @@
 <?php
+
 // vim: set shiftwidth=4 tabstop=4 expandtab cindent :
+
 namespace PhpYabs;
 
 use ADOConnection;
 
 /**
- * $Id: file-header.php 299 2009-11-21 17:09:54Z dvbellet $
+ * $Id: file-header.php 299 2009-11-21 17:09:54Z dvbellet $.
  *
  * phpYABS - Web-based book management
  * Copyright (C) 2009 Davide Bellettini
@@ -30,43 +32,46 @@ use ADOConnection;
  */
 class Acquisto extends Db
 {
-    public $books, $ID;
+    public $books;
+    public $ID;
 
     public function __construct(ADOConnection $connection = null)
     {
         parent::__construct($connection);
 
-        $this->books=array();
+        $this->books = [];
         $prefix = $this->getPrefix();
         $conn = $this->_db;
 
-        $rset=$conn->Execute("SELECT MAX(IdAcquisto) FROM ".$prefix."_acquisti");
-        list($IdAcquisto)=$rset->fields;
+        $rset = $conn->Execute('SELECT MAX(IdAcquisto) FROM ' . $prefix . '_acquisti');
+        list($IdAcquisto) = $rset->fields;
         $rset->Close();
 
-        $this->ID=$IdAcquisto+1;
+        $this->ID = $IdAcquisto + 1;
     }
 
-    public function getID ()
+    public function getID()
     {
         return $this->ID;
     }
 
-    public function setID ($ID)
+    public function setID($ID)
     {
         global $prefix;
 
-        if ($ID!=$this->ID) {
-            $rset=$this->_db->Execute("SELECT * FROM ".$prefix."_acquisti WHERE IdAcquisto='$ID'");
+        if ($ID != $this->ID) {
+            $rset = $this->_db->Execute('SELECT * FROM ' . $prefix . "_acquisti WHERE IdAcquisto='$ID'");
 
             if (!$rset->EOF) {
-                $this->ID=$ID;
-                $ok=true;
-            } else
-            $ok=false;
+                $this->ID = $ID;
+                $ok = true;
+            } else {
+                $ok = false;
+            }
             $rset->Close();
-        } else
-        $ok=true;
+        } else {
+            $ok = true;
+        }
 
         return $ok;
     }
@@ -75,13 +80,13 @@ class Acquisto extends Db
     {
         global $prefix;
 
-        $book=new Book();
+        $book = new Book();
 
         if ($book->getFromDB($ISBN)) {
-            $this->_db->Execute("INSERT INTO ".$prefix."_acquisti (IdAcquisto,ISBN) VALUES ('".$this->ID."','$ISBN')");
-            $trovato="si";
+            $this->_db->Execute('INSERT INTO ' . $prefix . "_acquisti (IdAcquisto,ISBN) VALUES ('" . $this->ID . "','$ISBN')");
+            $trovato = 'si';
         } else {
-            $trovato="no";
+            $trovato = 'no';
         }
     }
 
@@ -90,7 +95,7 @@ class Acquisto extends Db
         global $prefix;
 
         if (is_numeric($IdLibro)) {
-            $this->_db->Execute("DELETE FROM ".$prefix."_acquisti WHERE IdLibro='$IdLibro' AND IdAcquisto='".$this->ID."'");
+            $this->_db->Execute('DELETE FROM ' . $prefix . "_acquisti WHERE IdLibro='$IdLibro' AND IdAcquisto='" . $this->ID . "'");
 
             return true;
         } else {
@@ -101,7 +106,7 @@ class Acquisto extends Db
     public function numBook()
     {
         global $prefix;
-        $rset=$this->_db->Execute("SELECT * FROM ".$prefix."_acquisti WHERE IdAcquisto='".$this->ID."'");
+        $rset = $this->_db->Execute('SELECT * FROM ' . $prefix . "_acquisti WHERE IdAcquisto='" . $this->ID . "'");
 
         return $rset->RecordCount();
     }
@@ -109,53 +114,53 @@ class Acquisto extends Db
     public function printAcquisto()
     {
         global $prefix;
-        $rset=$this->_db->Execute("SELECT IdLibro, ISBN FROM ".$prefix."_acquisti WHERE IdAcquisto='".$this->ID."'");
-        $numero=1;
+        $rset = $this->_db->Execute('SELECT IdLibro, ISBN FROM ' . $prefix . "_acquisti WHERE IdAcquisto='" . $this->ID . "'");
+        $numero = 1;
 
         while (!$rset->EOF) {
-            list($IdLibro,$ISBN)=$rset->fields;
-            $book=new Book();
+            list($IdLibro, $ISBN) = $rset->fields;
+            $book = new Book();
 
             if ($book->getFromDB($ISBN)) {
-                list($ISBN,$Titolo,$Autore,$Editore,$Prezzo)=$book->GetFields();
-                $sISBN=$ISBN;
-                $ISBN=$book->GetFullISBN();
-                $Valutazione=$book->GetValutazione();
-                $Buono=$book->GetBuono();
-                $Contanti=$book->GetContanti();
+                list($ISBN, $Titolo, $Autore, $Editore, $Prezzo) = $book->GetFields();
+                $sISBN = $ISBN;
+                $ISBN = $book->GetFullISBN();
+                $Valutazione = $book->GetValutazione();
+                $Buono = $book->GetBuono();
+                $Contanti = $book->GetContanti();
 
-                include PATH_TEMPLATES.'/oldones/acquisti/tabview.php';
-                $numero++;
+                include PATH_TEMPLATES . '/oldones/acquisti/tabview.php';
+                ++$numero;
             }
 
             $rset->MoveNext();
         }
     }
 
-    public function getBill ()
+    public function getBill()
     {
         global $prefix;
 
-        $totaleb="0.00";
-        $totalec="0.00";
-        $totaler="0.00";
+        $totaleb = '0.00';
+        $totalec = '0.00';
+        $totaler = '0.00';
 
-        $rset=$this->_db->Execute("SELECT ISBN From ".$prefix."_acquisti WHERE IdAcquisto ='".$this->ID."'");
+        $rset = $this->_db->Execute('SELECT ISBN From ' . $prefix . "_acquisti WHERE IdAcquisto ='" . $this->ID . "'");
 
         while (!$rset->EOF) {
-            $book=new Book();
+            $book = new Book();
 
             if ($book->GetFromDB($rset->fields['ISBN'])) {
                 switch ($book->getValutazione()) {
                     case 'rotmed':
-                        $totaler+=0.5;
+                        $totaler += 0.5;
                         break;
                     case 'rotsup':
-                        $totaler+=1.00;
+                        $totaler += 1.00;
                         break;
                     case 'buono':
-                        $totaleb+=round($book->fields['Prezzo']/3,2);
-                        $totalec+=round($book->fields['Prezzo']/4,2);
+                        $totaleb += round($book->fields['Prezzo'] / 3, 2);
+                        $totalec += round($book->fields['Prezzo'] / 4, 2);
                         break;
                 }
             }
@@ -163,6 +168,6 @@ class Acquisto extends Db
             $rset->MoveNext();
         }
 
-        return array("totaleb" => $totaleb, "totalec" => $totalec, "totaler" => $totaler);
+        return ['totaleb' => $totaleb, 'totalec' => $totalec, 'totaler' => $totaler];
     }
 }

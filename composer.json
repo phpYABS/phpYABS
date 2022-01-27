@@ -14,7 +14,7 @@
     "require": {
         "php": "^8.1",
         "adodb/adodb-php": "5.*",
-        "silex/silex": "^2.0"
+        "slim/slim": "^4.9"
     },
     "require-dev": {
         "behat/behat": "~2.4",

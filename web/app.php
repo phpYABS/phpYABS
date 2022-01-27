@@ -18,18 +18,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 /**
  * @author Davide Bellettini <davide.bellettini@gmail.com>
  * @license GNU GPL 3 or later
  */
 
+use PhpYabs\Facade\MainFacade;
+use Slim\Factory\AppFactory;
+
 require_once __DIR__ .'/../application/includes/common.inc.php';
-$app = new Silex\Application();
+$app = AppFactory::create();
 
-$mainFacade = new \PhpYabs\Facade\MainFacade($conn);
+$mainFacade = new MainFacade($conn);
 
-$app->match('/modules.php', array($mainFacade, 'modules'));
+$app->any('/modules.php', array($mainFacade, 'modules'));
 $app->get('/menu.php', array($mainFacade, 'menu'));
 $app->get('/', array($mainFacade, 'index'));
 

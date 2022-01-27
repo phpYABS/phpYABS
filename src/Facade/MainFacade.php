@@ -1,9 +1,11 @@
 <?php
 namespace PhpYabs\Facade;
+use Psr\Http\Message\RequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 
 class MainFacade extends AbstractFacade
 {
-    public function index()
+    public function index(Request $request, Response $response)
     {
         ob_start();
 
@@ -22,10 +24,12 @@ class MainFacade extends AbstractFacade
 
 <?php
 
-        return ob_get_clean();
+        $response->getBody()->write(ob_get_clean());
+
+        return $response;
     }
 
-    public function menu()
+    public function menu(Request $request, Response $response)
     {
         global $edit;
         ob_start();
@@ -59,6 +63,8 @@ class MainFacade extends AbstractFacade
 </BODY>
 </HTML>
     <?php
-        return ob_get_clean();
+        $response->getBody()->write(ob_get_clean());
+
+        return $response;
     }
 }

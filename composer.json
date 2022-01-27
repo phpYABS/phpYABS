@@ -20,7 +20,7 @@
         "behat/behat": "~2.4",
         "behat/mink-extension": "*",
         "behat/mink-selenium2-driver": "*",
-        "phpunit/phpunit": "^4.8"
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {

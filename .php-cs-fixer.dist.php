@@ -7,6 +7,7 @@ return (new PhpCsFixer\Config())
         '@Symfony' => true,
         'array_indentation' => true,
         'array_syntax' => ['syntax' => 'short'],
+        'list_syntax' => ['syntax' => 'short'],
         'concat_space' => ['spacing' => 'one'],
         'multiline_whitespace_before_semicolons' => ['strategy' => 'new_line_for_chained_calls'],
         'ordered_imports' => true,

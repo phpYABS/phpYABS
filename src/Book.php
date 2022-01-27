@@ -204,7 +204,7 @@ class Book extends Db
 
                 $rset = $this->_db->Execute('SELECT valutazione FROM ' . $prefix . "_valutazioni WHERE ISBN='$ISBN'");
 
-                list($Valutazione) = $rset->fields;
+                [$Valutazione] = $rset->fields;
                 $rset->Close();
                 $this->setValutazione($Valutazione);
 

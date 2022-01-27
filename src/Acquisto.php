@@ -44,7 +44,7 @@ class Acquisto extends Db
         $conn = $this->_db;
 
         $rset = $conn->Execute('SELECT MAX(IdAcquisto) FROM ' . $prefix . '_acquisti');
-        list($IdAcquisto) = $rset->fields;
+        [$IdAcquisto] = $rset->fields;
         $rset->Close();
 
         $this->ID = $IdAcquisto + 1;
@@ -118,11 +118,11 @@ class Acquisto extends Db
         $numero = 1;
 
         while (!$rset->EOF) {
-            list($IdLibro, $ISBN) = $rset->fields;
+            [$IdLibro, $ISBN] = $rset->fields;
             $book = new Book();
 
             if ($book->getFromDB($ISBN)) {
-                list($ISBN, $Titolo, $Autore, $Editore, $Prezzo) = $book->GetFields();
+                [$ISBN, $Titolo, $Autore, $Editore, $Prezzo] = $book->GetFields();
                 $sISBN = $ISBN;
                 $ISBN = $book->GetFullISBN();
                 $Valutazione = $book->GetValutazione();

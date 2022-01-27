@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6d5557219f1c27c3e3606aa1fa1ee8fc",
+    "content-hash": "0696193d737530cbcd83973a56cf8698",
     "packages": [
         {
             "name": "adodb/adodb-php",
-            "version": "v5.20.18",
+            "version": "v5.20.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ADOdb/ADOdb.git",
-                "reference": "0363eca78eed8bd02d1456072c729da302655241"
+                "reference": "6c38e6c614802acd3151444a71191912edcec965"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ADOdb/ADOdb/zipball/0363eca78eed8bd02d1456072c729da302655241",
-                "reference": "0363eca78eed8bd02d1456072c729da302655241",
+                "url": "https://api.github.com/repos/ADOdb/ADOdb/zipball/6c38e6c614802acd3151444a71191912edcec965",
+                "reference": "6c38e6c614802acd3151444a71191912edcec965",
                 "shasum": ""
             },
             "require": {
@@ -58,7 +58,11 @@
                 "library",
                 "php"
             ],
-            "time": "2020-06-28T17:52:20+00:00"
+            "support": {
+                "issues": "https://github.com/ADOdb/ADOdb/issues",
+                "source": "https://github.com/ADOdb/ADOdb"
+            },
+            "time": "2022-01-22T22:38:02+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -2684,8 +2688,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^5.6"
+        "php": "^7.4"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.2.0"
 }

@@ -13,7 +13,7 @@ if (isset($_GET['IdAcquisto'])) {
     if (!$acquisto->SetID($_GET['IdAcquisto'])) {
         $errmsg="L'acquisto ".$_GET['IdAcquisto']." non esiste!";
     }
-} else {
+} elseif (isset($_SESSION['IdAcquisto'])) {
     $acquisto->setId($_SESSION['IdAcquisto']);
 }
 
@@ -38,7 +38,7 @@ if (isset($_POST['newISBN'])) {
 <font face="Arial, Helvetica, sans-serif">
 <h1 align="center">Valutazione dei libri in acquisto</h1>
 <h2 align="center">Acquisto N° <?php echo $IdAcquisto; ?></h2>
-<?php if($errmsg) echo "<p align=\"center\"><font color=\"RED\">$errmsg</font></p>" ?>
+<?php if(isset($errmsg) && $errmsg) echo "<p align=\"center\"><font color=\"RED\">$errmsg</font></p>" ?>
 <?php
   $acquisto->PrintAcquisto();
   if(!$trovato)

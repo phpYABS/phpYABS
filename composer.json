@@ -1,6 +1,7 @@
 {
     "name": "phpyabs/phpyabs",
-    "minimum-stability": "stable",
+    "description": "Open source used book managment software. Ugly code, it was my very first project in 2003",
+    "license": "GPL-3.0-or-later",
     "authors": [
         {
             "name": "Davide Bellettini",

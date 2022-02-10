@@ -304,13 +304,13 @@ class Book extends ActiveRecord
         $checksum = 0;
 
         for ($i = 2; $i <= 12; $i += 2) {
-            $checksum += (int)substr($ean, $i - 1, 1);
+            $checksum += (int) substr($ean, $i - 1, 1);
         }
 
         $checksum *= 3;
 
         for ($i = 1; $i <= 11; $i += 2) {
-            $checksum += (int)substr($ean, $i - 1, 1);
+            $checksum += (int) substr($ean, $i - 1, 1);
         }
 
         return 10 - ($checksum % 10);

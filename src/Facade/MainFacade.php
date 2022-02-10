@@ -4,7 +4,6 @@ namespace PhpYabs\Facade;
 
 use Psr\Http\Message\RequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
-use function Composer\Autoload\includeFile;
 
 class MainFacade extends AbstractFacade
 {

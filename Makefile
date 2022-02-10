@@ -49,7 +49,7 @@ phpunit:
 
 .PHONY: phpstan
 phpstan:
-	docker-compose exec php vendor/bin/phpstan analyze -v src
+	docker-compose exec php vendor/bin/phpstan analyze -v
 .PHONY: cs-fixer
 cs-fixer:
 	docker-compose exec php vendor/bin/php-cs-fixer fix -v

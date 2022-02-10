@@ -7,7 +7,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 class MainFacade extends AbstractFacade
 {
-    public function index(Request $request, Response $response)
+    public function index(Request $request, Response $response): Response
     {
         ob_start();
 
@@ -29,7 +29,7 @@ class MainFacade extends AbstractFacade
         return $response;
     }
 
-    public function menu(Request $request, Response $response)
+    public function menu(Request $request, Response $response): Response
     {
         global $edit;
         ob_start(); ?>

@@ -4,6 +4,7 @@ namespace PhpYabs\Facade;
 
 use Psr\Http\Message\RequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use function Composer\Autoload\includeFile;
 
 class MainFacade extends AbstractFacade
 {
@@ -62,6 +63,33 @@ class MainFacade extends AbstractFacade
 </BODY>
 </HTML>
     <?php
+        $response->getBody()->write(ob_get_clean());
+
+        return $response;
+    }
+
+    public function modules(Request $request, Response $response): Response
+    {
+        ob_start();
+
+        $module = $request->getQueryParams()['Nome'] ?? '';
+        if (!preg_match('/^[a-z0-9]+$/i', $module)) {
+            $module = '---';
+        }
+
+        $file = PATH_APPLICATION . "/modules/$module/index.php";
+
+        if (!file_exists($file)) {
+            $response
+                ->withStatus(404)
+                ->withHeader('Content-Type', 'text/plain')
+                ->getBody()->write('Not found');
+
+            return $response;
+        }
+
+        include $file;
+
         $response->getBody()->write(ob_get_clean());
 
         return $response;

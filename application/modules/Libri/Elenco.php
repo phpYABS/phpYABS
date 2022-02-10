@@ -1,4 +1,7 @@
 <?php
 
-$facade = new \PhpYabs\Facade\BookFacade($conn);
+use PhpYabs\Facade\BookFacade;
+
+global $conn;
+$facade = new BookFacade($conn);
 $facade->elenco();

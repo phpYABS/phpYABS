@@ -33,14 +33,12 @@ use const PATH_TEMPLATES;
  */
 class Acquisto extends ActiveRecord
 {
-    private array $books;
     public $ID;
 
     public function __construct(ADOConnection $connection = null)
     {
         parent::__construct($connection);
 
-        $this->books = [];
         $prefix = $this->getPrefix();
         $conn = $this->_db;
 

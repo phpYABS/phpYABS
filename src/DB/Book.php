@@ -28,6 +28,8 @@ use ADOConnection;
 class Book extends ActiveRecord
 {
     public string|false $_valutazione;
+
+    /** @var string[] */
     private array $fields;
 
     public function __construct(ADOConnection $connection = null)
@@ -38,17 +40,18 @@ class Book extends ActiveRecord
         $this->setValutazione(false);
     }
 
-    public function checkFields($fields)
+    /**
+     * @param string[] $fields
+     */
+    public function checkFields(array $fields): bool
     {
-        if ($this->isValidISBN($fields['ISBN']) && strlen($fields['Titolo']) > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->isValidISBN($fields['ISBN']) && strlen($fields['Titolo']) > 0;
     }
 
-    //imposta i campi del libro
-    public function setFields(array $fields)
+    /**
+     * @param string[] $fields
+     */
+    public function setFields(array $fields): bool
     {
         $fields['ISBN'] = $this->GetShortISBN($fields['ISBN']);
 
@@ -58,12 +61,15 @@ class Book extends ActiveRecord
             }
 
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
-    public function getFields()
+    /**
+     * @return string[]|false
+     */
+    public function getFields(): array|false
     {
         if ($this->CheckFields($this->fields)) {
             return $this->fields;
@@ -72,7 +78,7 @@ class Book extends ActiveRecord
         }
     }
 
-    public function setValutazione($valutazione)
+    public function setValutazione(string|false $valutazione): void
     {
         switch ($valutazione) {
             case 'zero':
@@ -87,12 +93,12 @@ class Book extends ActiveRecord
         $this->_valutazione = $valutazione;
     }
 
-    public function getValutazione()
+    public function getValutazione(): string|false
     {
         return $this->_valutazione;
     }
 
-    public function getBuono()
+    public function getBuono(): string
     {
         switch ($this->getValutazione()) {
             default:
@@ -113,7 +119,7 @@ class Book extends ActiveRecord
         return $prezzoa;
     }
 
-    public function getContanti()
+    public function getContanti(): string
     {
         switch ($this->getValutazione()) {
             default:
@@ -134,7 +140,7 @@ class Book extends ActiveRecord
         return $prezzoa;
     }
 
-    public function saveToDB()
+    public function saveToDB(): bool
     {
         $prefix = $this->getPrefix();
 
@@ -186,7 +192,7 @@ class Book extends ActiveRecord
     }
 
     //carica i dati dal database, specificato l'isbn
-    public function getFromDB($ISBN)
+    public function getFromDB(string $ISBN): bool
     {
         global $prefix;
 
@@ -216,7 +222,7 @@ class Book extends ActiveRecord
         }
     }
 
-    public function delete()
+    public function delete(): bool
     {
         global $prefix;
 
@@ -232,12 +238,12 @@ class Book extends ActiveRecord
         return false;
     }
 
-    public function isValidISBN($ISBN)
+    public static function isValidISBN(string $ISBN): bool
     {
         return is_numeric($ISBN) && 9 == strlen($ISBN) && 0 != $ISBN;
     }
 
-    public function getShortISBN($ISBN)
+    public static function getShortISBN(string $ISBN): string|false
     {
         if (strlen($ISBN) > 9) {
             $ISBN = substr($ISBN, 0, strlen($ISBN) - 1);
@@ -247,22 +253,22 @@ class Book extends ActiveRecord
             $ISBN = substr($ISBN, 1, strlen($ISBN) - 1);
         }
 
-        if ($this->isValidISBN($ISBN)) {
+        if (self::isValidISBN($ISBN)) {
             return $ISBN;
         } else {
             return false;
         }
     }
 
-    public function getFullIsbn()
+    public function getFullIsbn(): string
     {
         $ISBN = $this->fields['ISBN'];
-        $ISBN .= $this->ISBNCheck($ISBN);
+        $ISBN .= self::ISBNCheck($ISBN);
 
         return $ISBN;
     }
 
-    public function isbnCheck($ISBN)
+    public static function isbnCheck(string $ISBN): string
     {
         $checksum = 0;
 
@@ -278,9 +284,9 @@ class Book extends ActiveRecord
         return $checksum;
     }
 
-    public function getEAN($ISBN = -1)
+    public function getEAN(string $ISBN = null): string
     {
-        if (-1 == $ISBN) {
+        if (null === $ISBN) {
             $ISBN = $this->fields['ISBN'];
         }
 

@@ -33,7 +33,7 @@ use const PATH_TEMPLATES;
  */
 class Acquisto extends ActiveRecord
 {
-    public $ID;
+    private int $ID;
 
     public function __construct(ADOConnection $connection = null)
     {
@@ -49,12 +49,12 @@ class Acquisto extends ActiveRecord
         $this->ID = $IdAcquisto + 1;
     }
 
-    public function getID()
+    public function getID(): int
     {
         return $this->ID;
     }
 
-    public function setID($ID)
+    public function setID(int $ID): bool
     {
         global $prefix;
 
@@ -75,7 +75,7 @@ class Acquisto extends ActiveRecord
         return $ok;
     }
 
-    public function addBook($ISBN)
+    public function addBook(string $ISBN): string
     {
         global $prefix;
 
@@ -83,13 +83,13 @@ class Acquisto extends ActiveRecord
 
         if ($book->getFromDB($ISBN)) {
             $this->_db->Execute('INSERT INTO ' . $prefix . "_acquisti (IdAcquisto,ISBN) VALUES ('" . $this->ID . "','$ISBN')");
-            $trovato = 'si';
-        } else {
-            $trovato = 'no';
+            return 'si';
         }
+
+        return 'no';
     }
 
-    public function delBook($IdLibro)
+    public function delBook(string $IdLibro): bool
     {
         global $prefix;
 
@@ -102,7 +102,7 @@ class Acquisto extends ActiveRecord
         }
     }
 
-    public function numBook()
+    public function numBook(): int
     {
         global $prefix;
         $rset = $this->_db->Execute('SELECT * FROM ' . $prefix . "_acquisti WHERE IdAcquisto='" . $this->ID . "'");
@@ -110,7 +110,7 @@ class Acquisto extends ActiveRecord
         return $rset->RecordCount();
     }
 
-    public function printAcquisto()
+    public function printAcquisto(): void
     {
         global $prefix;
         $rset = $this->_db->Execute('SELECT IdLibro, ISBN FROM ' . $prefix . "_acquisti WHERE IdAcquisto='" . $this->ID . "'");
@@ -136,7 +136,10 @@ class Acquisto extends ActiveRecord
         }
     }
 
-    public function getBill()
+    /**
+     * @return array<float>
+     */
+    public function getBill(): array
     {
         global $prefix;
 

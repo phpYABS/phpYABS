@@ -10,8 +10,7 @@ class BookFacade extends AbstractFacade
 {
     public function aggiungi(Request $request, Response $response): Response
     {
-        ob_start();
-        ?>
+        ob_start(); ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -47,8 +46,7 @@ $addbook = new Book($this->getConnection());
 
     public function elenco(Request $request, Response $response): Response
     {
-        ob_start();
-?>
+        ob_start(); ?>
     <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
     <HTML>
     <HEAD>

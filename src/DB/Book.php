@@ -4,6 +4,8 @@
 
 namespace PhpYabs\DB;
 
+use ADOConnection;
+
 /**
  * $Id: file-header.php 299 2009-11-21 17:09:54Z dvbellet $.
  *
@@ -28,9 +30,9 @@ class Book extends ActiveRecord
     public $_fields;
     public $_valutazione;
 
-    public function __construct()
+    public function __construct(ADOConnection $connection = null)
     {
-        parent::__construct();
+        parent::__construct($connection);
 
         $this->fields = [];
         $this->setValutazione(false);

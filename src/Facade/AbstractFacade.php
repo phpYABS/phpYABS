@@ -7,27 +7,21 @@
 
 namespace PhpYabs\Facade;
 
+use ADOConnection;
+
 /**
  * Base class for Façade pattern.
  */
 abstract class AbstractFacade
 {
-    private $connection;
+    private ADOConnection $connection;
 
-    /**
-     * Class constructor, needs a DB connection.
-     */
-    public function __construct(\ADOConnection $connection)
+    public function __construct(ADOConnection $connection)
     {
         $this->connection = $connection;
     }
 
-    /**
-     * Connection getter.
-     *
-     * @return \ADOConnection
-     */
-    protected function getConnection()
+    protected function getConnection(): ADOConnection
     {
         return $this->connection;
     }

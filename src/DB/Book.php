@@ -27,8 +27,8 @@ use ADOConnection;
  */
 class Book extends ActiveRecord
 {
-    public $_fields;
-    public $_valutazione;
+    public string|false $_valutazione;
+    private array $fields;
 
     public function __construct(ADOConnection $connection = null)
     {

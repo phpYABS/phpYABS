@@ -78,30 +78,29 @@ $totlibri = $risultato->fetchField(0);
 <?php
     if (strlen($destinazione) > 0) {
         if (is_array($_GET['destina'])) {
-            while ([$chiave, $valore] = each($_GET['destina'])) {
+            foreach ($_GET['destina'] as $chiave => $valore) {
                 if ('on' == $valore) {
-                    $risultato = query('SELECT COUNT(*) FROM ' . $prefix . '_destinazioni ' .
+                    $risultato = $conn->Query('SELECT COUNT(*) FROM ' . $prefix . '_destinazioni ' .
           "WHERE ISBN = '$chiave' AND destinazione = '$destinazione'");
-                    [$esiste] = mysql_fetch_row($risultato);
-                    mysql_free_result($risultato);
+                    $esiste = $risultato->fetchField(0);
                     if (!$esiste) {
-                        query('INSERT INTO ' . $prefix . '_destinazioni (ISBN, destinazione) ' .
+                        $conn->Execute('INSERT INTO ' . $prefix . '_destinazioni (ISBN, destinazione) ' .
             " VALUES ('$chiave', '$destinazione')");
                     }
                 } else {
-                    query('DELETE FROM ' . $prefix . "_destinazioni WHERE ISBN='$chiave' " .
+                    $conn->Execute('DELETE FROM ' . $prefix . "_destinazioni WHERE ISBN='$chiave' " .
           "AND destinazione = '$destinazione'");
                 }
             }
         }
 
-        $risultato = query('SELECT ' . $prefix . '_libri.ISBN, Titolo, Autore, Editore FROM '
+        $risultato = $conn->Query('SELECT ' . $prefix . '_libri.ISBN, Titolo, Autore, Editore FROM '
     . $prefix . '_libri INNER JOIN ' . $prefix . '_valutazioni ON ' . $prefix . '_libri.ISBN = '
     . $prefix . "_valutazioni.ISBN ORDER BY Editore, Autore, Titolo, ISBN LIMIT $start,50");
-        while ($risultati = mysql_fetch_row($risultato)) {
-            $risultato1 = query('SELECT COUNT(*) FROM ' . $prefix . '_destinazioni ' .
+        while (false !== ($risultati = $risultato->FetchRow())) {
+            $risultato1 = $conn->query('SELECT COUNT(*) FROM ' . $prefix . '_destinazioni ' .
         "WHERE ISBN='{$risultati[0]}' AND destinazione ='$destinazione'");
-            [$esiste] = mysql_fetch_row($risultato1);
+            $esiste = $risultato1->fetchField(0);
             if ($esiste) {
                 $checkedSI = 'checked';
                 $checkedNO = '';
@@ -127,7 +126,6 @@ $totlibri = $risultato->fetchField(0);
                 echo "<td>$risultati[$i]</td>\n";
             } ?> </tr> <?php
         }
-        mysql_free_result($risultato);
     }
 ?>
 </table>

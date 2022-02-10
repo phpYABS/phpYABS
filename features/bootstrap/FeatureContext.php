@@ -5,7 +5,7 @@ use Behat\Mink\Driver\Selenium2Driver;
 use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Behat\Behat\Exception\PendingException;
 use Behat\Behat\Exception\UndefinedException;
-use PhpYabs\Book;
+use PhpYabs\DB\Book;
 
 
 //

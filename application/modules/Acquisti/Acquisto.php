@@ -1,6 +1,6 @@
 <?php
 //se c'è una richiesta di nuovo acquisto, elimino il precedente
-use PhpYabs\Acquisto;
+use PhpYabs\DB\Acquisto;
 
 if ($_GET['Azione']=='Nuovo') {
     unset($_SESSION['IdAcquisto']);

@@ -2,7 +2,7 @@
 
 namespace PhpYabs\Facade;
 
-use PhpYabs\Book;
+use PhpYabs\DB\Book;
 
 class BookFacade extends AbstractFacade
 {

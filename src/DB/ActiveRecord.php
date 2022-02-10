@@ -2,7 +2,7 @@
 
 // vim: set shiftwidth=4 tabstop=4 expandtab cindent :
 
-namespace PhpYabs;
+namespace PhpYabs\DB;
 
 use ADOConnection;
 
@@ -29,7 +29,7 @@ use ADOConnection;
 /**
  * Base DB class.
  */
-class Db
+class ActiveRecord
 {
     /**
      * Database connection.

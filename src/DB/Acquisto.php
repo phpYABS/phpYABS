@@ -2,9 +2,10 @@
 
 // vim: set shiftwidth=4 tabstop=4 expandtab cindent :
 
-namespace PhpYabs;
+namespace PhpYabs\DB;
 
 use ADOConnection;
+use const PATH_TEMPLATES;
 
 /**
  * $Id: file-header.php 299 2009-11-21 17:09:54Z dvbellet $.
@@ -30,7 +31,7 @@ use ADOConnection;
  * @author Davide Bellettini <dvbellet@users.sourceforge.net>
  * @license GNU General Public License
  */
-class Acquisto extends Db
+class Acquisto extends ActiveRecord
 {
     public $books;
     public $ID;

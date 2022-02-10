@@ -38,11 +38,6 @@ class Book extends ActiveRecord
         $this->setValutazione(false);
     }
 
-    public function _getDb()
-    {
-        return $this->_db;
-    }
-
     public function checkFields($fields)
     {
         if ($this->isValidISBN($fields['ISBN']) && strlen($fields['Titolo']) > 0) {

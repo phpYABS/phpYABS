@@ -33,7 +33,7 @@ use const PATH_TEMPLATES;
  */
 class Acquisto extends ActiveRecord
 {
-    public $books;
+    private array $books;
     public $ID;
 
     public function __construct(ADOConnection $connection = null)

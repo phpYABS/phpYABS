@@ -17,8 +17,11 @@ return (new PhpCsFixer\Config())
     ])
     ->setFinder(
         PhpCsFixer\Finder::create()
+            ->in(__DIR__ . '/application/includes')
+            ->in(__DIR__ . '/application/modules')
+            ->in(__DIR__ . '/application/templates')
+            ->in(__DIR__ . '/bin')
             ->in(__DIR__ . '/src')
             ->in(__DIR__ . '/tests')
-            ->in(__DIR__ . '/bin')
     )
 ;

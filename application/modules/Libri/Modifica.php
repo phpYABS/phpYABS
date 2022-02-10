@@ -1,5 +1,6 @@
 <?php
 use PhpYabs\DB\Book;
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -24,40 +25,41 @@ document.form1.ISBN.focus()
   </form>
 </div>
 <?php } else {
-      $modbook=new Book();
+      $modbook = new Book();
 
-     $fields=Array("ISBN" => $_GET['ISBN'],  "Titolo" => $_GET['Titolo'], "Autore" => $_GET['Autore'],
-     "Editore" => $_GET['Editore'], "Prezzo" => $_GET['Prezzo']);
+      $fields = ['ISBN' => $_GET['ISBN'],  'Titolo' => $_GET['Titolo'], 'Autore' => $_GET['Autore'],
+          'Editore' => $_GET['Editore'], 'Prezzo' => $_GET['Prezzo'], ];
 
-     $modbook->SetFields($fields);
-     $modbook->SetValutazione($_GET['Valutazione']);
+      $modbook->SetFields($fields);
+      $modbook->SetValutazione($_GET['Valutazione']);
 
-     if($modbook->SaveToDB())
-       echo "<p align=\"center\">Libro modificato!</p>";
+      if ($modbook->SaveToDB()) {
+          echo '<p align="center">Libro modificato!</p>';
+      }
 
-        $modbook->GetFromDB($_GET['ISBN']);
+      $modbook->GetFromDB($_GET['ISBN']);
 
-     if (list($ISBN,$Titolo,$Autore,$Editore,$Prezzo)=$modbook->GetFields()) {
-        $valutazione=$modbook->GetValutazione();
-        switch ($valutazione) {
+      if ([$ISBN, $Titolo, $Autore, $Editore, $Prezzo] = $modbook->GetFields()) {
+          $valutazione = $modbook->GetValutazione();
+          switch ($valutazione) {
           default:
-            $selnull="selected";
+            $selnull = 'selected';
             break;
           case 'zero':
-            $selzero="selected";
+            $selzero = 'selected';
             break;
           case 'rotmed':
-            $selrotmed="selected";
+            $selrotmed = 'selected';
             break;
           case 'rotsup':
-            $selrotsup="selected";
+            $selrotsup = 'selected';
             break;
           case 'buono':
-            $selbuono="selected";
+            $selbuono = 'selected';
             break;
         }
 
-        include PATH_TEMPLATES.'/oldones/libri/tabmod.php';
+          include PATH_TEMPLATES . '/oldones/libri/tabmod.php';
       } else { ?>
 <p align="center">Libro non trovato</p>
 <?php

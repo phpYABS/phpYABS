@@ -1,5 +1,6 @@
 <?php
 use PhpYabs\DB\Book;
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -17,34 +18,34 @@ use PhpYabs\DB\Book;
   ISBN
   <input type="text" name="ISBN">
   <input type="submit" name="Invia" value="Ok">
-  <input type="hidden" name="Nome" value="<?=$_GET['Nome']?>">
-  <input type="hidden" name="Azione" value="<?=$_GET['Azione']?>">
+  <input type="hidden" name="Nome" value="<?php echo $_GET['Nome']; ?>">
+  <input type="hidden" name="Azione" value="<?php echo $_GET['Azione']; ?>">
 </form>
   <script language="JavaScript" type="text/javascript">
     document.form1.ISBN.focus();
   </script>
 </div>
 <?php } else {
-
-    $delbook=new Book();
+    $delbook = new Book();
     $delbook->GetFromDB($_GET['ISBN']);
 
-    if ($_GET['cancella']=="on") {
+    if ('on' == $_GET['cancella']) {
         $delbook->Delete();
-        echo "<p>Libro Cancellato!</p>";
-    } elseif (list($ISBN, $Titolo, $Autore, $Editore,$Prezzo)=$delbook->GetFields()) {
-      $ISBN=$delbook->GetFullISBN();
+        echo '<p>Libro Cancellato!</p>';
+    } elseif ([$ISBN, $Titolo, $Autore, $Editore, $Prezzo] = $delbook->GetFields()) {
+        $ISBN = $delbook->GetFullISBN();
 
-      $Valutazione=$delbook->GetValutazione();
+        $Valutazione = $delbook->GetValutazione();
 
-      if($Valutazione=="")
-        $Valutazione="&nbsp;";
+        if ('' == $Valutazione) {
+            $Valutazione = '&nbsp;';
+        }
 
-      include PATH_TEMPLATES.'/oldones/libri/tabdel.php';
+        include PATH_TEMPLATES . '/oldones/libri/tabdel.php';
     } else {
-      echo "<p align=\"center\">Libro ".$delbook->GetFullIsbn()." non trovato!</p>";
+        echo '<p align="center">Libro ' . $delbook->GetFullIsbn() . ' non trovato!</p>';
     }
-  }
+}
 ?>
 </body>
 </html>

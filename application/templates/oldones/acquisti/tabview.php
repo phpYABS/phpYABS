@@ -2,48 +2,48 @@
 <table width="590" border="1" align="center">
   <tr>
     <th width="80">N</th>
-    <td><?=$numero?></td>
+    <td><?php echo $numero; ?></td>
   </tr>
   <tr>
     <th width="80">ISBN:</th>
-    <td><?=$ISBN?></td>
+    <td><?php echo $ISBN; ?></td>
   </tr>
   <tr>
     <th width="80">Titolo:</th>
-    <td><?=$Titolo?></td>
+    <td><?php echo $Titolo; ?></td>
   </tr>
   <tr>
     <th width="80">Autore:</th>
-    <td><?=$Autore?></td>
+    <td><?php echo $Autore; ?></td>
   </tr>
   <tr>
     <th width="80">Editore:</th>
-    <td><?=$Editore?></td>
+    <td><?php echo $Editore; ?></td>
   </tr>
   <tr>
     <th width="80">Prezzo:</th>
-    <td><?=$Prezzo?></td>
+    <td><?php echo $Prezzo; ?></td>
   </tr>
   <tr>
     <th width="80">Valutazione:</th>
-    <td><u><?=$Valutazione?></u></td>
+    <td><u><?php echo $Valutazione; ?></u></td>
   </tr>
   <tr>
     <th width="80">Buono:</th>
-    <td><?=$Buono?></td>
+    <td><?php echo $Buono; ?></td>
   </tr>
   <tr>
     <th width="80">Contanti:</th>
-    <td><?=$Contanti?></td>
+    <td><?php echo $Contanti; ?></td>
   </tr>
   <tr>
     <th width="80">Dest:</th>
-    <td><?=$dest?></td>
+    <td><?php echo $dest; ?></td>
   </tr>
   <tr>
     <th width="80">Cancella:</th>
-    <td><a href="modules.php?Nome=Acquisti&Azione=Acquisto&Cancella=<?=$IdLibro?>">Cancella</a>
-    <a href="modules.php?Nome=Libri&Azione=Modifica&ISBN=<?=$sISBN?>">Modifica</a></td>
+    <td><a href="modules.php?Nome=Acquisti&Azione=Acquisto&Cancella=<?php echo $IdLibro; ?>">Cancella</a>
+    <a href="modules.php?Nome=Libri&Azione=Modifica&ISBN=<?php echo $sISBN; ?>">Modifica</a></td>
   </tr>
 </table>
 </p>

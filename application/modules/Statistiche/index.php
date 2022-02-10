@@ -1,31 +1,31 @@
 <?php
   //conto gli acquisti
-  $rset=$conn->Execute("SELECT COUNT(IdAcquisto) FROM ".$prefix."_acquisti");
-  list($nacquisti)=$rset->fields;
+  $rset = $conn->Execute('SELECT COUNT(IdAcquisto) FROM ' . $prefix . '_acquisti');
+  [$nacquisti] = $rset->fields;
   $rset->Close();
 
   //conto i libri acquistati
-  $rset=$conn->Execute("SELECT COUNT(*) FROM ".$prefix."_acquisti");
-  list($libriacq)=$rset->fields;
+  $rset = $conn->Execute('SELECT COUNT(*) FROM ' . $prefix . '_acquisti');
+  [$libriacq] = $rset->fields;
   $rset->Close();
 
   //conto i libri non trovati
-  $rset=$conn->Execute("SELECT COUNT(ISBN) FROM ".$prefix."_hits WHERE trovato='no'");
-  list($nerrori)=$rset->fields;
+  $rset = $conn->Execute('SELECT COUNT(ISBN) FROM ' . $prefix . "_hits WHERE trovato='no'");
+  [$nerrori] = $rset->fields;
   $rset->Close();
 
   //conto gli spari totali
-  $rset=$conn->Execute("SELECT SUM(hits) FROM ".$prefix."_hits");
-  list($totspari)=$rset->fields;
+  $rset = $conn->Execute('SELECT SUM(hits) FROM ' . $prefix . '_hits');
+  [$totspari] = $rset->fields;
   $rset->Close();
 
   //conto gli spari falliti
-  $rset=$conn->Execute("SELECT SUM(hits) FROM ".$prefix."_hits WHERE trovato='no'");
-  list($errspari)=$rset->fields;
+  $rset = $conn->Execute('SELECT SUM(hits) FROM ' . $prefix . "_hits WHERE trovato='no'");
+  [$errspari] = $rset->fields;
   $rset->Close();
 
   //calcolo gli spari con successo
-  $spariok=$totspari-$errspari;
+  $spariok = $totspari - $errspari;
 ?>
 <html>
 <head>

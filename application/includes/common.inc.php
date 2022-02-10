@@ -1,8 +1,9 @@
 <?php
+
 // vim: set shiftwidth=4 tabstop=4 expandtab cindent :
 
 /**
- * $Id: file-header.php 299 2009-11-21 17:09:54Z dvbellet $
+ * $Id: file-header.php 299 2009-11-21 17:09:54Z dvbellet $.
  *
  * phpYABS - Web-based book management
  * Copyright (C) 2009 Davide Bellettini
@@ -20,16 +21,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 require_once __DIR__ . '/config.inc.php';
 
 //starting session
 session_start();
 
-$loader = require __DIR__ .'/../../vendor/autoload.php';
+$loader = require __DIR__ . '/../../vendor/autoload.php';
 
 global $conn;
-$conn=ADONewConnection('pdo');
+$conn = ADONewConnection('pdo');
 assert($conn instanceof ADOConnection);
 
 $conn->PConnect(getenv('DB_URL'), getenv('DB_USER'), getenv('DB_PASS'));

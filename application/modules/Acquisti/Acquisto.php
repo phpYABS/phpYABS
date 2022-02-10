@@ -2,27 +2,27 @@
 //se c'è una richiesta di nuovo acquisto, elimino il precedente
 use PhpYabs\DB\Acquisto;
 
-if ($_GET['Azione']=='Nuovo') {
+if ('Nuovo' == $_GET['Azione']) {
     unset($_SESSION['IdAcquisto']);
     unset($_SESSION['totalec']);
     unset($_SESSION['totaleb']);
 }
 
-$acquisto=new Acquisto();
+$acquisto = new Acquisto();
 if (isset($_GET['IdAcquisto'])) {
     if (!$acquisto->SetID($_GET['IdAcquisto'])) {
-        $errmsg="L'acquisto ".$_GET['IdAcquisto']." non esiste!";
+        $errmsg = "L'acquisto " . $_GET['IdAcquisto'] . ' non esiste!';
     }
 } elseif (isset($_SESSION['IdAcquisto'])) {
     $acquisto->setId($_SESSION['IdAcquisto']);
 }
 
-$IdAcquisto=$_SESSION['IdAcquisto']=$acquisto->GetID();
+$IdAcquisto = $_SESSION['IdAcquisto'] = $acquisto->GetID();
 
-$trovato=true;
+$trovato = true;
 
 if (isset($_POST['newISBN'])) {
-    $trovato=($acquisto->addBook($_POST['newISBN']));
+    $trovato = ($acquisto->addBook($_POST['newISBN']));
 } elseif (isset($_GET['Cancella'])) {
     $acquisto->delBook($_GET['Cancella']);
 }
@@ -38,21 +38,24 @@ if (isset($_POST['newISBN'])) {
 <font face="Arial, Helvetica, sans-serif">
 <h1 align="center">Valutazione dei libri in acquisto</h1>
 <h2 align="center">Acquisto N° <?php echo $IdAcquisto; ?></h2>
-<?php if(isset($errmsg) && $errmsg) echo "<p align=\"center\"><font color=\"RED\">$errmsg</font></p>" ?>
+<?php if (isset($errmsg) && $errmsg) {
+    echo "<p align=\"center\"><font color=\"RED\">$errmsg</font></p>";
+} ?>
 <?php
   $acquisto->PrintAcquisto();
-  if(!$trovato)
-    echo "<script language=\"Javascript\">alert('Libro non trovato!');</script>";
-  $bill=$acquisto->GetBill();
+  if (!$trovato) {
+      echo "<script language=\"Javascript\">alert('Libro non trovato!');</script>";
+  }
+  $bill = $acquisto->GetBill();
 ?>
-<p align="center"><?php echo $acquisto->NumBook(); ?> Libri acquistati<br>Totale contanti: <?php echo $bill['totalec'] ?> &euro;
+<p align="center"><?php echo $acquisto->NumBook(); ?> Libri acquistati<br>Totale contanti: <?php echo $bill['totalec']; ?> &euro;
 &nbsp;&nbsp;&nbsp;&nbsp;Totale buono: <?php echo $bill['totaleb']; ?> &euro;
 &nbsp;&nbsp;&nbsp;&nbsp;Totale rottamazione: <?php echo $bill['totaler']; ?> &euro;</p>
 <div align="center">
-    <input type="hidden" name="Nome" value="<?=$_GET['Nome']?>">
-    <input type="hidden" name="Azione" value="<?=$_GET['Azione']?>">
-    <form action="<?php echo $_SERVER['PHP_SELF']."?Nome=".$_GET['Nome'].
-    "&Azione=Acquisto" ?>" method="post" name="libro">
+    <input type="hidden" name="Nome" value="<?php echo $_GET['Nome']; ?>">
+    <input type="hidden" name="Azione" value="<?php echo $_GET['Azione']; ?>">
+    <form action="<?php echo $_SERVER['PHP_SELF'] . '?Nome=' . $_GET['Nome'] .
+    '&Azione=Acquisto'; ?>" method="post" name="libro">
     ISBN o EAN
     <input name="newISBN" type="text" maxlength="13">
   <input type="submit" value="Ok">

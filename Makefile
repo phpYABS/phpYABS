@@ -41,11 +41,11 @@ composer-install:
 
 .PHONY: unit
 unit:
-	docker-compose exec php bin/phpunit --testsuite=unit
+	docker-compose exec php vendor/bin/phpunit --testsuite=unit
 
 .PHONY: phpunit
 phpunit:
-	docker-compose exec php bin/phpunit $(args)
+	docker-compose exec php vendor/bin/phpunit $(args)
 
 .PHONY: phpstan
 phpstan:

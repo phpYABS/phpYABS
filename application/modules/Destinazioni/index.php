@@ -1,9 +1,8 @@
 <?php
-  $mysql = db_connect();
+global $conn, $prefix;
 
-  $risultato = query('SELECT COUNT(*) FROM ' . $prefix . '_valutazioni');
-  [$totlibri] = mysql_fetch_row($risultato);
-  mysql_free_result($risultato);
+$risultato = $conn->query('SELECT COUNT(*) FROM ' . $prefix . '_valutazioni');
+$totlibri = $risultato->fetchField(0);
 
  if ('_NEW' != $_GET['destinazione']) {
      if (!isset($_GET['destinazione'])) {

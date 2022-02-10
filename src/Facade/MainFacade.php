@@ -57,6 +57,7 @@ class MainFacade extends AbstractFacade
     <p><a href="modules.php?Nome=Libri&Azione=Cancella">Cancella Libro</a></p>
     <?php } ?>
 <p><a href="modules.php?Nome=Acquisti&Azione=Elenco">Elenco Acquisti</a></p>
+<p><a href="modules.php?Nome=Destinazioni">Destinazioni</a></p>
 <p><a href="modules.php?Nome=Statistiche">Statistiche</a></p>
 <p><a href="/books" target="_blank">Elenco Libri</a></p>
 </BODY>

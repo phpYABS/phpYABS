@@ -31,6 +31,7 @@ use Slim\Factory\AppFactory;
 require_once __DIR__ . '/../application/includes/common.inc.php';
 $app = AppFactory::create();
 
+global $conn;
 $mainFacade = new MainFacade($conn);
 
 $app->any('/modules.php', [$mainFacade, 'modules']);

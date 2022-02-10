@@ -1,4 +1,5 @@
 <?php
+
 // vim: set shiftwidth=4 tabstop=4 expandtab cindent :
 
 /*
@@ -27,13 +28,13 @@
 use PhpYabs\Facade\MainFacade;
 use Slim\Factory\AppFactory;
 
-require_once __DIR__ .'/../application/includes/common.inc.php';
+require_once __DIR__ . '/../application/includes/common.inc.php';
 $app = AppFactory::create();
 
 $mainFacade = new MainFacade($conn);
 
-$app->any('/modules.php', array($mainFacade, 'modules'));
-$app->get('/menu.php', array($mainFacade, 'menu'));
-$app->get('/', array($mainFacade, 'index'));
+$app->any('/modules.php', [$mainFacade, 'modules']);
+$app->get('/menu.php', [$mainFacade, 'menu']);
+$app->get('/', [$mainFacade, 'index']);
 
 $app->run();

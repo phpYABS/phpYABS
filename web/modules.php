@@ -1,8 +1,9 @@
 <?php
+
 // vim: set shiftwidth=4 tabstop=4 expandtab cindent :
 
 /**
- * $Id: file-header.php 299 2009-11-21 17:09:54Z dvbellet $
+ * $Id: file-header.php 299 2009-11-21 17:09:54Z dvbellet $.
  *
  * phpYABS - Web-based book management
  * Copyright (C) 2009 Davide Bellettini
@@ -20,10 +21,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+require_once __DIR__ . '/../application/includes/common.inc.php';
 
-require_once __DIR__ .'/../application/includes/common.inc.php';
-
-if(!preg_match('/^[a-z0-9]+$/i', $module=$_REQUEST['Nome']))
-    die('Invalid module');
+if (!preg_match('/^[a-z0-9]+$/i', $module = $_REQUEST['Nome'])) {
+    exit('Invalid module');
+}
 
 require_once PATH_APPLICATION . "/modules/$module/index.php";

@@ -83,6 +83,7 @@ class Acquisto extends ActiveRecord
 
         if ($book->getFromDB($ISBN)) {
             $this->_db->Execute('INSERT INTO ' . $prefix . "_acquisti (IdAcquisto,ISBN) VALUES ('" . $this->ID . "','$ISBN')");
+
             return 'si';
         }
 

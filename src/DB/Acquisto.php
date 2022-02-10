@@ -160,8 +160,8 @@ class Acquisto extends ActiveRecord
                         $totaler += 1.00;
                         break;
                     case 'buono':
-                        $totaleb += round($book->fields['Prezzo'] / 3, 2);
-                        $totalec += round($book->fields['Prezzo'] / 4, 2);
+                        $totaleb += round($book->getFields()['Prezzo'] / 3, 2);
+                        $totalec += round($book->getFields()['Prezzo'] / 4, 2);
                         break;
                 }
             }

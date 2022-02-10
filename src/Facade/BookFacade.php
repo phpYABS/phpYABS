@@ -78,7 +78,7 @@ $addbook = new Book($this->getConnection());
             $book = new Book();
             $book->GetFromDB($rset->fields['ISBN']);
 
-            foreach ($book->fields as $chiave => $valore) {
+            foreach ($book->getFields() as $chiave => $valore) {
                 if (!is_numeric($chiave)) {
                     echo "<td>$valore</td>";
                 }

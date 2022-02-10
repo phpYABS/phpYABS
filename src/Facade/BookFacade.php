@@ -39,7 +39,7 @@ $addbook = new Book($this->getConnection());
 </body>
 </html>
 <?php
-        $response->getBody()->write(ob_get_clean());
+        $response->getBody()->write((string) ob_get_clean());
 
         return $response;
     }
@@ -78,7 +78,7 @@ $addbook = new Book($this->getConnection());
             $book = new Book();
             $book->GetFromDB($rset->fields['ISBN']);
 
-            foreach ($book->getFields() as $chiave => $valore) {
+            foreach ($book->getFields() ?: [] as $chiave => $valore) {
                 if (!is_numeric($chiave)) {
                     echo "<td>$valore</td>";
                 }
@@ -96,7 +96,7 @@ $addbook = new Book($this->getConnection());
     </BODY>
     </HTML>
 <?php
-        $response->getBody()->write(ob_get_clean());
+        $response->getBody()->write((string) ob_get_clean());
 
         return $response;
     }

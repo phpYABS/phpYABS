@@ -24,7 +24,7 @@ class MainFacade extends AbstractFacade
 
 <?php
 
-        $response->getBody()->write(ob_get_clean());
+        $response->getBody()->write((string) ob_get_clean());
 
         return $response;
     }
@@ -63,7 +63,7 @@ class MainFacade extends AbstractFacade
 </BODY>
 </HTML>
     <?php
-        $response->getBody()->write(ob_get_clean());
+        $response->getBody()->write((string) ob_get_clean());
 
         return $response;
     }
@@ -90,7 +90,7 @@ class MainFacade extends AbstractFacade
 
         include $file;
 
-        $response->getBody()->write(ob_get_clean());
+        $response->getBody()->write((string) ob_get_clean());
 
         return $response;
     }

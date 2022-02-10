@@ -3,18 +3,21 @@
 namespace PhpYabs\Facade;
 
 use PhpYabs\DB\Book;
+use Psr\Http\Message\RequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 
 class BookFacade extends AbstractFacade
 {
-    public function aggiungi()
+    public function aggiungi(Request $request, Response $response): Response
     {
+        ob_start();
         ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
 <title>Aggiungi libro</title>
-<link href="css/main.css" rel="stylesheet" type="text/css">
+<link href="/css/main.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <?php
@@ -37,12 +40,15 @@ $addbook = new Book($this->getConnection());
 </body>
 </html>
 <?php
+        $response->getBody()->write(ob_get_clean());
+
+        return $response;
     }
 
-    public function elenco()
+    public function elenco(Request $request, Response $response): Response
     {
-        ?>
-
+        ob_start();
+?>
     <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
     <HTML>
     <HEAD>
@@ -87,10 +93,13 @@ $addbook = new Book($this->getConnection());
         }
         echo '</table>';
 
-        echo '<a href="modules.php?Nome=Libri&Azione=Elenco&Limit=' . ($limit + 50) . '">Pagina ' . ($limit / 50 + 2) . '</a>'; ?>
+        echo '<a href="/books?Limit=' . ($limit + 50) . '">Pagina ' . ($limit / 50 + 2) . '</a>'; ?>
     <p><?php echo $count; ?> libri presenti.</p>
     </BODY>
     </HTML>
 <?php
+        $response->getBody()->write(ob_get_clean());
+
+        return $response;
     }
 }

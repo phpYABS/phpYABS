@@ -1,5 +1,5 @@
 <p>
-<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+<form method="POST">
 <table width="600" border="1" align="center">
   <tr>
     <th width="80">ISBN:</th>

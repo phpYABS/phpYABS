@@ -25,6 +25,7 @@
  * @license GNU GPL 3 or later
  */
 
+use PhpYabs\Facade\BookFacade;
 use PhpYabs\Facade\MainFacade;
 use Slim\Factory\AppFactory;
 
@@ -33,9 +34,12 @@ $app = AppFactory::create();
 
 global $conn;
 $mainFacade = new MainFacade($conn);
+$bookFacade = new BookFacade($conn);
 
 $app->any('/modules.php', [$mainFacade, 'modules']);
 $app->get('/menu.php', [$mainFacade, 'menu']);
 $app->get('/', [$mainFacade, 'index']);
+$app->any('/books', [$bookFacade, 'elenco']);
+$app->any('/books/add', [$bookFacade, 'aggiungi']);
 
 $app->run();

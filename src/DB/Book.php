@@ -297,22 +297,20 @@ class Book extends ActiveRecord
         return $EAN;
     }
 
-    public function EANCheck($EAN)
+    public function EANCheck(string $ean): int
     {
         $checksum = 0;
 
         for ($i = 2; $i <= 12; $i += 2) {
-            $checksum += substr($ean, $i - 1, 1);
+            $checksum += (int)substr($ean, $i - 1, 1);
         }
 
         $checksum *= 3;
 
         for ($i = 1; $i <= 11; $i += 2) {
-            $checksum += substr($ean, $i - 1, 1);
+            $checksum += (int)substr($ean, $i - 1, 1);
         }
 
-        $checksum = 10 - ($checksum % 10);
-
-        return $checksum;
+        return 10 - ($checksum % 10);
     }
 }

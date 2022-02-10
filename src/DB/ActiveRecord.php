@@ -29,27 +29,18 @@ use ADOConnection;
 /**
  * Base DB class.
  */
-class ActiveRecord
+abstract class ActiveRecord
 {
     /**
      * Database connection.
-     *
-     * @var ADOConnection
      */
-    protected $_db;
+    protected ADOConnection $_db;
 
     /**
      * Table prefix.
-     *
-     * @var string
      */
-    private $prefix = 'phpyabs';
+    private string $prefix = 'phpyabs';
 
-    /**
-     * Class constructor.
-     *
-     * @param ADOConnection $connection
-     */
     public function __construct(ADOConnection $connection = null)
     {
         if (is_null($connection)) {
@@ -65,7 +56,7 @@ class ActiveRecord
      *
      * @return string (e.g. phpyabs)
      */
-    protected function getPrefix()
+    protected function getPrefix(): string
     {
         return $this->prefix;
     }

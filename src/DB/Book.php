@@ -5,6 +5,7 @@
 namespace PhpYabs\DB;
 
 use ADOConnection;
+use ADORecordSet;
 
 /**
  * $Id: file-header.php 299 2009-11-21 17:09:54Z dvbellet $.
@@ -53,7 +54,7 @@ class Book extends ActiveRecord
      */
     public function setFields(array $fields): bool
     {
-        $fields['ISBN'] = $this->GetShortISBN($fields['ISBN']);
+        $fields['ISBN'] = (string) $this->GetShortISBN($fields['ISBN']);
 
         if ($this->CheckFields($fields)) {
             foreach ($fields as $key => $value) {
@@ -78,6 +79,16 @@ class Book extends ActiveRecord
         }
     }
 
+    public function getPrezzo(): ?float
+    {
+        $fields = $this->getFields();
+        if (!is_array($fields)) {
+            return null;
+        }
+
+        return (float) ($fields['Prezzo'] ?? 0.0);
+    }
+
     public function setValutazione(string|false $valutazione): void
     {
         switch ($valutazione) {
@@ -98,46 +109,34 @@ class Book extends ActiveRecord
         return $this->_valutazione;
     }
 
-    public function getBuono(): string
+    public function getBuono(): float
     {
         switch ($this->getValutazione()) {
             default:
             case 'zero':
-                $prezzoa = '0.00';
-                break;
+                return 0.0;
             case 'rotmed':
-                $prezzoa = '0.50';
-                break;
+                return 0.5;
             case 'rotsup':
-                $prezzoa = '1.00';
-                // no break
+                return 1.0;
             case 'buono':
-                $prezzoa = round($this->fields['Prezzo'] / 3, 2);
-                break;
+                return round($this->fields['Prezzo'] / 3, 2);
         }
-
-        return $prezzoa;
     }
 
-    public function getContanti(): string
+    public function getContanti(): float
     {
         switch ($this->getValutazione()) {
             default:
             case 'zero':
-                $prezzoa = '0.00';
-                break;
+                return 0.0;
             case 'rotmed':
-                $prezzoa = '0.50';
-                break;
+                return 0.5;
             case 'rotsup':
-                $prezzoa = '1.00';
-                break;
+                return 1.0;
             case 'buono':
-                $prezzoa = round($this->fields['Prezzo'] / 4, 2);
-                break;
+                return round($this->fields['Prezzo'] / 4, 2);
         }
-
-        return $prezzoa;
     }
 
     public function saveToDB(): bool
@@ -147,7 +146,7 @@ class Book extends ActiveRecord
         if ($this->checkFields($this->fields)) {
             $rset = $this->_db->Execute('SELECT * FROM ' . $prefix . "_libri WHERE ISBN='" . $this->fields['ISBN'] . "'");
 
-            if (!$rset->EOF) {
+            if ($rset instanceof ADORecordSet && !$rset->EOF) {
                 $updateSQL = $this->_db->GetUpdateSQL($rset, $this->fields);
                 if ($updateSQL) {
                     $this->_db->Execute($updateSQL);
@@ -160,14 +159,16 @@ class Book extends ActiveRecord
                 }
             }
 
-            $rset->Close();
+            if ($rset instanceof ADORecordSet) {
+                $rset->Close();
+            }
 
             if ($this->_valutazione) {
                 $valfields = ['ISBN' => $this->fields['ISBN'], 'Valutazione' => $this->_valutazione];
 
                 $rset = $this->_db->Execute('SELECT * FROM ' . $prefix . "_valutazioni WHERE ISBN='" . $this->fields['ISBN'] . "'");
 
-                if ($rset->RecordCount()) {
+                if ($rset instanceof ADORecordSet && !$rset->EOF) {
                     $updateSQL = $this->_db->GetUpdateSQL($rset, $valfields);
                     if ($updateSQL) {
                         $this->_db->Execute($updateSQL);
@@ -185,10 +186,13 @@ class Book extends ActiveRecord
         }
 
         $rset = $this->_db->Execute('SELECT ISBN FROM ' . $prefix . "_libri WHERE ISBN='" . $this->fields['ISBN'] . "'");
-        $esiste = $rset->RecordCount();
-        $rset->Close();
+        if ($rset instanceof ADORecordSet) {
+            $rset->Close();
 
-        return $esiste > 0;
+            return !$rset->EOF;
+        }
+
+        return false;
     }
 
     //carica i dati dal database, specificato l'isbn
@@ -198,25 +202,30 @@ class Book extends ActiveRecord
 
         $ISBN = $this->getShortISBN($ISBN);
 
-        if ($this->isValidISBN($ISBN)) {
+        if ($ISBN && $this->isValidISBN($ISBN)) {
             $rset = $this->_db->Execute('SELECT ISBN, Titolo, Autore, Editore, Prezzo FROM ' . $prefix . "_libri WHERE ISBN='$ISBN'");
-            $this->SetFields($rset->fields);
+            if (!$rset instanceof ADORecordSet) {
+                return false;
+            }
+            $fields = $rset->fields;
 
-            if ($rset->RecordCount()) {
-                $rset->Close();
-
-                $rset = $this->_db->Execute('SELECT valutazione FROM ' . $prefix . "_valutazioni WHERE ISBN='$ISBN'");
-
-                [$Valutazione] = $rset->fields;
-                $rset->Close();
-                $this->setValutazione($Valutazione);
-
-                return true;
-            } else {
+            if (!is_array($fields) || 0 === $rset->NumRows()) {
                 $rset->Close();
 
                 return false;
             }
+
+            $this->SetFields($fields);
+
+            $rset = $this->_db->Execute('SELECT valutazione FROM ' . $prefix . "_valutazioni WHERE ISBN='$ISBN'");
+            $Valutazione = $this->fetchStringColumn($rset) ?: false;
+            $this->setValutazione($Valutazione);
+
+            if ($rset instanceof ADORecordSet) {
+                $rset->Close();
+            }
+
+            return is_string($Valutazione);
         } else {
             return false;
         }
@@ -281,10 +290,10 @@ class Book extends ActiveRecord
             $checksum = 'X';
         }
 
-        return $checksum;
+        return (string) $checksum;
     }
 
-    public function getEAN(string $ISBN = null): string
+    public function getEAN(string $ISBN = null): string|false
     {
         if (null === $ISBN) {
             $ISBN = $this->fields['ISBN'];

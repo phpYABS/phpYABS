@@ -32,7 +32,8 @@ use PhpYabs\DB\Book;
     if ('on' == $_GET['cancella']) {
         $delbook->Delete();
         echo '<p>Libro Cancellato!</p>';
-    } elseif ([$ISBN, $Titolo, $Autore, $Editore, $Prezzo] = $delbook->GetFields()) {
+    } elseif ($f = $delbook->GetFields()) {
+        [$ISBN, $Titolo, $Autore, $Editore, $Prezzo] = $f;
         $ISBN = $delbook->GetFullISBN();
 
         $Valutazione = $delbook->GetValutazione();

@@ -39,7 +39,8 @@ document.form1.ISBN.focus()
 
       $modbook->GetFromDB($_GET['ISBN']);
 
-      if ([$ISBN, $Titolo, $Autore, $Editore, $Prezzo] = $modbook->GetFields()) {
+      if ($f = $modbook->GetFields()) {
+          [$ISBN, $Titolo, $Autore, $Editore, $Prezzo] = $f;
           $valutazione = $modbook->GetValutazione();
           switch ($valutazione) {
           default:

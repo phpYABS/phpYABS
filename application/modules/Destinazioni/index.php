@@ -2,7 +2,7 @@
 global $conn, $prefix;
 
 $risultato = $conn->query('SELECT COUNT(*) FROM ' . $prefix . '_valutazioni');
-$totlibri = $risultato->fetchField(0);
+[$totlibri] = $risultato?->fields ?? 0;
 
  if ('_NEW' != $_GET['destinazione']) {
      if (!isset($_GET['destinazione'])) {

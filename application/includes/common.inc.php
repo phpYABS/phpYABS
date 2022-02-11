@@ -32,4 +32,8 @@ global $conn;
 $conn = ADONewConnection('pdo');
 assert($conn instanceof ADOConnection);
 
-$conn->PConnect(getenv('DB_URL'), getenv('DB_USER'), getenv('DB_PASS'));
+$conn->PConnect(
+    (string) getenv('DB_URL'),
+    (string) getenv('DB_USER'),
+    (string) getenv('DB_PASS')
+);

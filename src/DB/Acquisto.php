@@ -5,6 +5,7 @@
 namespace PhpYabs\DB;
 
 use ADOConnection;
+use ADORecordSet;
 use const PATH_TEMPLATES;
 
 /**
@@ -43,8 +44,7 @@ class Acquisto extends ActiveRecord
         $conn = $this->_db;
 
         $rset = $conn->Execute('SELECT MAX(IdAcquisto) FROM ' . $prefix . '_acquisti');
-        [$IdAcquisto] = $rset->fields;
-        $rset->Close();
+        $IdAcquisto = $this->fetchColumn($rset) ?? 0;
 
         $this->ID = $IdAcquisto + 1;
     }
@@ -58,21 +58,21 @@ class Acquisto extends ActiveRecord
     {
         global $prefix;
 
-        if ($ID != $this->ID) {
-            $rset = $this->_db->Execute('SELECT * FROM ' . $prefix . "_acquisti WHERE IdAcquisto='$ID'");
-
-            if (!$rset->EOF) {
-                $this->ID = $ID;
-                $ok = true;
-            } else {
-                $ok = false;
-            }
-            $rset->Close();
-        } else {
-            $ok = true;
+        if ($ID === $this->ID) {
+            return true;
         }
 
-        return $ok;
+        $rset = $this->_db->Execute('SELECT * FROM ' . $prefix . "_acquisti WHERE IdAcquisto='$ID'");
+        if ($rset instanceof ADORecordSet) {
+            if ($ok = !$rset->EOF) {
+                $this->ID = $ID;
+            }
+            $rset->Close();
+
+            return $ok;
+        }
+
+        return false;
     }
 
     public function addBook(string $ISBN): string
@@ -108,21 +108,24 @@ class Acquisto extends ActiveRecord
         global $prefix;
         $rset = $this->_db->Execute('SELECT * FROM ' . $prefix . "_acquisti WHERE IdAcquisto='" . $this->ID . "'");
 
-        return $rset->RecordCount();
+        return $rset instanceof ADORecordSet ? $rset->RecordCount() : 0;
     }
 
     public function printAcquisto(): void
     {
         global $prefix;
         $rset = $this->_db->Execute('SELECT IdLibro, ISBN FROM ' . $prefix . "_acquisti WHERE IdAcquisto='" . $this->ID . "'");
-        $numero = 1;
 
-        while (!$rset->EOF) {
-            [$IdLibro, $ISBN] = $rset->fields;
+        if (!$rset instanceof ADORecordSet) {
+            return;
+        }
+
+        $numero = 1;
+        foreach ($rset as [$IdLibro, $ISBN]) {
             $book = new Book();
 
-            if ($book->getFromDB($ISBN)) {
-                [$ISBN, $Titolo, $Autore, $Editore, $Prezzo] = $book->GetFields();
+            if ($book->getFromDB($ISBN) && is_array($fields = $book->getFields())) {
+                [$ISBN, $Titolo, $Autore, $Editore, $Prezzo] = $fields;
                 $sISBN = $ISBN;
                 $ISBN = $book->GetFullISBN();
                 $Valutazione = $book->GetValutazione();
@@ -138,37 +141,37 @@ class Acquisto extends ActiveRecord
     }
 
     /**
-     * @return array<float>
+     * @return array<string,float>
      */
     public function getBill(): array
     {
         global $prefix;
 
-        $totaleb = '0.00';
-        $totalec = '0.00';
-        $totaler = '0.00';
+        $totaleb = $totalec = $totaler = 0.0;
 
         $rset = $this->_db->Execute('SELECT ISBN From ' . $prefix . "_acquisti WHERE IdAcquisto ='" . $this->ID . "'");
+        if (!$rset instanceof ADORecordSet) {
+            $rset = [];
+        }
 
-        while (!$rset->EOF) {
+        foreach ($rset as $fields) {
             $book = new Book();
 
-            if ($book->GetFromDB($rset->fields['ISBN'])) {
+            if ($book->GetFromDB($fields['ISBN'])) {
                 switch ($book->getValutazione()) {
                     case 'rotmed':
                         $totaler += 0.5;
                         break;
                     case 'rotsup':
-                        $totaler += 1.00;
+                        $totaler += 1.0;
                         break;
                     case 'buono':
-                        $totaleb += round($book->getFields()['Prezzo'] / 3, 2);
-                        $totalec += round($book->getFields()['Prezzo'] / 4, 2);
+                        $prezzo = $book->getPrezzo();
+                        $totaleb += round($prezzo / 3, 2);
+                        $totalec += round($prezzo / 4, 2);
                         break;
                 }
             }
-
-            $rset->MoveNext();
         }
 
         return ['totaleb' => $totaleb, 'totalec' => $totalec, 'totaler' => $totaler];

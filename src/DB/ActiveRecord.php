@@ -5,6 +5,7 @@
 namespace PhpYabs\DB;
 
 use ADOConnection;
+use ADORecordSet;
 
 /**
  * phpYABS - Web-based book management
@@ -59,5 +60,37 @@ abstract class ActiveRecord
     protected function getPrefix(): string
     {
         return $this->prefix;
+    }
+
+    /**
+     * @param ADORecordSet<array>|bool $recordSet
+     * @param int $column
+     * @return mixed
+     */
+    protected function fetchColumn(ADORecordSet|bool $recordSet, int $column = 0): mixed
+    {
+        if (!$recordSet instanceof ADORecordSet) {
+            return null;
+        }
+
+        $row = $recordSet->FetchRow();
+        if (!is_array($row)) {
+            return null;
+        }
+
+        return $row[$column];
+    }
+
+    /**
+     * @param ADORecordSet<array>|bool $recordSet
+     */
+    protected function fetchStringColumn(ADORecordSet|bool $recordSet, int $column = 0): ?string
+    {
+        $column = $this->fetchColumn($recordSet, $column);
+        if (is_scalar($column)) {
+            return (string) $column;
+        }
+
+        return null;
     }
 }

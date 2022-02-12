@@ -4,26 +4,29 @@ global $conn, $prefix;
 $risultato = $conn->query('SELECT COUNT(*) FROM ' . $prefix . '_valutazioni');
 [$totlibri] = $risultato?->fields ?? 0;
 
- if ('_NEW' != $_GET['destinazione']) {
-     if (!isset($_GET['destinazione'])) {
-         $destinazione = $_COOKIE['destinazione'];
-     } else {
-         $destinazione = $_GET['destinazione'];
-     }
-     if (!isset($_GET['start'])) {
-         $get_start = $_COOKIE['start'];
-     } else {
-         $get_start = $_GET['start'];
-     }
- } else {
-     $get_start = 0;
-     $destinazione = '';
- }
+$get_start = 0;
+$destinazione = '';
+
+if ('_NEW' !== ($_GET['destinazione'] ?? '')) {
+    foreach ([$_GET, $_COOKIE] as $arr) {
+        if (isset($arr['destinazione'])) {
+            $destinazione = $arr['destinazione'];
+            break;
+        }
+    }
+
+    foreach ([$_GET, $_COOKIE] as $arr) {
+        if (isset($arr['start'])) {
+            $get_start = $arr['start'];
+            break;
+        }
+    }
+}
 
  setcookie('start', $get_start, time() + 604800);
  setcookie('destinazione', $destinazione, time() + 604800);
 
- switch ($_GET['invia']) {
+ switch ($_GET['invia'] ?? '') {
    case 'Avanti':
      $start = $get_start + 50;
      if ($start > $totlibri) {

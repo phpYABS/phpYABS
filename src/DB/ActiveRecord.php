@@ -6,6 +6,7 @@ namespace PhpYabs\DB;
 
 use ADOConnection;
 use ADORecordSet;
+use Doctrine\DBAL\Connection;
 
 /**
  * phpYABS - Web-based book management
@@ -41,15 +42,22 @@ abstract class ActiveRecord
      * Table prefix.
      */
     private string $prefix = 'phpyabs';
+    private Connection $dbalConnection;
 
-    public function __construct(ADOConnection $connection = null)
+    public function __construct(ADOConnection $connection = null, Connection $dbalConnection = null)
     {
         if (is_null($connection)) {
             global $conn;
             $connection = $conn;
         }
 
+        if (is_null($dbalConnection)) {
+            global $dbal;
+            $dbalConnection = $dbal;
+        }
+
         $this->_db = $connection;
+        $this->dbalConnection = $dbalConnection;
     }
 
     /**
@@ -79,9 +87,6 @@ abstract class ActiveRecord
         return $row[$column];
     }
 
-    /**
-     * @param ADORecordSet<array>|bool $recordSet
-     */
     protected function fetchStringColumn(ADORecordSet|bool $recordSet, int $column = 0): ?string
     {
         $column = $this->fetchColumn($recordSet, $column);
@@ -90,5 +95,10 @@ abstract class ActiveRecord
         }
 
         return null;
+    }
+
+    protected function getDbalConnection(): Connection
+    {
+        return $this->dbalConnection;
     }
 }

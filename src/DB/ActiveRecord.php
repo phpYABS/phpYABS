@@ -64,8 +64,6 @@ abstract class ActiveRecord
 
     /**
      * @param ADORecordSet<array>|bool $recordSet
-     * @param int $column
-     * @return mixed
      */
     protected function fetchColumn(ADORecordSet|bool $recordSet, int $column = 0): mixed
     {

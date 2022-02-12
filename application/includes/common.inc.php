@@ -21,6 +21,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+use Doctrine\DBAL\Configuration;
+use Doctrine\DBAL\DriverManager;
+
 require_once __DIR__ . '/config.inc.php';
 
 //starting session
@@ -37,3 +41,10 @@ $conn->PConnect(
     (string) getenv('DB_USER'),
     (string) getenv('DB_PASS')
 );
+
+global $dbal;
+$pdo = $conn->_connectionID;
+assert($pdo instanceof PDO);
+$driver = 'pdo_' . $pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
+
+$dbal = DriverManager::getConnection(compact('pdo', 'driver'));

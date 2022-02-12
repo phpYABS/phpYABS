@@ -22,7 +22,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 
 require_once __DIR__ . '/config.inc.php';

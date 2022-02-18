@@ -32,9 +32,9 @@ use Slim\Factory\AppFactory;
 require_once __DIR__ . '/../application/includes/common.inc.php';
 $app = AppFactory::create();
 
-global $conn;
-$mainFacade = new MainFacade($conn);
-$bookFacade = new BookFacade($conn);
+global $conn, $dbal;
+$mainFacade = new MainFacade($conn, $dbal);
+$bookFacade = new BookFacade($conn, $dbal);
 
 $app->any('/modules.php', [$mainFacade, 'modules']);
 $app->get('/menu.php', [$mainFacade, 'menu']);

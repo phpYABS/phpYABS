@@ -20,7 +20,7 @@ class BookFacade extends AbstractFacade
 </head>
 <body>
 <?php
-$addbook = new Book($this->getConnection());
+$addbook = new Book($this->getADOConnection());
         if ('POST' !== $_SERVER['REQUEST_METHOD'] || !$addbook->IsValidISBN($_POST['ISBN'])) {
             include PATH_TEMPLATES . '/oldones/libri/tabadd.php';
         } else {

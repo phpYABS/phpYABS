@@ -3,6 +3,7 @@ FROM php:8.1-apache
 RUN apt-get update &&\
     apt-get install -y \
     mariadb-client \
+    libicu-dev \
     git \
     zip \
     unzip \
@@ -10,7 +11,9 @@ RUN apt-get update &&\
     apt-get clean &&\
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN docker-php-ext-install pdo_mysql
+RUN docker-php-ext-install\
+    pdo_mysql\
+    intl
 
 ENV CONFIG docker/config
 

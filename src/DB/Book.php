@@ -46,7 +46,7 @@ class Book extends ActiveRecord
      */
     public function checkFields(array $fields): bool
     {
-        return $this->isValidISBN($fields['ISBN']) && strlen($fields['Titolo']) > 0;
+        return static::isValidISBN($fields['ISBN']) && strlen($fields['Titolo']) > 0;
     }
 
     /**
@@ -54,7 +54,7 @@ class Book extends ActiveRecord
      */
     public function setFields(array $fields): bool
     {
-        $fields['ISBN'] = (string) $this->GetShortISBN($fields['ISBN']);
+        $fields['ISBN'] = (string) static::GetShortISBN($fields['ISBN']);
 
         if ($this->CheckFields($fields)) {
             foreach ($fields as $key => $value) {
@@ -111,32 +111,22 @@ class Book extends ActiveRecord
 
     public function getBuono(): float
     {
-        switch ($this->getValutazione()) {
-            default:
-            case 'zero':
-                return 0.0;
-            case 'rotmed':
-                return 0.5;
-            case 'rotsup':
-                return 1.0;
-            case 'buono':
-                return round($this->fields['Prezzo'] / 3, 2);
-        }
+        return match ($this->getValutazione()) {
+            'rotmed' => 0.5,
+            'rotsup' => 1.0,
+            'buono' => round($this->fields['Prezzo'] / 3, 2),
+            default => 0.0,
+        };
     }
 
     public function getContanti(): float
     {
-        switch ($this->getValutazione()) {
-            default:
-            case 'zero':
-                return 0.0;
-            case 'rotmed':
-                return 0.5;
-            case 'rotsup':
-                return 1.0;
-            case 'buono':
-                return round($this->fields['Prezzo'] / 4, 2);
-        }
+        return match ($this->getValutazione()) {
+            'rotmed' => 0.5,
+            'rotsup' => 1.0,
+            'buono' => round($this->fields['Prezzo'] / 4, 2),
+            default => 0.0,
+        };
     }
 
     public function saveToDB(): bool
@@ -200,9 +190,9 @@ class Book extends ActiveRecord
     {
         global $prefix;
 
-        $ISBN = $this->getShortISBN($ISBN);
+        $ISBN = static::getShortISBN($ISBN);
 
-        if ($ISBN && $this->isValidISBN($ISBN)) {
+        if ($ISBN && static::isValidISBN($ISBN)) {
             $rset = $this->_db->Execute('SELECT ISBN, Titolo, Autore, Editore, Prezzo FROM ' . $prefix . "_libri WHERE ISBN='$ISBN'");
             if (!$rset instanceof ADORecordSet) {
                 return false;
@@ -236,7 +226,7 @@ class Book extends ActiveRecord
         global $prefix;
 
         $ISBN = $this->fields['ISBN'];
-        if ($this->IsValidISBN($ISBN)) {
+        if (static::IsValidISBN($ISBN)) {
             $this->_db->Execute('DELETE FROM ' . $prefix . "_libri WHERE ISBN = '$ISBN'");
             $this->_db->Execute('DELETE FROM ' . $prefix . "_valutazioni WHERE ISBN = '$ISBN'");
             $this->_db->Execute('DELETE FROM ' . $prefix . "_destinazioni WHERE ISBN = '$ISBN'");
@@ -299,7 +289,7 @@ class Book extends ActiveRecord
             $ISBN = $this->fields['ISBN'];
         }
 
-        if ($this->GetShortISBN($ISBN)) {
+        if (static::GetShortISBN($ISBN)) {
             $EAN = '978' . $ISBN;
             $EAN .= $this->EANCheck($EAN);
         } else {

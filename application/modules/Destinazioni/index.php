@@ -10,7 +10,7 @@ $destinazione = '';
 if ('_NEW' !== ($_GET['destinazione'] ?? '')) {
     foreach ([$_GET, $_COOKIE] as $arr) {
         if (isset($arr['destinazione'])) {
-            $destinazione = $arr['destinazione'];
+            $destinazione = (string) $arr['destinazione'];
             break;
         }
     }
@@ -23,8 +23,8 @@ if ('_NEW' !== ($_GET['destinazione'] ?? '')) {
     }
 }
 
- setcookie('start', $get_start, time() + 604800);
- setcookie('destinazione', $destinazione, time() + 604800);
+ setcookie('start', $get_start, ['expires' => time() + 604800]);
+ setcookie('destinazione', $destinazione, ['expires' => time() + 604800]);
 
  switch ($_GET['invia'] ?? '') {
    case 'Avanti':
@@ -40,7 +40,7 @@ if ('_NEW' !== ($_GET['destinazione'] ?? '')) {
        }
        break;
      default:
-       if (strlen($get_start) > 0) {
+       if (strlen((string) $get_start) > 0) {
            $start = $get_start;
        } else {
            $start = 0;
@@ -120,8 +120,8 @@ if ('_NEW' !== ($_GET['destinazione'] ?? '')) {
         </td>
       <?php
       $risultati[0] = fullisbn($risultati[0]);
-            for ($i = 0; $i < count($risultati); ++$i) {
-                if (strlen($risultati[$i]) < 1) {
+            for ($i = 0; $i < (is_countable($risultati) ? count($risultati) : 0); ++$i) {
+                if (strlen((string) $risultati[$i]) < 1) {
                     $risultati[$i] = '&nbsp;';
                 } else {
                     $risultati[$i] = htmlentities($risultati[$i]);

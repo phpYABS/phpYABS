@@ -73,7 +73,7 @@ class MainFacade extends AbstractFacade
         ob_start();
 
         $module = $request->getQueryParams()['Nome'] ?? '';
-        if (!preg_match('/^[a-z0-9]+$/i', $module)) {
+        if (!preg_match('/^[a-z0-9]+$/i', (string) $module)) {
             $module = '---';
         }
 

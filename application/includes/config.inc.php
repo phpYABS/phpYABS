@@ -23,7 +23,7 @@
  */
 $DS = DIRECTORY_SEPARATOR;
 
-define('PATH_ROOT', realpath(dirname(__FILE__) . '/../..'));
+define('PATH_ROOT', realpath(__DIR__ . '/../..'));
 
 define('PATH_APPLICATION', PATH_ROOT . $DS . 'application');
 define('PATH_TEMPLATES', PATH_APPLICATION . $DS . 'templates');

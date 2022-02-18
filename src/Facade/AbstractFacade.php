@@ -14,11 +14,8 @@ use ADOConnection;
  */
 abstract class AbstractFacade
 {
-    private ADOConnection $connection;
-
-    public function __construct(ADOConnection $connection)
+    public function __construct(private readonly ADOConnection $connection)
     {
-        $this->connection = $connection;
     }
 
     protected function getConnection(): ADOConnection

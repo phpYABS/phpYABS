@@ -43,9 +43,6 @@ document.form1.ISBN.focus()
           [$ISBN, $Titolo, $Autore, $Editore, $Prezzo] = $f;
           $valutazione = $modbook->GetValutazione();
           switch ($valutazione) {
-          default:
-            $selnull = 'selected';
-            break;
           case 'zero':
             $selzero = 'selected';
             break;
@@ -57,6 +54,9 @@ document.form1.ISBN.focus()
             break;
           case 'buono':
             $selbuono = 'selected';
+            break;
+          default:
+            $selnull = 'selected';
             break;
         }
 

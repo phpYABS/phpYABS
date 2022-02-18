@@ -60,7 +60,7 @@ $addbook = new Book($this->getConnection());
         $rset = $conn->Execute('SELECT COUNT(*) FROM ' . $prefix . '_valutazioni');
         $count = $rset->fields[0];
 
-        $limit = isset($_GET['limit']) && preg_match('/\\d+/', $_GET['limit']) ? $_GET['limit'] : 0;
+        $limit = isset($_GET['limit']) && preg_match('/\\d+/', (string) $_GET['limit']) ? $_GET['limit'] : 0;
 
         $rset = $conn->Execute('SELECT ISBN FROM ' . $prefix . "_valutazioni LIMIT $limit, 50");
         echo "<table border=\"1\" align=\"center\" width=\"755\">\n";

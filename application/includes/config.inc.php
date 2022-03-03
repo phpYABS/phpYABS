@@ -21,6 +21,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+use PhpYabs\Configuration\Configuration;
+
 $DS = DIRECTORY_SEPARATOR;
 
 define('PATH_ROOT', realpath(__DIR__ . '/../..'));
@@ -36,5 +39,5 @@ $prefix = 'phpyabs';
 
 $debug = true;
 
-$ver = '0.1.4';
-date_default_timezone_set('Europe/Rome');
+$ver = Configuration::VERSION;
+date_default_timezone_set(Configuration::TIMEZONE);

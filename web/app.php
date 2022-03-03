@@ -28,9 +28,14 @@
 use PhpYabs\Facade\BookFacade;
 use PhpYabs\Facade\MainFacade;
 use Slim\Factory\AppFactory;
+use Slim\Views\Twig;
+use Slim\Views\TwigMiddleware;
 
 require_once __DIR__ . '/../application/includes/common.inc.php';
 $app = AppFactory::create();
+
+$twig = Twig::create(__DIR__ . '/../templates', ['cache' => false]);
+$app->add(TwigMiddleware::create($app, $twig));
 
 global $conn, $dbal;
 $mainFacade = new MainFacade($conn, $dbal);

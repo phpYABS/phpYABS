@@ -2,31 +2,22 @@
 
 namespace PhpYabs\Facade;
 
+use PhpYabs\Configuration\Configuration;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Views\Twig;
 
 class MainFacade extends AbstractFacade
 {
     public function index(Request $request, Response $response): Response
     {
-        ob_start();
+        global $intestazione;
+        $view = Twig::fromRequest($request);
 
-        global $ver, $intestazione; ?>
-    <html>
-    <head>
-        <title>phpYabs <?php echo $ver; ?> - <?php echo $intestazione; ?></title>
-    </head>
-    <frameset cols="160,*">
-        <frame src="menu.php" name="menu">
-        <frame src="modules.php?Nome=Acquisti&Azione=Nuovo" name="main">
-    </frameset><noframes></noframes>
-    </html>
-
-<?php
-
-        $response->getBody()->write((string) ob_get_clean());
-
-        return $response;
+        return $view->render($response, 'index.twig', [
+            'version' => Configuration::VERSION,
+            'header' => $intestazione,
+        ]);
     }
 
     public function menu(Request $request, Response $response): Response

@@ -34,7 +34,7 @@ use Slim\Views\TwigMiddleware;
 require_once __DIR__ . '/../application/includes/common.inc.php';
 $app = AppFactory::create();
 
-$twig = Twig::create(__DIR__ . '/../templates', ['cache' => false]);
+$twig = Twig::create(__DIR__ . '/../templates');
 $app->add(TwigMiddleware::create($app, $twig));
 
 global $conn, $dbal;

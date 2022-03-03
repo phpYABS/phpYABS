@@ -23,6 +23,7 @@
  */
 
 use Doctrine\DBAL\DriverManager;
+use PhpYabs\Configuration\Configuration;
 
 require_once __DIR__ . '/config.inc.php';
 
@@ -47,3 +48,4 @@ assert($pdo instanceof PDO);
 $driver = 'pdo_' . $pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
 
 $dbal = DriverManager::getConnection(compact('pdo', 'driver'));
+date_default_timezone_set(Configuration::TIMEZONE);

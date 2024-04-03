@@ -23,7 +23,7 @@ if ('_NEW' !== ($_GET['destinazione'] ?? '')) {
     }
 }
 
- setcookie('start', $get_start, ['expires' => time() + 604800]);
+ setcookie('start', (string) $get_start, ['expires' => time() + 604800]);
  setcookie('destinazione', $destinazione, ['expires' => time() + 604800]);
 
  switch ($_GET['invia'] ?? '') {
@@ -124,7 +124,7 @@ if ('_NEW' !== ($_GET['destinazione'] ?? '')) {
                 if (strlen((string) $risultati[$i]) < 1) {
                     $risultati[$i] = '&nbsp;';
                 } else {
-                    $risultati[$i] = htmlentities($risultati[$i]);
+                    $risultati[$i] = htmlentities((string) $risultati[$i]);
                 }
                 echo "<td>$risultati[$i]</td>\n";
             } ?> </tr> <?php

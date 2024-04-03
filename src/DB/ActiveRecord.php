@@ -42,7 +42,7 @@ abstract class ActiveRecord
      * Table prefix.
      */
     private string $prefix = 'phpyabs';
-    private Connection $dbalConnection;
+    private readonly Connection $dbalConnection;
 
     public function __construct(ADOConnection $connection = null, Connection $dbalConnection = null)
     {

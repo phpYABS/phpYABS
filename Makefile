@@ -6,59 +6,59 @@ get-ready: | pull-images build reload composer-install
 
 .PHONY: pull-images
 pull-images:
-	docker-compose pull
+	docker compose pull
 
 .PHONY: build
 build:
-	docker-compose build
+	docker compose build
 
 .PHONY: up
 up:
-	docker-compose up --build -d
+	docker compose up --build -d
 
 .PHONY: down
 down:
-	docker-compose down --remove-orphans
+	docker compose down --remove-orphans
 
 .PHONY: reload
 reload: | down up
 
 .PHONY: bash
 bash:
-	docker-compose exec php bash
+	docker compose exec php bash
 
 .PHONY: interactive
 interactive:
-	docker-compose exec php php -a
+	docker compose exec php php -a
 
 .PHONY: composer
 composer:
-	docker-compose exec php composer $(args)
+	docker compose exec php composer $(args)
 
 .PHONY: composer-install
 composer-install:
-	docker-compose exec php composer install
+	docker compose exec php composer install
 
 .PHONY: unit
 unit:
-	docker-compose exec php vendor/bin/phpunit --testsuite=unit
+	docker compose exec php vendor/bin/phpunit --testsuite=unit
 
 .PHONY: phpunit
 phpunit:
-	docker-compose exec php vendor/bin/phpunit $(args)
+	docker compose exec php vendor/bin/phpunit $(args)
 
 .PHONY: phpstan
 phpstan:
-	docker-compose exec php vendor/bin/phpstan analyze -v
+	docker compose exec php vendor/bin/phpstan analyze -v
 
 .PHONY: rector
 rector:
-	docker-compose exec php vendor/bin/rector $(args)
+	docker compose exec php vendor/bin/rector $(args)
 
 .PHONY: cs-fixer
 cs-fixer:
-	docker-compose exec php vendor/bin/php-cs-fixer fix -v
+	docker compose exec php vendor/bin/php-cs-fixer fix -v
 
 .PHONY: cs-fixer-dry
 cs-fixer-dry:
-	docker-compose exec php vendor/bin/php-cs-fixer fix -v --dry-run
+	docker compose exec php vendor/bin/php-cs-fixer fix -v --dry-run

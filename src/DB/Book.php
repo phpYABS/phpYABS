@@ -291,7 +291,7 @@ class Book extends ActiveRecord
 
         if (static::GetShortISBN($ISBN)) {
             $EAN = '978' . $ISBN;
-            $EAN .= $this->EANCheck($EAN);
+            $EAN .= static::EANCheck($EAN);
         } else {
             $EAN = false;
         }
@@ -299,7 +299,7 @@ class Book extends ActiveRecord
         return $EAN;
     }
 
-    public function EANCheck(string $ean): int
+    public static function EANCheck(string $ean): int
     {
         $checksum = 0;
 

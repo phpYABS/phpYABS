@@ -2,7 +2,7 @@ services:
   php:
     build: .
     ports:
-      - "8088:80"
+      - "18080:80"
     environment:
       - DB_URL=mysql:host=db;dbname=phpyabs
       - DB_USER=phpyabs
@@ -21,7 +21,7 @@ services:
   phpmyadmin:
     image: phpmyadmin:latest
     ports:
-      - "8090:80"
+      - "18090:80"
     links:
       - db:db_server
     depends_on:

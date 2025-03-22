@@ -9,12 +9,12 @@ $risultato = $dbal->fetchOne('SELECT COUNT(*) FROM buyback_rates');
 $totlibri = $risultato ?? 0;
 
 $get_start = 0;
-$destinazione = '';
+$destination = '';
 
-if ('_NEW' !== ($_GET['destinazione'] ?? '')) {
+if ('_NEW' !== ($_GET['destination'] ?? '')) {
     foreach ([$_GET, $_COOKIE] as $arr) {
-        if (isset($arr['destinazione'])) {
-            $destinazione = (string) $arr['destinazione'];
+        if (isset($arr['destination'])) {
+            $destination = (string) $arr['destination'];
             break;
         }
     }
@@ -28,7 +28,7 @@ if ('_NEW' !== ($_GET['destinazione'] ?? '')) {
 }
 
 setcookie('start', (string) $get_start, ['expires' => time() + 604800]);
-setcookie('destinazione', $destinazione, ['expires' => time() + 604800]);
+setcookie('destination', $destination, ['expires' => time() + 604800]);
 
 switch ($_GET['invia'] ?? '') {
     case 'Avanti':
@@ -51,7 +51,7 @@ switch ($_GET['invia'] ?? '') {
         }
         break;
 }
-if (!strlen($destinazione)) {
+if (!strlen($destination)) {
     $start = 0;
 }
 $pag = (int) ($start / 50) + 1;
@@ -68,9 +68,9 @@ $pag = (int) ($start / 50) + 1;
 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="GET">
 <?php
 
- if (strlen($destinazione) > 0) {
+ if (strlen($destination) > 0) {
      $locked = ' disabled';
-     echo '<input type="hidden" name="destinazione" value="' . strtoupper($destinazione) . '">';
+     echo '<input type="hidden" name="destination" value="' . strtoupper($destination) . '">';
  } else {
      $locked = '';
  }
@@ -79,24 +79,24 @@ $pag = (int) ($start / 50) + 1;
 <table width="100%" border="1" align="center">
 <tr>
 <td colspan="7">
-<p align="center"><input type="text" name="destinazione" value="<?php echo htmlentities(strtoupper($destinazione)); ?>" style="width: 400px"<?php echo $locked; ?>></p>
+<p align="center"><input type="text" name="destination" value="<?php echo htmlentities(strtoupper($destination)); ?>" style="width: 400px"<?php echo $locked; ?>></p>
 </td>
 </tr>
 <?php
-    if (strlen($destinazione) > 0) {
+    if (strlen($destination) > 0) {
         if (is_array($_GET['destina'])) {
             foreach ($_GET['destina'] as $chiave => $valore) {
                 if ('on' == $valore) {
                     $risultato = $dbal->fetchOne('SELECT COUNT(*) FROM destinations ' .
-          "WHERE ISBN = '$chiave' AND destinazione = '$destinazione'");
+          "WHERE ISBN = '$chiave' AND destination = '$destination'");
                     $esiste = $risultato->fetchField(0);
                     if (!$esiste) {
-                        $dbal->executeStatement('INSERT INTO destinations (ISBN, destinazione) ' .
-            " VALUES ('$chiave', '$destinazione')");
+                        $dbal->executeStatement('INSERT INTO destinations (ISBN, destination) ' .
+            " VALUES ('$chiave', '$destination')");
                     }
                 } else {
                     $dbal->executeStatement("DELETE FROM destinations WHERE ISBN='$chiave' " .
-          "AND destinazione = '$destinazione'");
+          "AND destination = '$destination'");
                 }
             }
         }
@@ -110,7 +110,7 @@ $pag = (int) ($start / 50) + 1;
 
         while (false !== ($risultati = $risultato->fetchNumeric())) {
             $esiste = $dbal->fetchOne('SELECT COUNT(*) FROM destinations ' .
-        "WHERE ISBN='{$risultati[0]}' AND destinazione ='$destinazione'");
+        "WHERE ISBN='{$risultati[0]}' AND destination ='$destination'");
             if ($esiste) {
                 $checkedSI = 'checked';
                 $checkedNO = '';
@@ -151,14 +151,14 @@ $pag = (int) ($start / 50) + 1;
 </table>
 </form>
 <?php
-if (strlen($destinazione)) {
+if (strlen($destination)) {
     $npag = (int) ceil($totlibri / 50);
     for ($i = 1; $i <= $npag; ++$i) {
-        echo "<a href=\"{$_SERVER['PHP_SELF']}?destinazione=$destinazione" .
+        echo "<a href=\"{$_SERVER['PHP_SELF']}?destination=$destination" .
     '&start=' . (($i - 1) * 50) . "\">$i</a>\n";
     }
 }
 ?>
-<p align="center"><a href="<?php echo $_SERVER['PHP_SELF']; ?>?destinazione=_NEW">Nuova destinazione</a></p>
+<p align="center"><a href="<?php echo $_SERVER['PHP_SELF']; ?>?destination=_NEW">Nuova destination</a></p>
 </body>
 </html>

@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "^8.4",
         "ext-pdo": "*",
         "adodb/adodb-php": "^5.0",
         "doctrine/dbal": "^3.3",

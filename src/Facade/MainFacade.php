@@ -25,8 +25,9 @@ class MainFacade extends AbstractFacade
 
     public function menu(Request $request, Response $response): ResponseInterface
     {
+        global $edit;
         $view = Twig::fromRequest($request);
 
-        return $view->render($response, 'menu.twig');
+        return $view->render($response, 'menu.twig', compact('edit'));
     }
 }

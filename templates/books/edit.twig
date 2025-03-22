@@ -9,6 +9,12 @@
     document.form1.ISBN.focus()
 </script>
 <h1 align="center">Modifica Libro</h1>
-{% include "books/tabsearch4mod.twig" %}
+{% if updated %}
+    <p>Libro modificato</p>
+{% elseif book %}
+    {% include "books/tabmod.twig" %}
+{% else %}
+    {% include "books/tabsearch4mod.twig" %}
+{% endif %}
 </body>
 </html>

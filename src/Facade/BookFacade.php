@@ -41,80 +41,76 @@ class BookFacade extends AbstractFacade
         return $view->render($response, 'books/add.twig', $vars);
     }
 
-    public function modifica(Request $request, Response $response): ResponseInterface
+    public function searchForEdit(Request $request, Response $response): ResponseInterface
+    {
+        $body = $request->getParsedBody();
+        assert(is_array($body));
+
+        $ISBN = $body['ISBN'] ?? '';
+        if ('' === $ISBN) {
+            return $this->modifica($request, $response, []);
+        }
+
+        return $response->withStatus(302)->withHeader('Location', "/books/$ISBN/edit");
+    }
+
+    public function modifica(Request $request, Response $response, array $parameters): ResponseInterface
     {
         $view = Twig::fromRequest($request);
-        if (!isset($_GET['ISBN'])) {
+        $book = new Book($this->getDoctrineConnection());
+
+        if (!isset($parameters['ISBN'])) {
             return $view->render($response, 'books/edit.twig');
         }
 
-        ob_start(); ?>
-        <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-        <html>
-        <head>
-            <title>Modifica libro</title>
-            <link href="/css/main.css" rel="stylesheet" type="text/css">
-        </head>
-        <body>
-        <script language="JavaScript" type="text/javascript">
-            document.form1.ISBN.focus()
-        </script>
-        <h1 align="center">Modifica Libro</h1>
-        <?php
-        $dbal = $this->getDoctrineConnection();
-        $modbook = new Book($dbal);
+        if ('GET' === $request->getMethod()) {
+            $book->getFromDB($parameters['ISBN']);
 
-        $fields = ['ISBN' => $_GET['ISBN'],  'title' => $_GET['title'], 'author' => $_GET['author'],
-            'publisher' => $_GET['publisher'], 'price' => $_GET['price'], ];
+            if ($f = $book->getFields()) {
+                $valutazione = $book->getRate();
+                switch ($valutazione) {
+                    case 'zero':
+                        $selzero = 'selected';
+                        break;
+                    case 'rotmed':
+                        $selrotmed = 'selected';
+                        break;
+                    case 'rotsup':
+                        $selrotsup = 'selected';
+                        break;
+                    case 'buono':
+                        $selbuono = 'selected';
+                        break;
+                    default:
+                        $selnull = 'selected';
+                        break;
+                }
 
-        $modbook->setFields($fields);
-        $modbook->setRate($_GET['rate']);
-
-        if ($modbook->saveToDB()) {
-            echo '<p align="center">Libro modificato!</p>';
-        }
-
-        $modbook->getFromDB($_GET['ISBN']);
-
-        if ($f = $modbook->getFields()) {
-            $valutazione = $modbook->getRate();
-            switch ($valutazione) {
-                case 'zero':
-                    $selzero = 'selected';
-                    break;
-                case 'rotmed':
-                    $selrotmed = 'selected';
-                    break;
-                case 'rotsup':
-                    $selrotsup = 'selected';
-                    break;
-                case 'buono':
-                    $selbuono = 'selected';
-                    break;
-                default:
-                    $selnull = 'selected';
-                    break;
+                return $view->render($response, 'books/edit.twig', [
+                    'book' => $f,
+                    'selzero' => $selzero ?? null,
+                    'selrotmed' => $selrotmed ?? null,
+                    'selrotsup' => $selrotsup ?? null,
+                    'selbuono' => $selbuono ?? null,
+                    'selnull' => $selnull ?? null,
+                ]);
             }
-
-            echo $view->fetch('books/tabmod.twig', [
-                'book' => $f,
-                'selzero' => $selzero ?? null,
-                'selrotmed' => $selrotmed ?? null,
-                'selrotsup' => $selrotsup ?? null,
-                'selbuono' => $selbuono ?? null,
-                'selnull' => $selnull ?? null,
-            ]);
-        } else { ?>
-            <p align="center">Libro non trovato</p>
-            <?php
         }
-        ?>
-        </body>
-        </html>
-        <?php
-        $response->getBody()->write((string) ob_get_clean());
 
-        return $response;
+        if ('POST' === $request->getMethod()) {
+            $parsedBody = $request->getParsedBody() ?? [];
+
+            $fields = ['ISBN' => $parsedBody['ISBN'], 'title' => $parsedBody['title'], 'author' => $parsedBody['author'],
+                'publisher' => $parsedBody['publisher'], 'price' => $parsedBody['price'],];
+
+            $book->setFields($fields);
+            $book->setRate($parsedBody['rate']);
+        }
+
+        return $view->render($response, 'books/edit.twig', [
+            'book' => $book->getFields(),
+            'updated' => $book->saveToDB(),
+        ]);
     }
 
     public function index(Request $request, Response $response): ResponseInterface

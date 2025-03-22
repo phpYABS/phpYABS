@@ -1,36 +1,38 @@
-<form action="/books/{book.id}" method="POST">
+<form action="/books/{{book.ISBN}}/edit" method="post">
     <table width="600" border="1" align="center">
         <tr>
             <th width="80">ISBN:</th>
-            <td>{{ ISBN }}
-                <input type="hidden" name="ISBN" value="{{ ISBN }}">
+            <td>{{ book.ISBN }}
+                <input type="hidden" name="ISBN" value="{{ book.ISBN }}">
             </td>
         </tr>
         <tr>
             <th width="80">Titolo:</th>
-            <td><input type="text" name="Titolo" value="{{ Titolo }}" style="width:300px"></td>
+            <td><input type="text" name="title" value="{{ book.title }}" style="width:300px"></td>
         </tr>
         <tr>
             <th width="80">Autore:</th>
-            <td><input type="text" name="Autore" value="{{ Autore }}" style="width:300px"></td>
+            <td><input type="text" name="author" value="{{ book.author }}" style="width:300px"></td>
         </tr>
         <tr>
             <th width="80">Editore:</th>
-            <td><input type="text" name="Editore" value="{{ Editore }}" style="width:300px"></td>
+            <td><input type="text" name="publisher" value="{{ book.publisher }}" style="width:300px"></td>
         </tr>
         <tr>
             <th width="80">Prezzo:</th>
-            <td><input type="text" name="Prezzo" value="{{ Prezzo }}" style="width:300px"></td>
+            <td><input type="text" name="price" value="{{ book.price }}" style="width:300px"></td>
         </tr>
         <tr>
             <th width="80">Valutazione:</th>
-            <td><select name="Valutazione">
+            <td>
+                <select name="rate">
                     <option value="NULL" {{ selnull }}>Nessuna</option>
                     <option value="zero" {{ selzero }}>Macero</option>
                     <option value="rotmed" {{ selrotmed }}>Rottamazione Medie</option>
                     <option value="rotsup" {{ selrotsup }}>Rottamazione Superiori</option>
                     <option value="buono" {{ selbuono }}>Buono</option>
-                </select></td>
+                </select>
+            </td>
         </tr>
         <tr>
             <td><input id="frm_book_edit_submit" type="submit" value="Modifica"/></td>

@@ -13,6 +13,7 @@
         "ext-pdo": "*",
         "adodb/adodb-php": "^5.0",
         "doctrine/dbal": "^3.3",
+        "ronanguilloux/isocodes": "^2.3",
         "slim/psr7": "^1.5",
         "slim/slim": "^4.9",
         "slim/twig-view": "^3.3"

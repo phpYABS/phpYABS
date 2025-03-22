@@ -28,7 +28,7 @@ use PhpYabs\ValueObject\ISBN;
  */
 class Book extends ActiveRecord
 {
-    public string|false $_valutazione;
+    public string|false $_condition;
 
     /** @var string[] */
     private array $fields;
@@ -38,7 +38,7 @@ class Book extends ActiveRecord
         parent::__construct(null, $dbalConnection);
 
         $this->fields = [];
-        $this->setValutazione(false);
+        $this->setCondition(false);
     }
 
     /**
@@ -46,7 +46,7 @@ class Book extends ActiveRecord
      */
     public function checkFields(array $fields): bool
     {
-        return static::isValidISBN($fields['ISBN']) && strlen($fields['Titolo']) > 0;
+        return static::isValidISBN($fields['ISBN']) && strlen($fields['title']) > 0;
     }
 
     /**
@@ -79,126 +79,123 @@ class Book extends ActiveRecord
         }
     }
 
-    public function getPrezzo(): ?float
+    public function getPrice(): ?float
     {
         $fields = $this->getFields();
         if (!is_array($fields)) {
             return null;
         }
 
-        return (float) ($fields['Prezzo'] ?? 0.0);
+        return (float) ($fields['price'] ?? 0.0);
     }
 
-    public function setValutazione(string|false $valutazione): void
+    public function setCondition(string|false $condition): void
     {
-        switch ($valutazione) {
+        switch ($condition) {
             case 'zero':
             case 'rotmed':
             case 'rotsup':
             case 'buono':
                 break;
             default:
-                $valutazione = false;
+                $condition = false;
         }
 
-        $this->_valutazione = $valutazione;
+        $this->_condition = $condition;
     }
 
-    public function getValutazione(): string|false
+    public function getCondition(): string|false
     {
-        return $this->_valutazione;
+        return $this->_condition;
     }
 
     public function getBuono(): float
     {
-        return match ($this->getValutazione()) {
+        return match ($this->getCondition()) {
             'rotmed' => 0.5,
             'rotsup' => 1.0,
-            'buono' => round($this->fields['Prezzo'] / 3, 2),
+            'buono' => round($this->fields['price'] / 3, 2),
             default => 0.0,
         };
     }
 
     public function getContanti(): float
     {
-        return match ($this->getValutazione()) {
+        return match ($this->getCondition()) {
             'rotmed' => 0.5,
             'rotsup' => 1.0,
-            'buono' => round($this->fields['Prezzo'] / 4, 2),
+            'buono' => round($this->fields['price'] / 4, 2),
             default => 0.0,
         };
     }
 
     public function saveToDB(): bool
     {
-        $prefix = $this->getPrefix();
         $dbal = $this->getDbalConnection();
 
         if ($this->checkFields($this->fields)) {
             $existingBook = $dbal->fetchAssociative(
-                'SELECT * FROM ' . $prefix . '_libri WHERE ISBN = ?',
+                'SELECT * FROM books WHERE ISBN = ?',
                 [$this->fields['ISBN']]
             );
 
             if ($existingBook) {
                 // Update existing book
                 $dbal->update(
-                    $prefix . '_libri',
+                    'books',
                     $this->fields,
                     ['ISBN' => $this->fields['ISBN']]
                 );
             } else {
                 // Insert new book
-                $dbal->insert($prefix . '_libri', $this->fields);
+                $dbal->insert('books', $this->fields);
             }
 
-            if ($this->_valutazione) {
-                $valfields = [
+            if ($this->_condition) {
+                $buybackFields = [
                     'ISBN' => $this->fields['ISBN'],
-                    'Valutazione' => $this->_valutazione,
+                    'condition' => $this->_condition,
                 ];
 
-                $existingValuation = $dbal->fetchAssociative(
-                    'SELECT * FROM ' . $prefix . '_valutazioni WHERE ISBN = ?',
+                $existingBuyback = $dbal->fetchAssociative(
+                    'SELECT * FROM buyback_rates WHERE ISBN = ?',
                     [$this->fields['ISBN']]
                 );
 
-                if ($existingValuation) {
+                if ($existingBuyback) {
                     $dbal->update(
-                        $prefix . '_valutazioni',
-                        $valfields,
+                        'buyback_rates',
+                        $buybackFields,
                         ['ISBN' => $this->fields['ISBN']]
                     );
                 } else {
-                    $dbal->insert($prefix . '_valutazioni', $valfields);
+                    $dbal->insert('buyback_rates', $buybackFields);
                 }
             } else {
                 $dbal->delete(
-                    $prefix . '_valutazioni',
+                    'buyback_rates',
                     ['ISBN' => $this->fields['ISBN']]
                 );
             }
         }
 
         $result = $dbal->fetchOne(
-            'SELECT ISBN FROM ' . $prefix . '_libri WHERE ISBN = ?',
+            'SELECT ISBN FROM books WHERE ISBN = ?',
             [$this->fields['ISBN']]
         );
 
         return false !== $result;
     }
 
-    // carica i dati dal database, specificato l'isbn
     public function getFromDB(string $ISBN): bool
     {
-        $prefix = $this->getPrefix();
         $dbal = $this->getDbalConnection();
 
         $ISBN = static::getShortISBN($ISBN);
 
         if ($ISBN && static::isValidISBN($ISBN)) {
             $fields = $dbal->fetchAssociative(
-                'SELECT ISBN, Titolo, Autore, Editore, Prezzo FROM ' . $prefix . '_libri WHERE ISBN = ?',
+                'SELECT ISBN, title, author, publisher, price FROM books WHERE ISBN = ?',
                 [$ISBN]
             );
 
@@ -208,14 +205,14 @@ class Book extends ActiveRecord
 
             $this->setFields($fields);
 
-            $valutazione = $dbal->fetchOne(
-                'SELECT valutazione FROM ' . $prefix . '_valutazioni WHERE ISBN = ?',
+            $condition = $dbal->fetchOne(
+                'SELECT condition FROM buyback_rates WHERE ISBN = ?',
                 [$ISBN]
             );
 
-            $this->setValutazione($valutazione ?: false);
+            $this->setCondition($condition ?: false);
 
-            return false !== $valutazione;
+            return false !== $condition;
         }
 
         return false;
@@ -223,14 +220,13 @@ class Book extends ActiveRecord
 
     public function delete(): bool
     {
-        $prefix = $this->getPrefix();
         $dbal = $this->getDbalConnection();
 
         $ISBN = $this->fields['ISBN'];
         if (static::isValidISBN($ISBN)) {
-            $dbal->delete($prefix . '_libri', ['ISBN' => $ISBN]);
-            $dbal->delete($prefix . '_valutazioni', ['ISBN' => $ISBN]);
-            $dbal->delete($prefix . '_destinazioni', ['ISBN' => $ISBN]);
+            $dbal->delete('books', ['ISBN' => $ISBN]);
+            $dbal->delete('buyback_rates', ['ISBN' => $ISBN]);
+            $dbal->delete('destinations', ['ISBN' => $ISBN]);
 
             return true;
         }

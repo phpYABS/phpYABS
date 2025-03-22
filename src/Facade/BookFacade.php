@@ -4,13 +4,14 @@ namespace PhpYabs\Facade;
 
 use Doctrine\DBAL\Types\Type;
 use PhpYabs\DB\Book;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 use Slim\Views\Twig;
 
 class BookFacade extends AbstractFacade
 {
-    public function aggiungi(Request $request, Response $response): Response
+    public function aggiungi(Request $request, Response $response): ResponseInterface
     {
         $addbook = new Book($this->getDoctrineConnection());
 
@@ -40,7 +41,7 @@ class BookFacade extends AbstractFacade
         return $view->render($response, 'books/add.twig', $vars);
     }
 
-    public function modifica(Request $request, Response $response): Response
+    public function modifica(Request $request, Response $response): ResponseInterface
     {
         if (!isset($_GET['ISBN'])) {
             $view = Twig::fromRequest($request);
@@ -111,7 +112,7 @@ class BookFacade extends AbstractFacade
         return $response;
     }
 
-    public function elenco(Request $request, Response $response): Response
+    public function elenco(Request $request, Response $response): ResponseInterface
     {
         $dbal = $this->getDoctrineConnection();
         $count = $dbal->fetchOne('SELECT COUNT(*) FROM books');

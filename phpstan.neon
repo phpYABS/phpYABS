@@ -1,5 +1,5 @@
 parameters:
-    level: max
+    level: 0
     bootstrapFiles:
         - application/includes/common.inc.php
     paths:

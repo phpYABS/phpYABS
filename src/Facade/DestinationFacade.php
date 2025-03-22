@@ -113,7 +113,7 @@ class DestinationFacade extends AbstractFacade
                         }
                     }
 
-                    $risultato = $dbal->executeQuery(<<<SQL
+                    $result = $dbal->executeQuery(<<<SQL
         SELECT books.ISBN, title, author, publisher
         FROM books
         INNER JOIN buyback_rates
@@ -121,7 +121,7 @@ class DestinationFacade extends AbstractFacade
         SQL
                     );
 
-                    while (false !== ($risultati = $risultato->fetchNumeric())) {
+                    while (false !== ($risultati = $result->fetchNumeric())) {
                         $esiste = $dbal->fetchOne('SELECT COUNT(*) FROM destinations ' .
                             "WHERE ISBN='{$risultati[0]}' AND destination ='$destination'");
                         if ($esiste) {

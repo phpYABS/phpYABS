@@ -62,7 +62,7 @@ class BookFacade extends AbstractFacade
         </script>
         <h1 align="center">Modifica Libro</h1>
         <?php
-        global $dbal;
+        $dbal = $this->getDoctrineConnection();
         $modbook = new Book($dbal);
 
         $fields = ['ISBN' => $_GET['ISBN'],  'title' => $_GET['title'], 'author' => $_GET['author'],

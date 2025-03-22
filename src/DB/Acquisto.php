@@ -124,9 +124,9 @@ class Acquisto extends ActiveRecord
                 [$ISBN, $Titolo, $Autore, $Editore, $Prezzo] = $fields;
                 $sISBN = $ISBN;
                 $ISBN = $book->getFullIsbn();
-                $Valutazione = $book->GetValutazione();
-                $Buono = $book->GetBuono();
-                $Contanti = $book->GetContanti();
+                $Valutazione = $book->getValutazione();
+                $Buono = $book->getBuono();
+                $Contanti = $book->getContanti();
 
                 include \PATH_TEMPLATES . '/oldones/acquisti/tabview.php';
                 ++$numero;

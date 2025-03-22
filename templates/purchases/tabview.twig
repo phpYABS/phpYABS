@@ -1,0 +1,49 @@
+<p>
+<table width="590" border="1" align="center">
+  <tr>
+    <th width="80">N</th>
+    <td>{{ sequence }}</td>
+  </tr>
+  <tr>
+    <th width="80">ISBN:</th>
+    <td>{{ ISBN }}</td>
+  </tr>
+  <tr>
+    <th width="80">Titolo:</th>
+    <td>{{ title }}</td>
+  </tr>
+  <tr>
+    <th width="80">Autore:</th>
+    <td>{{ author }}</td>
+  </tr>
+  <tr>
+    <th width="80">Editore:</th>
+    <td>{{ publisher }}</td>
+  </tr>
+  <tr>
+    <th width="80">Prezzo:</th>
+    <td>{{ price }}</td>
+  </tr>
+  <tr>
+    <th width="80">Valutazione:</th>
+    <td><u>{{ rate }}</u></td>
+  </tr>
+  <tr>
+    <th width="80">Buono:</th>
+    <td>{{ storeCredit }}</td>
+  </tr>
+  <tr>
+    <th width="80">Contanti:</th>
+    <td>{{ cashValue }}</td>
+  </tr>
+  <tr>
+    <th width="80">Dest:</th>
+    <td>{{ dest }}</td>
+  </tr>
+  <tr>
+    <th width="80">Cancella:</th>
+    <td><a href="modules.php?Nome=Acquisti&Azione=Acquisto&Cancella={{ book_id }}">Cancella</a>
+    <a href="modules.php?Nome=Libri&Azione=Modifica&ISBN={{ ISBN }}">Modifica</a></td>
+  </tr>
+</table>
+</p>

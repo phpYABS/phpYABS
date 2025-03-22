@@ -116,7 +116,7 @@ class Acquisto extends ActiveRecord
         );
     }
 
-    public function printAcquisto(): void
+    public function getAcquisti(): iterable
     {
         $dbal = $this->getDbalConnection();
 
@@ -134,14 +134,14 @@ class Acquisto extends ActiveRecord
             $book = new Book($dbal);
 
             if ($book->getFromDB($row['ISBN']) && is_array($fields = $book->getFields())) {
-                extract($fields);
-                $ISBN = $book->getFullIsbn();
-                $Valutazione = $book->getRate();
-                $Buono = $book->getStoreCredit();
-                $Contanti = $book->getCashValue();
+                $fields['ISBN'] = $book->getFullIsbn();
+                $fields['rate'] = $book->getRate();
+                $fields['storeCredit'] = $book->getStoreCredit();
+                $fields['cashValue'] = $book->getCashValue();
 
-                include \PATH_TEMPLATES . '/oldones/acquisti/tabview.php';
-                ++$numero;
+                $fields['sequence'] = ++$numero;
+
+                yield $fields;
             }
         }
     }

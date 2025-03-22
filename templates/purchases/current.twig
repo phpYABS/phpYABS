@@ -8,7 +8,9 @@
     {% if errmsg %}
         <p align="center"><font color="RED">{{ errmsg }}</font></p>
     {% endif %}
-    {{ acquisto.printAcquisto() }}
+    {% for acq in acquisto.acquisti %}
+        {% include 'purchases/tabview.twig' with acq %}
+    {% endfor %}
     {% if not trovato %}
         <script>alert('Libro non trovato!');</script>";
     {% endif %}

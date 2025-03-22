@@ -23,6 +23,7 @@
  */
 
 use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Tools\DsnParser;
 use PhpYabs\Configuration\Configuration;
 
 require_once __DIR__ . '/config.inc.php';
@@ -33,10 +34,7 @@ session_start();
 $loader = require __DIR__ . '/../../vendor/autoload.php';
 
 global $dbal;
-$dbal = DriverManager::getConnection([
-    'url' => (string) getenv('DB_URL'),
-    'user' => (string) getenv('DB_USER'),
-    'password' => (string) getenv('DB_PASS'),
-]);
+$parser = new DsnParser();
+$dbal = DriverManager::getConnection($parser->parse((string) getenv('DB_URL')));
 
 date_default_timezone_set(Configuration::TIMEZONE);

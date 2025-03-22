@@ -215,7 +215,7 @@ class Book extends ActiveRecord
             $this->setFields($fields);
 
             $condition = $dbal->fetchOne(
-                'SELECT condition FROM buyback_rates WHERE ISBN = ?',
+                'SELECT `condition` FROM buyback_rates WHERE ISBN = ?',
                 [$ISBN],
             );
 

@@ -87,27 +87,30 @@ $pag = (int) ($start / 50) + 1;
         if (is_array($_GET['destina'])) {
             foreach ($_GET['destina'] as $chiave => $valore) {
                 if ('on' == $valore) {
-                    $risultato = $conn->Query('SELECT COUNT(*) FROM ' . $prefix . '_destinazioni ' .
+                    $risultato = $dbal->fetchOne('SELECT COUNT(*) FROM destinations ' .
           "WHERE ISBN = '$chiave' AND destinazione = '$destinazione'");
                     $esiste = $risultato->fetchField(0);
                     if (!$esiste) {
-                        $conn->Execute('INSERT INTO ' . $prefix . '_destinazioni (ISBN, destinazione) ' .
+                        $dbal->executeStatement('INSERT INTO destinations (ISBN, destinazione) ' .
             " VALUES ('$chiave', '$destinazione')");
                     }
                 } else {
-                    $conn->Execute('DELETE FROM ' . $prefix . "_destinazioni WHERE ISBN='$chiave' " .
+                    $dbal->executeStatement("DELETE FROM destinations WHERE ISBN='$chiave' " .
           "AND destinazione = '$destinazione'");
                 }
             }
         }
 
-        $risultato = $conn->Query('SELECT books.ISBN, Titolo, Autore, Editore FROM '
-    . $prefix . '_libri INNER JOIN buyback_rates ON books.ISBN = '
-    . $prefix . "_valutazioni.ISBN ORDER BY Editore, Autore, Titolo, ISBN LIMIT $start,50");
-        while (false !== ($risultati = $risultato->FetchRow())) {
-            $risultato1 = $conn->query('SELECT COUNT(*) FROM ' . $prefix . '_destinazioni ' .
+        $risultato = $dbal->executeQuery(<<<SQL
+        SELECT books.ISBN, title, author, publisher
+        FROM books
+        INNER JOIN buyback_rates
+        ON books.ISBN = buyback_rates.ISBN ORDER BY Editore, Autore, Titolo, ISBN LIMIT $start,50
+        SQL);
+
+        while (false !== ($risultati = $risultato->fetchNumeric())) {
+            $esiste = $dbal->fetchOne('SELECT COUNT(*) FROM destinations ' .
         "WHERE ISBN='{$risultati[0]}' AND destinazione ='$destinazione'");
-            $esiste = $risultato1->fetchField(0);
             if ($esiste) {
                 $checkedSI = 'checked';
                 $checkedNO = '';

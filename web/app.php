@@ -62,7 +62,7 @@ $twig = Twig::create(__DIR__ . '/../templates');
 $app->add(TwigMiddleware::create($app, $twig));
 
 $app->any('/modules.php', [MainFacade::class, 'modules']);
-$app->get('/menu.php', [MainFacade::class, 'menu']);
+$app->get('/menu', [MainFacade::class, 'menu']);
 $app->get('/', [MainFacade::class, 'index']);
 $app->any('/books', [BookFacade::class, 'elenco']);
 $app->any('/books/add', [BookFacade::class, 'aggiungi']);

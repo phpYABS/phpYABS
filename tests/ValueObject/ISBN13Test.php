@@ -10,7 +10,10 @@ use PhpYabs\ValueObject\ISBN13;
 #[CoversClass(ISBN13::class)]
 class ISBN13Test extends TestCase
 {
-    public static function invalidInputProvider(): array
+    /**
+     * @return iterable<string,string[]>
+     */
+    public static function invalidInputProvider(): iterable
     {
         return [
             'Empty string' => [''],
@@ -32,7 +35,10 @@ class ISBN13Test extends TestCase
         ISBN13::fromString($invalidInput);
     }
 
-    public static function validISBNProvider(): array
+    /**
+     * @return iterable<string,string[]>
+     */
+    public static function validISBNProvider(): iterable
     {
         return [
             'Valid ISBN-10' => ['316148410X', '316148410X'],

@@ -4,7 +4,7 @@ services:
     ports:
       - "18080:80"
     environment:
-      - DB_URL=mysqli://phpyabs:yabbadabbadoo@db/phpyabs
+      - DB_URL=pdo-mysql://phpyabs:yabbadabbadoo@db/phpyabs
     volumes:
       - .:/var/www/project
     links:

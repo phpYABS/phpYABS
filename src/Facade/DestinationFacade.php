@@ -96,7 +96,7 @@ class DestinationFacade extends AbstractFacade
                     </tr>
                     <?php
                 if (strlen($destination) > 0) {
-                    if (is_array($_GET['destina'])) {
+                    if (isset($_GET['destina']) && is_array($_GET['destina'])) {
                         foreach ($_GET['destina'] as $chiave => $valore) {
                             if ('on' == $valore) {
                                 $risultato = $dbal->fetchOne('SELECT COUNT(*) FROM destinations ' .

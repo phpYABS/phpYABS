@@ -131,6 +131,7 @@ class BookFacade extends AbstractFacade
         $books = array_map(function (string $ISBN) use ($dbal) {
             $book = new Book($dbal);
             $book->getFromDB($ISBN);
+
             return $book->getFields();
         }, $books);
 

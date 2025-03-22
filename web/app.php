@@ -29,8 +29,13 @@ declare(strict_types=1);
 
 use DI\ContainerBuilder;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Tools\DsnParser;
+use Monolog\Handler\SyslogHandler;
+use Monolog\Logger;
 use PhpYabs\Facade\BookFacade;
 use PhpYabs\Facade\MainFacade;
+use Psr\Log\LoggerInterface;
 use Slim\Factory\AppFactory;
 use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
@@ -38,12 +43,17 @@ use Slim\Views\TwigMiddleware;
 require_once __DIR__ . '/../application/includes/common.inc.php';
 
 $builder = new ContainerBuilder();
-global $dbal;
-assert($dbal instanceof Connection);
-
 $builder->addDefinitions([
-    Connection::class => $dbal,
+    LoggerInterface::class => function () {
+        return new Logger('phpyabs', [new SyslogHandler('phpyabs')]);
+    },
+    Connection::class => function () {
+        $parser = new DsnParser();
+
+        return DriverManager::getConnection($parser->parse((string) getenv('DB_URL')));
+    },
 ]);
+
 $builder->useAutowiring(true);
 $app = AppFactory::createFromContainer($builder->build());
 

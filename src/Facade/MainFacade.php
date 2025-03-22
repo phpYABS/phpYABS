@@ -80,6 +80,8 @@ class MainFacade extends AbstractFacade
             return $response;
         }
 
+        global $dbal;
+        $dbal = $this->getDoctrineConnection();
         include $file;
 
         $response->getBody()->write((string) ob_get_clean());

@@ -24,26 +24,9 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-use Doctrine\DBAL\DriverManager;
-use Doctrine\DBAL\Logging\Middleware;
-use Doctrine\DBAL\Tools\DsnParser;
-use Monolog\Logger;
 use PhpYabs\Configuration\Configuration;
 
 require_once __DIR__ . '/config.inc.php';
 
-// starting session
-session_start();
-
 $loader = require __DIR__ . '/../../vendor/autoload.php';
-
-global $dbal;
-$parser = new DsnParser();
-$dbal = DriverManager::getConnection($parser->parse((string) getenv('DB_URL')));
-
-$logger = new Logger('default', [new Monolog\Handler\SyslogHandler('phpyabs')]);
-$middlewares = $dbal->getConfiguration()->getMiddlewares();
-$middlewares[] = new Middleware($logger);
-$dbal->getConfiguration()->setMiddlewares($middlewares);
-
 date_default_timezone_set(Configuration::TIMEZONE);

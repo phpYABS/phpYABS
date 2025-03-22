@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpYabs\ValueObject;
 
 use IsoCodes\Isbn as IsbnValidator;

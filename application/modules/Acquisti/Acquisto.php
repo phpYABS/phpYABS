@@ -10,14 +10,14 @@ if ('Nuovo' == $_GET['Azione']) {
 
 $acquisto = new Acquisto();
 if (isset($_GET['IdAcquisto'])) {
-    if (!$acquisto->SetID($_GET['IdAcquisto'])) {
+    if (!$acquisto->setID($_GET['IdAcquisto'])) {
         $errmsg = "L'acquisto " . $_GET['IdAcquisto'] . ' non esiste!';
     }
 } elseif (isset($_SESSION['IdAcquisto'])) {
-    $acquisto->setId($_SESSION['IdAcquisto']);
+    $acquisto->setID($_SESSION['IdAcquisto']);
 }
 
-$IdAcquisto = $_SESSION['IdAcquisto'] = $acquisto->GetID();
+$IdAcquisto = $_SESSION['IdAcquisto'] = $acquisto->getID();
 
 $trovato = true;
 

@@ -78,7 +78,7 @@ $app->any('/books/edit', [BookFacade::class, 'modifica']);
 $app->any('/books/delete', [BookFacade::class, 'delete']);
 $app->any('/destinations', [DestinationFacade::class, 'index']);
 $app->get('/purchases', [PurchaseFacade::class, 'index']);
-$app->any('/purchases/current', [PurchaseFacade::class, 'current']);
+$app->any('/purchases/{id}', [PurchaseFacade::class, 'current']);
 $app->get('/stats', [StatisticsFacade::class, 'index']);
 
 $app->run();

@@ -51,9 +51,11 @@ class PurchaseFacade extends AbstractFacade
         });
     }
 
-    public function current(Request $request, Response $response): ResponseInterface
+    public function current(Request $request, Response $response, array $params): ResponseInterface
     {
-        return $this->buffered($response, function () {
+        $id = $params['id'] ?? 'current';
+
+        return $this->buffered($response, function () use ($id) {
             $dbal = $this->getDoctrineConnection();
 
             // se c'è una richiesta di nuovo acquisto, elimino il precedente
@@ -64,12 +66,12 @@ class PurchaseFacade extends AbstractFacade
             }
 
             $acquisto = new Acquisto($dbal);
-            if (isset($_GET['purchase_id'])) {
-                if (!$acquisto->setID($_GET['purchase_id'])) {
-                    $errmsg = "L'acquisto " . $_GET['purchase_id'] . ' non esiste!';
-                }
-            } elseif (isset($_SESSION['purchase_id'])) {
+            if ($id === 'current' && isset($_SESSION['purchase_id'])) {
                 $acquisto->setID($_SESSION['purchase_id']);
+            } elseif (preg_match('/^\d+$/', $id)) {
+                if (!$acquisto->setID((int) $id)) {
+                    $errmsg = "L'acquisto $id non esiste!";
+                }
             }
 
             $purchase_id = $_SESSION['purchase_id'] = $acquisto->getID();

@@ -1,4 +1,6 @@
 <?php
+
+use Doctrine\DBAL\Connection;
 use PhpYabs\DB\Book;
 
 ?>
@@ -26,7 +28,9 @@ use PhpYabs\DB\Book;
   </script>
 </div>
 <?php } else {
-    $delbook = new Book();
+    global $dbal;
+    assert($dbal instanceof Connection);
+    $delbook = new Book($dbal);
     $delbook->getFromDB($_GET['ISBN']);
 
     if ('on' == $_GET['cancella']) {

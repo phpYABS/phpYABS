@@ -6,7 +6,7 @@ final class ISBN10 extends ISBN
 {
     public static function fromNineDigits(string $isbn): self
     {
-        if (!preg_match('/^[0-9]{9}$', $isbn)) {
+        if (!preg_match('/^[0-9]{9}$/', $isbn)) {
             throw new \InvalidArgumentException('Exactly nine digit expected');
         }
 
@@ -36,6 +36,12 @@ final class ISBN10 extends ISBN
     public function __toString(): string
     {
         return $this->value;
+    }
+
+    public string $withoutChecksum {
+        get {
+            return substr($this->value, 0, 9);
+        }
     }
 
     public self $version10 {

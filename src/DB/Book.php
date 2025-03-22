@@ -234,7 +234,7 @@ class Book extends ActiveRecord
         return false;
     }
 
-    public static function isValidISBN(string $ISBN): bool
+    public static function isValidISBN(mixed $ISBN): bool
     {
         return is_numeric($ISBN) && 9 == strlen($ISBN) && 0 != $ISBN;
     }

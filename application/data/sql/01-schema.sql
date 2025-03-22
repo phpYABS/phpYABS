@@ -34,7 +34,7 @@ CREATE TABLE `books` (
 
 CREATE TABLE `buyback_rates` (
   `ISBN` char(9) NOT NULL,
-  `condition` enum('zero','rotmed','rotsup','buono') NOT NULL default 'zero',
+  `rate` enum('zero','rotmed','rotsup','buono') NOT NULL default 'zero',
   PRIMARY KEY  (`ISBN`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

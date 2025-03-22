@@ -30,7 +30,7 @@ class BookFacade extends AbstractFacade
             ];
 
             $addbook->setFields($fields);
-            $addbook->setCondition($_POST['condition']);
+            $addbook->setRate($_POST['rate']);
 
             $vars['inserted'] = $addbook->saveToDB();
             $vars['error'] = !$vars['inserted'];
@@ -69,7 +69,7 @@ class BookFacade extends AbstractFacade
             'publisher' => $_GET['publisher'], 'price' => $_GET['price'], ];
 
         $modbook->setFields($fields);
-        $modbook->setCondition($_GET['condition']);
+        $modbook->setRate($_GET['rate']);
 
         if ($modbook->saveToDB()) {
             echo '<p align="center">Libro modificato!</p>';
@@ -79,7 +79,7 @@ class BookFacade extends AbstractFacade
 
         if ($f = $modbook->getFields()) {
             [$ISBN, $Titolo, $Autore, $Editore, $Prezzo] = $f;
-            $valutazione = $modbook->getCondition();
+            $valutazione = $modbook->getRate();
             switch ($valutazione) {
                 case 'zero':
                     $selzero = 'selected';
@@ -143,7 +143,7 @@ class BookFacade extends AbstractFacade
 
     public function delete(Request $request, Response $response): ResponseInterface
     {
-        $vars = ['deleted' => false, 'book' => null, 'condition' => null];
+        $vars = ['deleted' => false, 'book' => null, 'rate' => null];
         $view = Twig::fromRequest($request);
 
         $book = new Book($this->getDoctrineConnection());
@@ -157,7 +157,7 @@ class BookFacade extends AbstractFacade
             $vars['deleted'] = true;
         } else {
             $vars['book'] = $book->getFields();
-            $vars['condition'] = $book->getCondition();
+            $vars['rate'] = $book->getRate();
         }
 
         return $view->render($response, 'books/delete.twig', $vars);

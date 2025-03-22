@@ -137,7 +137,7 @@ class Acquisto extends ActiveRecord
                 [$ISBN, $Titolo, $Autore, $Editore, $Prezzo] = $fields;
                 $sISBN = $ISBN;
                 $ISBN = $book->getFullIsbn();
-                $Valutazione = $book->getCondition();
+                $Valutazione = $book->getRate();
                 $Buono = $book->getStoreCredit();
                 $Contanti = $book->getCashValue();
 
@@ -165,7 +165,7 @@ class Acquisto extends ActiveRecord
             $book = new Book($dbal);
 
             if ($book->getFromDB($fields['ISBN'])) {
-                switch ($book->getCondition()) {
+                switch ($book->getRate()) {
                     case 'rotmed':
                         $totaler += 0.5;
                         break;

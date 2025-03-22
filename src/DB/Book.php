@@ -31,7 +31,7 @@ use PhpYabs\ValueObject\ISBN;
  */
 class Book extends ActiveRecord
 {
-    public string|false $_condition;
+    public string|false $_rate;
 
     /** @var string[] */
     private array $fields;
@@ -41,7 +41,7 @@ class Book extends ActiveRecord
         parent::__construct($dbalConnection);
 
         $this->fields = [];
-        $this->setCondition(false);
+        $this->setRate(false);
     }
 
     /**
@@ -92,29 +92,29 @@ class Book extends ActiveRecord
         return (float) ($fields['price'] ?? 0.0);
     }
 
-    public function setCondition(mixed $condition): void
+    public function setRate(mixed $rate): void
     {
-        switch ($condition) {
+        switch ($rate) {
             case 'zero':
             case 'rotmed':
             case 'rotsup':
             case 'buono':
                 break;
             default:
-                $condition = false;
+                $rate = false;
         }
 
-        $this->_condition = $condition;
+        $this->_rate = $rate;
     }
 
-    public function getCondition(): string|false
+    public function getRate(): string|false
     {
-        return $this->_condition;
+        return $this->_rate;
     }
 
     public function getStoreCredit(): float
     {
-        return match ($this->getCondition()) {
+        return match ($this->getRate()) {
             'rotmed' => 0.5,
             'rotsup' => 1.0,
             'buono' => round(floatval($this->fields['price']) / 3, 2),
@@ -124,7 +124,7 @@ class Book extends ActiveRecord
 
     public function getCashValue(): float
     {
-        return match ($this->getCondition()) {
+        return match ($this->getRate()) {
             'rotmed' => 0.5,
             'rotsup' => 1.0,
             'buono' => round(floatval($this->fields['price']) / 4, 2),
@@ -154,10 +154,10 @@ class Book extends ActiveRecord
                 $dbal->insert('books', $this->fields);
             }
 
-            if ($this->_condition) {
+            if ($this->_rate) {
                 $buybackFields = [
                     'ISBN' => $this->fields['ISBN'],
-                    'condition' => $this->_condition,
+                    'rate' => $this->_rate,
                 ];
 
                 $types = [
@@ -214,14 +214,14 @@ class Book extends ActiveRecord
 
             $this->setFields($fields);
 
-            $condition = $dbal->fetchOne(
-                'SELECT `condition` FROM buyback_rates WHERE ISBN = ?',
+            $rate = $dbal->fetchOne(
+                'SELECT `rate` FROM buyback_rates WHERE ISBN = ?',
                 [$ISBN],
             );
 
-            $this->setCondition($condition ?: false);
+            $this->setRate($rate ?: false);
 
-            return false !== $condition;
+            return false !== $rate;
         }
 
         return false;

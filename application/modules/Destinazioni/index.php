@@ -1,8 +1,12 @@
 <?php
-global $conn;
+global $dbal;
 
-$risultato = $conn->query('SELECT COUNT(*) FROM buyback_rates');
-[$totlibri] = $risultato?->fields ?? 0;
+use Doctrine\DBAL\Connection;
+
+assert($dbal instanceof Connection);
+
+$risultato = $dbal->fetchOne('SELECT COUNT(*) FROM buyback_rates');
+$totlibri = $risultato ?? 0;
 
 $get_start = 0;
 $destinazione = '';

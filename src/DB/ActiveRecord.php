@@ -4,8 +4,6 @@
 
 namespace PhpYabs\DB;
 
-use ADOConnection;
-use ADORecordSet;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -36,7 +34,7 @@ abstract class ActiveRecord
     /**
      * Database connection.
      */
-    protected ADOConnection $_db;
+    protected \ADOConnection $_db;
 
     /**
      * Table prefix.
@@ -44,7 +42,7 @@ abstract class ActiveRecord
     private string $prefix = 'phpyabs';
     private readonly Connection $dbalConnection;
 
-    public function __construct(ADOConnection $connection = null, Connection $dbalConnection = null)
+    public function __construct(?\ADOConnection $connection = null, ?Connection $dbalConnection = null)
     {
         if (is_null($connection)) {
             global $conn;
@@ -71,11 +69,11 @@ abstract class ActiveRecord
     }
 
     /**
-     * @param ADORecordSet<array>|bool $recordSet
+     * @param \ADORecordSet<array>|bool $recordSet
      */
-    protected function fetchColumn(ADORecordSet|bool $recordSet, int $column = 0): mixed
+    protected function fetchColumn(\ADORecordSet|bool $recordSet, int $column = 0): mixed
     {
-        if (!$recordSet instanceof ADORecordSet) {
+        if (!$recordSet instanceof \ADORecordSet) {
             return null;
         }
 
@@ -87,7 +85,7 @@ abstract class ActiveRecord
         return $row[$column];
     }
 
-    protected function fetchStringColumn(ADORecordSet|bool $recordSet, int $column = 0): ?string
+    protected function fetchStringColumn(\ADORecordSet|bool $recordSet, int $column = 0): ?string
     {
         $column = $this->fetchColumn($recordSet, $column);
         if (is_scalar($column)) {

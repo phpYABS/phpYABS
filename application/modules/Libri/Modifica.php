@@ -25,47 +25,47 @@ document.form1.ISBN.focus()
   </form>
 </div>
 <?php } else {
-      $modbook = new Book();
+    $modbook = new Book();
 
-      $fields = ['ISBN' => $_GET['ISBN'],  'Titolo' => $_GET['Titolo'], 'Autore' => $_GET['Autore'],
-          'Editore' => $_GET['Editore'], 'Prezzo' => $_GET['Prezzo'], ];
+    $fields = ['ISBN' => $_GET['ISBN'],  'Titolo' => $_GET['Titolo'], 'Autore' => $_GET['Autore'],
+        'Editore' => $_GET['Editore'], 'Prezzo' => $_GET['Prezzo'], ];
 
-      $modbook->SetFields($fields);
-      $modbook->SetValutazione($_GET['Valutazione']);
+    $modbook->SetFields($fields);
+    $modbook->SetValutazione($_GET['Valutazione']);
 
-      if ($modbook->SaveToDB()) {
-          echo '<p align="center">Libro modificato!</p>';
-      }
+    if ($modbook->SaveToDB()) {
+        echo '<p align="center">Libro modificato!</p>';
+    }
 
-      $modbook->GetFromDB($_GET['ISBN']);
+    $modbook->GetFromDB($_GET['ISBN']);
 
-      if ($f = $modbook->GetFields()) {
-          [$ISBN, $Titolo, $Autore, $Editore, $Prezzo] = $f;
-          $valutazione = $modbook->GetValutazione();
-          switch ($valutazione) {
-          case 'zero':
-            $selzero = 'selected';
-            break;
-          case 'rotmed':
-            $selrotmed = 'selected';
-            break;
-          case 'rotsup':
-            $selrotsup = 'selected';
-            break;
-          case 'buono':
-            $selbuono = 'selected';
-            break;
-          default:
-            $selnull = 'selected';
-            break;
+    if ($f = $modbook->GetFields()) {
+        [$ISBN, $Titolo, $Autore, $Editore, $Prezzo] = $f;
+        $valutazione = $modbook->GetValutazione();
+        switch ($valutazione) {
+            case 'zero':
+                $selzero = 'selected';
+                break;
+            case 'rotmed':
+                $selrotmed = 'selected';
+                break;
+            case 'rotsup':
+                $selrotsup = 'selected';
+                break;
+            case 'buono':
+                $selbuono = 'selected';
+                break;
+            default:
+                $selnull = 'selected';
+                break;
         }
 
-          include PATH_TEMPLATES . '/oldones/libri/tabmod.php';
-      } else { ?>
+        include PATH_TEMPLATES . '/oldones/libri/tabmod.php';
+    } else { ?>
 <p align="center">Libro non trovato</p>
 <?php
     }
-  }
+}
 ?>
 </body>
 </html>

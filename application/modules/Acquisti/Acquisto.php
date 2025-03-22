@@ -1,5 +1,5 @@
 <?php
-//se c'è una richiesta di nuovo acquisto, elimino il precedente
+// se c'è una richiesta di nuovo acquisto, elimino il precedente
 use PhpYabs\DB\Acquisto;
 
 if ('Nuovo' == $_GET['Azione']) {
@@ -22,7 +22,7 @@ $IdAcquisto = $_SESSION['IdAcquisto'] = $acquisto->GetID();
 $trovato = true;
 
 if (isset($_POST['newISBN'])) {
-    $trovato = ($acquisto->addBook($_POST['newISBN']));
+    $trovato = $acquisto->addBook($_POST['newISBN']);
 } elseif (isset($_GET['Cancella'])) {
     $acquisto->delBook($_GET['Cancella']);
 }
@@ -42,11 +42,11 @@ if (isset($_POST['newISBN'])) {
     echo "<p align=\"center\"><font color=\"RED\">$errmsg</font></p>";
 } ?>
 <?php
-  $acquisto->PrintAcquisto();
-  if (!$trovato) {
-      echo "<script language=\"Javascript\">alert('Libro non trovato!');</script>";
-  }
-  $bill = $acquisto->GetBill();
+$acquisto->PrintAcquisto();
+if (!$trovato) {
+    echo "<script language=\"Javascript\">alert('Libro non trovato!');</script>";
+}
+$bill = $acquisto->GetBill();
 ?>
 <p align="center"><?php echo $acquisto->NumBook(); ?> Libri acquistati<br>Totale contanti: <?php echo $bill['totalec']; ?> &euro;
 &nbsp;&nbsp;&nbsp;&nbsp;Totale buono: <?php echo $bill['totaleb']; ?> &euro;

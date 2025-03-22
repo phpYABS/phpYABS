@@ -17,17 +17,17 @@ global $version, $conn, $prefix;
 <?php
   $rset = $conn->Execute('SELECT IdAcquisto, COUNT(IdAcquisto) FROM ' . $prefix . '_acquisti GROUP BY IdAcquisto');
 
-  while (!$rset->EOF) {
-      [$IdAcquisto, $nlibri] = $rset->fields;
+while (!$rset->EOF) {
+    [$IdAcquisto, $nlibri] = $rset->fields;
 
-      echo '<tr>';
-      echo "  <td><a href=\"modules.php?Nome=Acquisti&Azione=Acquisto&IdAcquisto=$IdAcquisto\">$IdAcquisto</a></td>";
-      echo "  <td>$nlibri</td>";
-      echo '</tr>';
+    echo '<tr>';
+    echo "  <td><a href=\"modules.php?Nome=Acquisti&Azione=Acquisto&IdAcquisto=$IdAcquisto\">$IdAcquisto</a></td>";
+    echo "  <td>$nlibri</td>";
+    echo '</tr>';
 
-      $rset->MoveNext();
-  }
-  $rset->Close();
+    $rset->MoveNext();
+}
+$rset->Close();
 ?>
 </table>
 </body>

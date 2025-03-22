@@ -4,9 +4,6 @@
 
 namespace PhpYabs\DB;
 
-use ADOConnection;
-use ADORecordSet;
-
 /**
  * $Id: file-header.php 299 2009-11-21 17:09:54Z dvbellet $.
  *
@@ -33,7 +30,7 @@ class Book extends ActiveRecord
     /** @var string[] */
     private array $fields;
 
-    public function __construct(ADOConnection $connection = null)
+    public function __construct(?\ADOConnection $connection = null)
     {
         parent::__construct($connection);
 
@@ -136,7 +133,7 @@ class Book extends ActiveRecord
         if ($this->checkFields($this->fields)) {
             $rset = $this->_db->Execute('SELECT * FROM ' . $prefix . "_libri WHERE ISBN='" . $this->fields['ISBN'] . "'");
 
-            if ($rset instanceof ADORecordSet && !$rset->EOF) {
+            if ($rset instanceof \ADORecordSet && !$rset->EOF) {
                 $updateSQL = $this->_db->GetUpdateSQL($rset, $this->fields);
                 if ($updateSQL) {
                     $this->_db->Execute($updateSQL);
@@ -149,7 +146,7 @@ class Book extends ActiveRecord
                 }
             }
 
-            if ($rset instanceof ADORecordSet) {
+            if ($rset instanceof \ADORecordSet) {
                 $rset->Close();
             }
 
@@ -158,7 +155,7 @@ class Book extends ActiveRecord
 
                 $rset = $this->_db->Execute('SELECT * FROM ' . $prefix . "_valutazioni WHERE ISBN='" . $this->fields['ISBN'] . "'");
 
-                if ($rset instanceof ADORecordSet && !$rset->EOF) {
+                if ($rset instanceof \ADORecordSet && !$rset->EOF) {
                     $updateSQL = $this->_db->GetUpdateSQL($rset, $valfields);
                     if ($updateSQL) {
                         $this->_db->Execute($updateSQL);
@@ -176,7 +173,7 @@ class Book extends ActiveRecord
         }
 
         $rset = $this->_db->Execute('SELECT ISBN FROM ' . $prefix . "_libri WHERE ISBN='" . $this->fields['ISBN'] . "'");
-        if ($rset instanceof ADORecordSet) {
+        if ($rset instanceof \ADORecordSet) {
             $rset->Close();
 
             return !$rset->EOF;
@@ -185,7 +182,7 @@ class Book extends ActiveRecord
         return false;
     }
 
-    //carica i dati dal database, specificato l'isbn
+    // carica i dati dal database, specificato l'isbn
     public function getFromDB(string $ISBN): bool
     {
         global $prefix;
@@ -194,7 +191,7 @@ class Book extends ActiveRecord
 
         if ($ISBN && static::isValidISBN($ISBN)) {
             $rset = $this->_db->Execute('SELECT ISBN, Titolo, Autore, Editore, Prezzo FROM ' . $prefix . "_libri WHERE ISBN='$ISBN'");
-            if (!$rset instanceof ADORecordSet) {
+            if (!$rset instanceof \ADORecordSet) {
                 return false;
             }
             $fields = $rset->fields;
@@ -211,7 +208,7 @@ class Book extends ActiveRecord
             $Valutazione = $this->fetchStringColumn($rset) ?: false;
             $this->setValutazione($Valutazione);
 
-            if ($rset instanceof ADORecordSet) {
+            if ($rset instanceof \ADORecordSet) {
                 $rset->Close();
             }
 
@@ -283,7 +280,7 @@ class Book extends ActiveRecord
         return (string) $checksum;
     }
 
-    public function getEAN(string $ISBN = null): string|false
+    public function getEAN(?string $ISBN = null): string|false
     {
         if (null === $ISBN) {
             $ISBN = $this->fields['ISBN'];

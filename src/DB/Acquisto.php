@@ -4,10 +4,6 @@
 
 namespace PhpYabs\DB;
 
-use ADOConnection;
-use ADORecordSet;
-use const PATH_TEMPLATES;
-
 /**
  * $Id: file-header.php 299 2009-11-21 17:09:54Z dvbellet $.
  *
@@ -36,7 +32,7 @@ class Acquisto extends ActiveRecord
 {
     private int $ID;
 
-    public function __construct(ADOConnection $connection = null)
+    public function __construct(?\ADOConnection $connection = null)
     {
         parent::__construct($connection);
 
@@ -63,7 +59,7 @@ class Acquisto extends ActiveRecord
         }
 
         $rset = $this->_db->Execute('SELECT * FROM ' . $prefix . "_acquisti WHERE IdAcquisto='$ID'");
-        if ($rset instanceof ADORecordSet) {
+        if ($rset instanceof \ADORecordSet) {
             if ($ok = !$rset->EOF) {
                 $this->ID = $ID;
             }
@@ -108,7 +104,7 @@ class Acquisto extends ActiveRecord
         global $prefix;
         $rset = $this->_db->Execute('SELECT * FROM ' . $prefix . "_acquisti WHERE IdAcquisto='" . $this->ID . "'");
 
-        return $rset instanceof ADORecordSet ? $rset->RecordCount() : 0;
+        return $rset instanceof \ADORecordSet ? $rset->RecordCount() : 0;
     }
 
     public function printAcquisto(): void
@@ -116,7 +112,7 @@ class Acquisto extends ActiveRecord
         global $prefix;
         $rset = $this->_db->Execute('SELECT IdLibro, ISBN FROM ' . $prefix . "_acquisti WHERE IdAcquisto='" . $this->ID . "'");
 
-        if (!$rset instanceof ADORecordSet) {
+        if (!$rset instanceof \ADORecordSet) {
             return;
         }
 
@@ -132,7 +128,7 @@ class Acquisto extends ActiveRecord
                 $Buono = $book->GetBuono();
                 $Contanti = $book->GetContanti();
 
-                include PATH_TEMPLATES . '/oldones/acquisti/tabview.php';
+                include \PATH_TEMPLATES . '/oldones/acquisti/tabview.php';
                 ++$numero;
             }
 
@@ -150,7 +146,7 @@ class Acquisto extends ActiveRecord
         $totaleb = $totalec = $totaler = 0.0;
 
         $rset = $this->_db->Execute('SELECT ISBN From ' . $prefix . "_acquisti WHERE IdAcquisto ='" . $this->ID . "'");
-        if (!$rset instanceof ADORecordSet) {
+        if (!$rset instanceof \ADORecordSet) {
             $rset = [];
         }
 

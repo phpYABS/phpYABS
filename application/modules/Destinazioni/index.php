@@ -23,34 +23,34 @@ if ('_NEW' !== ($_GET['destinazione'] ?? '')) {
     }
 }
 
- setcookie('start', (string) $get_start, ['expires' => time() + 604800]);
- setcookie('destinazione', $destinazione, ['expires' => time() + 604800]);
+setcookie('start', (string) $get_start, ['expires' => time() + 604800]);
+setcookie('destinazione', $destinazione, ['expires' => time() + 604800]);
 
- switch ($_GET['invia'] ?? '') {
-   case 'Avanti':
-     $start = $get_start + 50;
-     if ($start > $totlibri) {
-         $start = $totlibri - ($totlibri % 50);
-     }
-       break;
-     case 'Indietro':
-       $start = $get_start - 50;
-       if ($start < 0) {
-           $start = 0;
-       }
-       break;
-     default:
-       if (strlen((string) $get_start) > 0) {
-           $start = $get_start;
-       } else {
-           $start = 0;
-       }
-       break;
-    }
-   if (!strlen($destinazione)) {
-       $start = 0;
-   }
-   $pag = (int) ($start / 50) + 1;
+switch ($_GET['invia'] ?? '') {
+    case 'Avanti':
+        $start = $get_start + 50;
+        if ($start > $totlibri) {
+            $start = $totlibri - ($totlibri % 50);
+        }
+        break;
+    case 'Indietro':
+        $start = $get_start - 50;
+        if ($start < 0) {
+            $start = 0;
+        }
+        break;
+    default:
+        if (strlen((string) $get_start) > 0) {
+            $start = $get_start;
+        } else {
+            $start = 0;
+        }
+        break;
+}
+if (!strlen($destinazione)) {
+    $start = 0;
+}
+$pag = (int) ($start / 50) + 1;
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>

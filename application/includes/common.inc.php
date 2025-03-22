@@ -27,7 +27,7 @@ use PhpYabs\Configuration\Configuration;
 
 require_once __DIR__ . '/config.inc.php';
 
-//starting session
+// starting session
 session_start();
 
 $loader = require __DIR__ . '/../../vendor/autoload.php';
@@ -45,7 +45,7 @@ $conn->PConnect(
 global $dbal;
 $pdo = $conn->_connectionID;
 assert($pdo instanceof PDO);
-$driver = 'pdo_' . $pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
+$driver = 'pdo_' . $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
 
 $dbal = DriverManager::getConnection(compact('pdo', 'driver'));
 date_default_timezone_set(Configuration::TIMEZONE);

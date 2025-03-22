@@ -74,7 +74,8 @@ class MainFacade extends AbstractFacade
             $response
                 ->withStatus(404)
                 ->withHeader('Content-Type', 'text/plain')
-                ->getBody()->write('Not found');
+                ->getBody()->write('Not found')
+            ;
 
             return $response;
         }

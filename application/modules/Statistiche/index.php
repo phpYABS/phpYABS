@@ -1,32 +1,32 @@
 <?php
 global $conn, $prefix;
 
-//conto gli acquisti
+// conto gli acquisti
 $rset = $conn->Execute('SELECT COUNT(IdAcquisto) FROM ' . $prefix . '_acquisti');
 [$nacquisti] = $rset->fields;
 $rset->Close();
 
-//conto i libri acquistati
+// conto i libri acquistati
 $rset = $conn->Execute('SELECT COUNT(*) FROM ' . $prefix . '_acquisti');
 [$libriacq] = $rset->fields;
 $rset->Close();
 
-//conto i libri non trovati
+// conto i libri non trovati
 $rset = $conn->Execute('SELECT COUNT(ISBN) FROM ' . $prefix . "_hits WHERE trovato='no'");
 [$nerrori] = $rset->fields;
 $rset->Close();
 
-//conto gli spari totali
+// conto gli spari totali
 $rset = $conn->Execute('SELECT SUM(hits) FROM ' . $prefix . '_hits');
 [$totspari] = $rset->fields;
 $rset->Close();
 
-//conto gli spari falliti
+// conto gli spari falliti
 $rset = $conn->Execute('SELECT SUM(hits) FROM ' . $prefix . "_hits WHERE trovato='no'");
 [$errspari] = $rset->fields;
 $rset->Close();
 
-//calcolo gli spari con successo
+// calcolo gli spari con successo
 $spariok = $totspari - $errspari;
 ?>
 <html>

@@ -7,7 +7,6 @@
 
 namespace PhpYabs\Facade;
 
-use ADOConnection;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -16,12 +15,12 @@ use Doctrine\DBAL\Connection;
 abstract class AbstractFacade
 {
     public function __construct(
-        private readonly ADOConnection $ADOConnection,
+        private readonly \ADOConnection $ADOConnection,
         private readonly Connection $doctrineConnection,
     ) {
     }
 
-    protected function getADOConnection(): ADOConnection
+    protected function getADOConnection(): \ADOConnection
     {
         return $this->ADOConnection;
     }

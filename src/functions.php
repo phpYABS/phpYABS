@@ -1,14 +1,12 @@
 <?php
 
-use PhpYabs\DB\Book;
+use PhpYabs\ValueObject\ISBN;
 
-function fullisbn(string $isbn): string
+function fullisbn(string $isbn): ?string
 {
-    $book = new Book();
-    $book->setFields([
-        'ISBN' => $isbn,
-        'Titolo' => 'Dummy',
-    ]);
-
-    return $book->getFullIsbn();
+    try {
+        return (string) ISBN::fromString($isbn)->version10;
+    } catch (InvalidArgumentException $e) {
+        return null;
+    }
 }

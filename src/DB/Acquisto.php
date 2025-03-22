@@ -134,8 +134,7 @@ class Acquisto extends ActiveRecord
             $book = new Book($dbal);
 
             if ($book->getFromDB($row['ISBN']) && is_array($fields = $book->getFields())) {
-                [$ISBN, $Titolo, $Autore, $Editore, $Prezzo] = $fields;
-                $sISBN = $ISBN;
+                extract($fields);
                 $ISBN = $book->getFullIsbn();
                 $Valutazione = $book->getRate();
                 $Buono = $book->getStoreCredit();

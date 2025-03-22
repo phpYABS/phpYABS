@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML PUBLIC 4.01 Transitional//EN">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Valutazione dei libri in acquisto</title>
+    <link href="/css/main.css" rel="stylesheet" type="text/css">
+</head>
+<body onLoad="document.libro.newISBN.focus()">
+<font face="Arial, Helvetica, sans-serif">
+    <h1 align="center">Valutazione dei libri in acquisto</h1>
+    <h2 align="center">Acquisto N° {{ purchase_id }}</h2>
+    {% if errmsg %}
+        <p align="center"><font color="RED">{{ errmsg }}</font></p>
+    {% endif %}
+    {{ acquisto.printAcquisto() }}
+    {% if not trovato %}
+        <script>alert('Libro non trovato!');</script>";
+    {% endif %}
+    <p align="center">{{ acquisto.numBook }} Libri acquistati<br>Totale contanti: {{ acquisto.bill.totalec }} &euro;
+        &nbsp;&nbsp;&nbsp;&nbsp;Totale buono: {{ acquisto.bill.totaleb }} &euro;
+        &nbsp;&nbsp;&nbsp;&nbsp;Totale rottamazione: {{ acquisto.bill.totaler }} &euro;</p>
+    <div align="center">
+        <form action="/purchases/current" method="post" name="libro">
+            ISBN o EAN
+            <input name="newISBN" type="text" maxlength="13">
+            <input type="submit" value="Ok">
+        </form>
+    </div>
+</font>
+</body>
+</html>

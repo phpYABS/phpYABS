@@ -57,7 +57,7 @@ class PurchaseFacade extends AbstractFacade
             $dbal = $this->getDoctrineConnection();
 
             // se c'è una richiesta di nuovo acquisto, elimino il precedente
-            if ('Nuovo' == $_GET['Azione']) {
+            if ('Nuovo' === ($_GET['Azione'] ?? '')) {
                 unset($_SESSION['purchase_id']);
                 unset($_SESSION['totalec']);
                 unset($_SESSION['totaleb']);

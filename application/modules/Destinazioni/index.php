@@ -149,10 +149,7 @@ $pag = (int) ($start / 50) + 1;
 </form>
 <?php
 if (strlen($destinazione)) {
-    $npag = (int) ($totlibri / 50);
-    if ($totlibri % 50) {
-        ++$npag;
-    }
+    $npag = (int) ceil ($totlibri / 50);
     for ($i = 1; $i <= $npag; ++$i) {
         echo "<a href=\"{$_SERVER['PHP_SELF']}?destinazione=$destinazione" .
     '&start=' . (($i - 1) * 50) . "\">$i</a>\n";

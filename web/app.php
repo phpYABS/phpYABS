@@ -75,6 +75,7 @@ $app->get('/', [MainFacade::class, 'index']);
 $app->any('/books', [BookFacade::class, 'index']);
 $app->any('/books/add', [BookFacade::class, 'aggiungi']);
 $app->any('/books/edit', [BookFacade::class, 'modifica']);
+$app->any('/books/delete', [BookFacade::class, 'delete']);
 $app->get('/purchases', [PurchaseFacade::class, 'index']);
 $app->any('/purchases/current', [PurchaseFacade::class, 'current']);
 $app->get('/stats', [StatisticsFacade::class, 'index']);

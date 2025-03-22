@@ -29,23 +29,21 @@ class MainFacade extends AbstractFacade
 <HEAD>
 <META content="text/html; charset=utf-8" http-equiv=Content-Type>
 <title>phpYabs - menu</title>
-<link href="css/main.css" rel="stylesheet" type="text/css">
+<link href="/css/main.css" rel="stylesheet" type="text/css">
 <base target="main">
 </HEAD>
 <BODY>
 <h1>Menu</h1>
 <p><a href="/purchases/current?Azione=Nuovo">Nuovo Acquisto</a></p>
-<form action="modules.php" method="get" name="acquisto">
+<form action="/purchases" method="get" name="acquisto">
         Recupera acquisto:
   <input name="purchase_id" type="text" id="purchase_id" maxlength="10" style="width:90px">
-  <input name="Nome" value="Acquisti" type="hidden">
-  <input name="Azione" value="Acquisto" type="hidden">
   <input type="submit" value="Ok">
 </form>
 <?php if ($edit) { ?>
     <p><a href="/books/add">Aggiungi Libro</a></p>
     <p><a href="/books/edit">Modifica Libro</a></p>
-    <p><a href="modules.php?Nome=Libri&Azione=Cancella">Cancella Libro</a></p>
+    <p><a href="/books/delete">Cancella Libro</a></p>
     <?php } ?>
 <p><a href="/purchases">Elenco Acquisti</a></p>
 <p><a href="modules.php?Nome=Destinazioni">Destinazioni</a></p>

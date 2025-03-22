@@ -13,7 +13,7 @@ abstract class ISBN implements \Stringable
         }
     }
 
-    public final static function fromString(string $isbn): self
+    final public static function fromString(string $isbn): self
     {
         if (preg_match('/-{2,}/', $isbn)) {
             throw new \InvalidArgumentException('Multiple dashes detected');

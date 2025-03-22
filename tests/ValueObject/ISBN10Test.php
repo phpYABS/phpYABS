@@ -3,11 +3,9 @@
 namespace PhpYabs\Tests\ValueObject;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use PhpYabs\ValueObject\ISBN;
 use PhpYabs\ValueObject\ISBN10;
-use PhpYabs\ValueObject\ISBN13;
 
 #[CoversClass(ISBN10::class)]
 class ISBN10Test extends TestCase

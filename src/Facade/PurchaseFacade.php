@@ -107,7 +107,7 @@ class PurchaseFacade extends AbstractFacade
 &nbsp;&nbsp;&nbsp;&nbsp;Totale buono: <?php echo $bill['totaleb']; ?> &euro;
 &nbsp;&nbsp;&nbsp;&nbsp;Totale rottamazione: <?php echo $bill['totaler']; ?> &euro;</p>
 <div align="center">
-    <form action="/purchases" method="post" name="libro">
+    <form action="/purchases/current" method="post" name="libro">
     ISBN o EAN
     <input name="newISBN" type="text" maxlength="13">
   <input type="submit" value="Ok">

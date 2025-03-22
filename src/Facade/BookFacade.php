@@ -153,8 +153,7 @@ class BookFacade extends AbstractFacade
 
         $delete = isset($_POST['delete']) && 'true' === $_POST['delete'];
         if ($delete) {
-            $book->delete();
-            $vars['deleted'] = true;
+            $vars['deleted'] = $book->delete();
         } else {
             $vars['book'] = $book->getFields();
             $vars['rate'] = $book->getRate();

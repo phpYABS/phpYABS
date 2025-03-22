@@ -36,7 +36,8 @@
   </tr>
 </table>
 </p>
-<form action="/books/delete">
+<form action="/books/delete" method="post">
   <input type="submit" value="Cancella libro">
-
+  <input type="hidden" name="ISBN" value="{{ book.ISBN }}">
+  <input type="hidden" name="delete" value="true">
 </form>

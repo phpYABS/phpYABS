@@ -231,7 +231,7 @@ class Book extends ActiveRecord
     {
         $dbal = $this->getDbalConnection();
 
-        $ISBN = $this->fields['ISBN'];
+        $ISBN = $this->fields['ISBN'] ?? '';
         if (static::isValidISBN($ISBN)) {
             $dbal->delete('books', ['ISBN' => $ISBN]);
             $dbal->delete('buyback_rates', ['ISBN' => $ISBN]);

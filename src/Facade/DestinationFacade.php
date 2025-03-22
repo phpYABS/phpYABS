@@ -99,9 +99,8 @@ class DestinationFacade extends AbstractFacade
                     if (isset($_GET['destina']) && is_array($_GET['destina'])) {
                         foreach ($_GET['destina'] as $chiave => $valore) {
                             if ('on' == $valore) {
-                                $risultato = $dbal->fetchOne('SELECT COUNT(*) FROM destinations ' .
+                                $esiste = $dbal->fetchOne('SELECT COUNT(*) FROM destinations ' .
                                     "WHERE ISBN = '$chiave' AND destination = '$destination'");
-                                $esiste = $risultato->fetchField(0);
                                 if (!$esiste) {
                                     $dbal->executeStatement('INSERT INTO destinations (ISBN, destination) ' .
                                         " VALUES ('$chiave', '$destination')");
@@ -174,7 +173,7 @@ class DestinationFacade extends AbstractFacade
                 }
             }
             ?>
-            <p align="center"><a href="<?php echo $_SERVER['PHP_SELF']; ?>?destination=_NEW">Nuova destination</a></p>
+            <p align="center"><a href="/destinations?destination=_NEW">Nuova destination</a></p>
             </body>
             </html>
             <?php

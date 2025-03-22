@@ -43,9 +43,8 @@ class BookFacade extends AbstractFacade
 
     public function modifica(Request $request, Response $response): ResponseInterface
     {
+        $view = Twig::fromRequest($request);
         if (!isset($_GET['ISBN'])) {
-            $view = Twig::fromRequest($request);
-
             return $view->render($response, 'books/edit.twig');
         }
 
@@ -98,7 +97,13 @@ class BookFacade extends AbstractFacade
                     break;
             }
 
-            include PATH_TEMPLATES . '/oldones/libri/tabmod.php';
+            echo $view->fetch('books/tabmod.twig', [
+                'selzero' => $selzero ?? null,
+                'selrotmed' => $selrotmed ?? null,
+                'selrotsup' => $selrotsup ?? null,
+                'selbuono' => $selbuono ?? null,
+                'selnull' => $selnull ?? null,
+            ]);
         } else { ?>
             <p align="center">Libro non trovato</p>
             <?php

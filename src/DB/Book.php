@@ -117,7 +117,7 @@ class Book extends ActiveRecord
         return match ($this->getCondition()) {
             'rotmed' => 0.5,
             'rotsup' => 1.0,
-            'buono' => round($this->fields['price'] / 3, 2),
+            'buono' => round(floatval($this->fields['price']) / 3, 2),
             default => 0.0,
         };
     }
@@ -127,7 +127,7 @@ class Book extends ActiveRecord
         return match ($this->getCondition()) {
             'rotmed' => 0.5,
             'rotsup' => 1.0,
-            'buono' => round($this->fields['price'] / 4, 2),
+            'buono' => round(floatval($this->fields['price']) / 4, 2),
             default => 0.0,
         };
     }

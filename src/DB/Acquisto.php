@@ -173,7 +173,7 @@ class Acquisto extends ActiveRecord
                         $totaler += 1.0;
                         break;
                     case 'buono':
-                        $prezzo = $book->getPrezzo();
+                        $prezzo = $book->getPrice();
                         $totaleb += round($prezzo / 3, 2);
                         $totalec += round($prezzo / 4, 2);
                         break;

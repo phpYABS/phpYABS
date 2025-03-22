@@ -7,7 +7,6 @@ declare(strict_types=1);
 namespace PhpYabs\DB;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use PhpYabs\ValueObject\ISBN;
 

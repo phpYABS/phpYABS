@@ -41,10 +41,9 @@ global $dbal;
 $parser = new DsnParser();
 $dbal = DriverManager::getConnection($parser->parse((string) getenv('DB_URL')));
 
-$logger = new Logger('default', [new \Monolog\Handler\SyslogHandler('phpyabs')]);
+$logger = new Logger('default', [new Monolog\Handler\SyslogHandler('phpyabs')]);
 $middlewares = $dbal->getConfiguration()->getMiddlewares();
 $middlewares[] = new Middleware($logger);
 $dbal->getConfiguration()->setMiddlewares($middlewares);
-
 
 date_default_timezone_set(Configuration::TIMEZONE);

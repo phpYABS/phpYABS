@@ -113,19 +113,8 @@ class BookFacade extends AbstractFacade
 
     public function elenco(Request $request, Response $response): Response
     {
-        ob_start(); ?>
-        <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-        <HTML>
-        <HEAD>
-            <META content="text/html; charset=utf-8" http-equiv=Content-Type>
-            <link href="css/main.css" rel="stylesheet" type="text/css">
-        </HEAD>
-        <BODY>
-        <?php
         $dbal = $this->getDoctrineConnection();
-
         $count = $dbal->fetchOne('SELECT COUNT(*) FROM books');
-
         $offset = $request->getQueryParams()['offset'] ?? 0;
         if (is_string($offset) && preg_match('/^\\d+$/', $offset)) {
             $offset = intval($offset);
@@ -133,44 +122,20 @@ class BookFacade extends AbstractFacade
             $offset = 0;
         }
 
-        $books = $dbal->executeQuery(
+        $books = $dbal->fetchFirstColumn(
             'SELECT ISBN FROM books LIMIT ?, 50',
             [$offset],
             [Type::getType('integer')],
         );
 
-        echo "<table border=\"1\" align=\"center\" width=\"755\">\n";
-        echo "<tr>\n";
-        echo "<td>ISBN</td>\n";
-        echo "<td>Titolo</td>\n";
-        echo "<td>Autore</td>\n";
-        echo "<td>Editore</td>\n";
-        echo "<td>Prezzo</td>\n";
-        echo '</tr>', PHP_EOL;
-
-        foreach ($books as $row) {
-            echo "<tr>\n";
-
+        $books = array_map(function (string $ISBN) use ($dbal) {
             $book = new Book($dbal);
-            $book->getFromDB($row['ISBN']);
+            $book->getFromDB($ISBN);
+            return $book->getFields();
+        }, $books);
 
-            foreach ($book->getFields() ?: [] as $chiave => $valore) {
-                if (!is_numeric($chiave)) {
-                    echo "<td>$valore</td>";
-                }
-            }
+        $view = Twig::fromRequest($request);
 
-            echo '</tr>';
-        }
-        echo '</table>';
-
-        echo '<a href="/books?offset=' . ($offset + 50) . '">Pagina ' . ($offset / 50 + 2) . '</a>'; ?>
-        <p><?php echo $count; ?> libri presenti.</p>
-        </BODY>
-        </HTML>
-        <?php
-        $response->getBody()->write((string) ob_get_clean());
-
-        return $response;
+        return $view->render($response, 'books/list.twig', compact('count', 'books'));
     }
 }

@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv=Content-Type>
+    <link href="css/main.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<table border="1" align="center" width="755">
+    <thead>
+        <tr>
+            <td>ISBN</td>
+            <td>Titolo</td>
+            <td>Autore</td>
+            <td>Editore</td>
+            <td>Prezzo</td>
+        </tr>
+    </thead>
+    {% for book in books %}
+        <tr>
+            <td>{{ book.ISBN }}</td>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.publisher }}</td>
+            <td>{{ book.price }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+<p>{{ count }} libri presenti.</p>
+</BODY>
+</HTML>

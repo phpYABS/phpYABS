@@ -77,7 +77,6 @@ class BookFacade extends AbstractFacade
         $modbook->getFromDB($_GET['ISBN']);
 
         if ($f = $modbook->getFields()) {
-            [$ISBN, $Titolo, $Autore, $Editore, $Prezzo] = $f;
             $valutazione = $modbook->getRate();
             switch ($valutazione) {
                 case 'zero':
@@ -98,6 +97,7 @@ class BookFacade extends AbstractFacade
             }
 
             echo $view->fetch('books/tabmod.twig', [
+                'book' => $f,
                 'selzero' => $selzero ?? null,
                 'selrotmed' => $selrotmed ?? null,
                 'selrotsup' => $selrotsup ?? null,

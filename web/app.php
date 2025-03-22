@@ -50,5 +50,6 @@ $app->get('/menu.php', [$mainFacade, 'menu']);
 $app->get('/', [$mainFacade, 'index']);
 $app->any('/books', [$bookFacade, 'elenco']);
 $app->any('/books/add', [$bookFacade, 'aggiungi']);
+$app->any('/books/edit', [$bookFacade, 'modifica']);
 
 $app->run();

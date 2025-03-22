@@ -44,7 +44,7 @@ class MainFacade extends AbstractFacade
 </form>
 <?php if ($edit) { ?>
     <p><a href="/books/add">Aggiungi Libro</a></p>
-    <p><a href="modules.php?Nome=Libri&Azione=Modifica">Modifica Libro</a></p>
+    <p><a href="/books/edit">Modifica Libro</a></p>
     <p><a href="modules.php?Nome=Libri&Azione=Cancella">Cancella Libro</a></p>
     <?php } ?>
 <p><a href="modules.php?Nome=Acquisti&Azione=Elenco">Elenco Acquisti</a></p>

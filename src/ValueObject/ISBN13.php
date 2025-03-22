@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpYabs\ValueObject;
 
 final class ISBN13 extends ISBN

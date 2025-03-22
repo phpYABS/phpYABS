@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // vim: set shiftwidth=4 tabstop=4 expandtab cindent :
 
 namespace PhpYabs\DB;
@@ -31,30 +33,8 @@ use Doctrine\DBAL\Connection;
  */
 abstract class ActiveRecord
 {
-    /**
-     * Table prefix.
-     */
-    private string $prefix = 'phpyabs';
-    private readonly Connection $dbalConnection;
-
-    public function __construct(?Connection $dbalConnection = null)
+    public function __construct(protected readonly Connection $dbalConnection)
     {
-        if (is_null($dbalConnection)) {
-            global $dbal;
-            $dbalConnection = $dbal;
-        }
-
-        $this->dbalConnection = $dbalConnection;
-    }
-
-    /**
-     * Table prefix getter.
-     *
-     * @return string (e.g. phpyabs)
-     */
-    protected function getPrefix(): string
-    {
-        return $this->prefix;
     }
 
     protected function getDbalConnection(): Connection

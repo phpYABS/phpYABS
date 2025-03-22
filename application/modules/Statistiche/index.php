@@ -1,30 +1,20 @@
 <?php
-global $conn, $prefix;
+global $dbal;
 
 // conto gli acquisti
-$rset = $conn->Execute('SELECT COUNT(IdAcquisto) FROM ' . $prefix . '_acquisti');
-[$nacquisti] = $rset->fields;
-$rset->Close();
+$nacquisti = $dbal->fetchOne('SELECT COUNT(purchase_id) FROM purchases');
 
 // conto i libri acquistati
-$rset = $conn->Execute('SELECT COUNT(*) FROM ' . $prefix . '_acquisti');
-[$libriacq] = $rset->fields;
-$rset->Close();
+$libriacq = $dbal->fetchOne('SELECT COUNT(*) FROM purchases');
 
 // conto i libri non trovati
-$rset = $conn->Execute('SELECT COUNT(ISBN) FROM ' . $prefix . "_hits WHERE trovato='no'");
-[$nerrori] = $rset->fields;
-$rset->Close();
+$nerrori = $dbal->fetchOne("SELECT COUNT(ISBN) FROM hits WHERE found='no'");
 
 // conto gli spari totali
-$rset = $conn->Execute('SELECT SUM(hits) FROM ' . $prefix . '_hits');
-[$totspari] = $rset->fields;
-$rset->Close();
+$totspari = $dbal->fetchOne('SELECT SUM(hits) FROM hits');
 
 // conto gli spari falliti
-$rset = $conn->Execute('SELECT SUM(hits) FROM ' . $prefix . "_hits WHERE trovato='no'");
-[$errspari] = $rset->fields;
-$rset->Close();
+$errspari = $dbal->fetchOne("SELECT SUM(hits) FROM hits WHERE found='no'");
 
 // calcolo gli spari con successo
 $spariok = $totspari - $errspari;

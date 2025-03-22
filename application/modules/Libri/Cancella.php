@@ -36,7 +36,7 @@ use PhpYabs\DB\Book;
         [$ISBN, $Titolo, $Autore, $Editore, $Prezzo] = $f;
         $ISBN = $delbook->getFullISBN();
 
-        $Valutazione = $delbook->getValutazione();
+        $Valutazione = $delbook->getCondition();
 
         if ('' == $Valutazione) {
             $Valutazione = '&nbsp;';

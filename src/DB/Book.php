@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 // vim: set shiftwidth=4 tabstop=4 expandtab cindent :
 
 namespace PhpYabs\DB;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use PhpYabs\ValueObject\ISBN;
 
 /**
@@ -33,9 +37,9 @@ class Book extends ActiveRecord
     /** @var string[] */
     private array $fields;
 
-    public function __construct(?Connection $dbalConnection = null)
+    public function __construct(Connection $dbalConnection)
     {
-        parent::__construct(null, $dbalConnection);
+        parent::__construct($dbalConnection);
 
         $this->fields = [];
         $this->setCondition(false);
@@ -46,7 +50,7 @@ class Book extends ActiveRecord
      */
     public function checkFields(array $fields): bool
     {
-        return static::isValidISBN($fields['ISBN']) && strlen($fields['title']) > 0;
+        return static::isValidISBN($fields['ISBN']) && strlen($fields['title'] ?? '') > 0;
     }
 
     /**
@@ -58,7 +62,7 @@ class Book extends ActiveRecord
 
         if ($this->checkFields($fields)) {
             foreach ($fields as $key => $value) {
-                $this->fields[$key] = strtoupper(addslashes($value));
+                $this->fields[$key] = strtoupper($value);
             }
 
             return true;
@@ -89,7 +93,7 @@ class Book extends ActiveRecord
         return (float) ($fields['price'] ?? 0.0);
     }
 
-    public function setCondition(string|false $condition): void
+    public function setCondition(mixed $condition): void
     {
         switch ($condition) {
             case 'zero':
@@ -136,7 +140,7 @@ class Book extends ActiveRecord
         if ($this->checkFields($this->fields)) {
             $existingBook = $dbal->fetchAssociative(
                 'SELECT * FROM books WHERE ISBN = ?',
-                [$this->fields['ISBN']]
+                [$this->fields['ISBN']],
             );
 
             if ($existingBook) {
@@ -144,7 +148,7 @@ class Book extends ActiveRecord
                 $dbal->update(
                     'books',
                     $this->fields,
-                    ['ISBN' => $this->fields['ISBN']]
+                    ['ISBN' => $this->fields['ISBN']],
                 );
             } else {
                 // Insert new book
@@ -157,31 +161,37 @@ class Book extends ActiveRecord
                     'condition' => $this->_condition,
                 ];
 
+                $types = [
+                    Types::STRING,
+                    Types::STRING,
+                ];
+
                 $existingBuyback = $dbal->fetchAssociative(
                     'SELECT * FROM buyback_rates WHERE ISBN = ?',
-                    [$this->fields['ISBN']]
+                    [$this->fields['ISBN']],
                 );
 
                 if ($existingBuyback) {
                     $dbal->update(
                         'buyback_rates',
                         $buybackFields,
-                        ['ISBN' => $this->fields['ISBN']]
+                        ['ISBN' => $this->fields['ISBN']],
+                        $types,
                     );
                 } else {
-                    $dbal->insert('buyback_rates', $buybackFields);
+                    $dbal->insert('buyback_rates', $buybackFields, $types);
                 }
             } else {
                 $dbal->delete(
                     'buyback_rates',
-                    ['ISBN' => $this->fields['ISBN']]
+                    ['ISBN' => $this->fields['ISBN']],
                 );
             }
         }
 
         $result = $dbal->fetchOne(
             'SELECT ISBN FROM books WHERE ISBN = ?',
-            [$this->fields['ISBN']]
+            [$this->fields['ISBN']],
         );
 
         return false !== $result;
@@ -196,7 +206,7 @@ class Book extends ActiveRecord
         if ($ISBN && static::isValidISBN($ISBN)) {
             $fields = $dbal->fetchAssociative(
                 'SELECT ISBN, title, author, publisher, price FROM books WHERE ISBN = ?',
-                [$ISBN]
+                [$ISBN],
             );
 
             if (!$fields) {
@@ -207,7 +217,7 @@ class Book extends ActiveRecord
 
             $condition = $dbal->fetchOne(
                 'SELECT condition FROM buyback_rates WHERE ISBN = ?',
-                [$ISBN]
+                [$ISBN],
             );
 
             $this->setCondition($condition ?: false);

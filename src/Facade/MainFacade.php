@@ -37,7 +37,7 @@ class MainFacade extends AbstractFacade
 <p><a href="modules.php?Nome=Acquisti&Azione=Nuovo">Nuovo Acquisto</a></p>
 <form action="modules.php" method="get" name="acquisto">
         Recupera acquisto:
-  <input name="IdAcquisto" type="text" id="IdAcquisto" maxlength="10" style="width:90px">
+  <input name="purchase_id" type="text" id="purchase_id" maxlength="10" style="width:90px">
   <input name="Nome" value="Acquisti" type="hidden">
   <input name="Azione" value="Acquisto" type="hidden">
   <input type="submit" value="Ok">
@@ -64,7 +64,7 @@ class MainFacade extends AbstractFacade
         ob_start();
 
         $module = $request->getQueryParams()['Nome'] ?? '';
-        if (!preg_match('/^[a-z0-9]+$/i', (string) $module)) {
+        if (!is_string($module) || !preg_match('/^[a-z0-9]+$/i', $module)) {
             $module = '---';
         }
 

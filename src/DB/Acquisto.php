@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // vim: set shiftwidth=4 tabstop=4 expandtab cindent :
 
 namespace PhpYabs\DB;
@@ -28,21 +30,19 @@ namespace PhpYabs\DB;
  * @author Davide Bellettini <dvbellet@users.sourceforge.net>
  * @license GNU General Public License
  */
+
 use Doctrine\DBAL\Connection;
 
 class Acquisto extends ActiveRecord
 {
     private int $ID;
 
-    public function __construct(?Connection $dbalConnection = null)
+    public function __construct(Connection $dbal)
     {
-        parent::__construct(null, $dbalConnection);
+        parent::__construct($dbal);
 
-        $prefix = $this->getPrefix();
-        $dbal = $this->getDbalConnection();
-
-        $IdAcquisto = $dbal->fetchOne('SELECT MAX(IdAcquisto) FROM ' . $prefix . '_acquisti') ?? 0;
-        $this->ID = $IdAcquisto + 1;
+        $purchase_id = $dbal->fetchOne('SELECT MAX(purchase_id) FROM purchases') ?? 0;
+        $this->ID = $purchase_id + 1;
     }
 
     public function getID(): int
@@ -52,7 +52,6 @@ class Acquisto extends ActiveRecord
 
     public function setID(int $ID): bool
     {
-        $prefix = $this->getPrefix();
         $dbal = $this->getDbalConnection();
 
         if ($ID === $this->ID) {
@@ -60,8 +59,8 @@ class Acquisto extends ActiveRecord
         }
 
         $exists = $dbal->fetchOne(
-            'SELECT 1 FROM ' . $prefix . '_acquisti WHERE IdAcquisto = ?',
-            [$ID]
+            'SELECT 1 FROM purchases WHERE purchase_id = ?',
+            [$ID],
         );
 
         if ($exists) {
@@ -75,14 +74,13 @@ class Acquisto extends ActiveRecord
 
     public function addBook(string $ISBN): string
     {
-        $prefix = $this->getPrefix();
         $dbal = $this->getDbalConnection();
 
         $book = new Book($dbal);
 
         if ($book->getFromDB($ISBN)) {
             $dbal->insert($prefix . '_acquisti', [
-                'IdAcquisto' => $this->ID,
+                'purchase_id' => $this->ID,
                 'ISBN' => $ISBN,
             ]);
 
@@ -92,15 +90,14 @@ class Acquisto extends ActiveRecord
         return 'no';
     }
 
-    public function delBook(string $IdLibro): bool
+    public function delBook(string $bookId): bool
     {
-        $prefix = $this->getPrefix();
         $dbal = $this->getDbalConnection();
 
-        if (is_numeric($IdLibro)) {
-            $dbal->delete($prefix . '_acquisti', [
-                'IdLibro' => $IdLibro,
-                'IdAcquisto' => $this->ID,
+        if (is_numeric($bookId)) {
+            $dbal->delete('purchases', [
+                'book_id' => $bookId,
+                'purchase_id' => $this->ID,
             ]);
 
             return true;
@@ -111,23 +108,21 @@ class Acquisto extends ActiveRecord
 
     public function numBook(): int
     {
-        $prefix = $this->getPrefix();
         $dbal = $this->getDbalConnection();
 
         return (int) $dbal->fetchOne(
-            'SELECT COUNT(*) FROM ' . $prefix . '_acquisti WHERE IdAcquisto = ?',
-            [$this->ID]
+            'SELECT COUNT(*) FROM purchases WHERE purchase_id = ?',
+            [$this->ID],
         );
     }
 
     public function printAcquisto(): void
     {
-        $prefix = $this->getPrefix();
         $dbal = $this->getDbalConnection();
 
         $books = $dbal->fetchAllAssociative(
-            'SELECT IdLibro, ISBN FROM ' . $prefix . '_acquisti WHERE IdAcquisto = ?',
-            [$this->ID]
+            'SELECT book_id, ISBN FROM purchases WHERE purchase_id = ?',
+            [$this->ID],
         );
 
         if (!$books) {
@@ -142,9 +137,9 @@ class Acquisto extends ActiveRecord
                 [$ISBN, $Titolo, $Autore, $Editore, $Prezzo] = $fields;
                 $sISBN = $ISBN;
                 $ISBN = $book->getFullIsbn();
-                $Valutazione = $book->getValutazione();
-                $Buono = $book->getBuono();
-                $Contanti = $book->getContanti();
+                $Valutazione = $book->getCondition();
+                $Buono = $book->getStoreCredit();
+                $Contanti = $book->getCashValue();
 
                 include \PATH_TEMPLATES . '/oldones/acquisti/tabview.php';
                 ++$numero;
@@ -157,21 +152,20 @@ class Acquisto extends ActiveRecord
      */
     public function getBill(): array
     {
-        $prefix = $this->getPrefix();
         $dbal = $this->getDbalConnection();
 
         $totaleb = $totalec = $totaler = 0.0;
 
         $books = $dbal->fetchAllAssociative(
-            'SELECT ISBN FROM ' . $prefix . '_acquisti WHERE IdAcquisto = ?',
-            [$this->ID]
+            'SELECT ISBN FROM purchases WHERE purchase_id = ?',
+            [$this->ID],
         );
 
         foreach ($books as $fields) {
             $book = new Book($dbal);
 
             if ($book->getFromDB($fields['ISBN'])) {
-                switch ($book->getValutazione()) {
+                switch ($book->getCondition()) {
                     case 'rotmed':
                         $totaler += 0.5;
                         break;

@@ -3,17 +3,19 @@
 return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
     ->setRules([
-        '@PSR2' => true,
+        '@PSR12' => true,
         '@Symfony' => true,
         'array_indentation' => true,
         'array_syntax' => ['syntax' => 'short'],
-        'list_syntax' => ['syntax' => 'short'],
         'concat_space' => ['spacing' => 'one'],
+        'declare_strict_types' => true,
+        'escape_implicit_backslashes' => ['single_quoted' => true],
+        'list_syntax' => ['syntax' => 'short'],
         'multiline_whitespace_before_semicolons' => ['strategy' => 'new_line_for_chained_calls'],
         'ordered_imports' => true,
         'phpdoc_to_comment' => false,
+        'trailing_comma_in_multiline' => ['elements' => ['arrays', 'arguments', 'parameters']],
         'visibility_required' => ['elements' => ['property', 'method', 'const']],
-        'escape_implicit_backslashes' => ['single_quoted' => true],
     ])
     ->setFinder(
         PhpCsFixer\Finder::create()

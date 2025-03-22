@@ -1,5 +1,5 @@
 <?php
-global $version, $conn, $prefix;
+global $version, $dbal;
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -15,19 +15,17 @@ global $version, $conn, $prefix;
   <td>N° Libri</td>
 </tr>
 <?php
-  $rset = $conn->Execute('SELECT IdAcquisto, COUNT(IdAcquisto) FROM ' . $prefix . '_acquisti GROUP BY IdAcquisto');
+$rset = $dbal->executeQuery('SELECT purchase_id, COUNT(purchase_id) FROM purchases GROUP BY purchase_id');
 
-while (!$rset->EOF) {
-    [$IdAcquisto, $nlibri] = $rset->fields;
+foreach ($rset as $row) {
+    $purchase_id = $row['purchase_id'] ?? -1;
+    $nlibri = $row['nlibri'] ?? 0;
 
     echo '<tr>';
-    echo "  <td><a href=\"modules.php?Nome=Acquisti&Azione=Acquisto&IdAcquisto=$IdAcquisto\">$IdAcquisto</a></td>";
+    echo "  <td><a href=\"modules.php?Nome=Acquisti&Azione=Acquisto&purchase_id=$purchase_id\">$purchase_id</a></td>";
     echo "  <td>$nlibri</td>";
     echo '</tr>';
-
-    $rset->MoveNext();
 }
-$rset->Close();
 ?>
 </table>
 </body>

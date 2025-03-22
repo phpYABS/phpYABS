@@ -42,7 +42,7 @@
   </tr>
   <tr>
     <th width="80">Cancella:</th>
-    <td><a href="modules.php?Nome=Acquisti&Azione=Acquisto&Cancella=<?php echo $IdLibro ?? ''; ?>">Cancella</a>
+    <td><a href="modules.php?Nome=Acquisti&Azione=Acquisto&Cancella=<?php echo $book_id ?? ''; ?>">Cancella</a>
     <a href="modules.php?Nome=Libri&Azione=Modifica&ISBN=<?php echo $ISBN ?? ''; ?>">Modifica</a></td>
   </tr>
 </table>

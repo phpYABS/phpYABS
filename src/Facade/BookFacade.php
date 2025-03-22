@@ -2,46 +2,42 @@
 
 namespace PhpYabs\Facade;
 
+use Doctrine\DBAL\Types\Type;
 use PhpYabs\DB\Book;
-use Psr\Http\Message\RequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Psr7\Request;
+use Slim\Psr7\Response;
+use Slim\Views\Twig;
 
 class BookFacade extends AbstractFacade
 {
     public function aggiungi(Request $request, Response $response): Response
     {
-        ob_start(); ?>
+        $addbook = new Book($this->getDoctrineConnection());
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-<title>Aggiungi libro</title>
-<link href="/css/main.css" rel="stylesheet" type="text/css">
-</head>
-<body>
-<?php
-$addbook = new Book($this->getDoctrineConnection());
-        if ('POST' !== $_SERVER['REQUEST_METHOD'] || !$addbook->isValidISBN($_POST['ISBN'])) {
-            include PATH_TEMPLATES . '/oldones/libri/tabadd.php';
-        } else {
-            $fields = ['ISBN' => $_POST['ISBN'], 'Titolo' => $_POST['Titolo'], 'Autore' => $_POST['Autore'],
-                'Editore' => $_POST['Editore'], 'Prezzo' => $_POST['Prezzo'], ];
+        $vars = [
+            'error' => false,
+            'inserted' => false,
+        ];
+
+        if ($request->getMethod() === 'POST' && $addbook->isValidISBN($_POST['ISBN']) ?? ''){
+            $fields = [
+                'ISBN' => $_POST['ISBN'],
+                'title' => $_POST['title'],
+                'author' => $_POST['author'],
+                'publisher' => $_POST['publisher'],
+                'price' => $_POST['price']
+            ];
 
             $addbook->setFields($fields);
-            $addbook->setValutazione($_POST['Valutazione']);
+            $addbook->setCondition($_POST['condition']);
 
-            if ($addbook->saveToDB()) {
-                echo '<p>Libro inserito</p>';
-            } else {
-                echo "<p>Errore nell'inserimento del libro</p>";
-            }
-        } ?>
-</body>
-</html>
-<?php
-        $response->getBody()->write((string) ob_get_clean());
+            $vars['inserted'] = $addbook->saveToDB();
+            $vars['error'] = !$vars['inserted'];
+        }
 
-        return $response;
+        $view = Twig::fromRequest($request);
+
+        return $view->render($response, 'books/add.twig', $vars);
     }
 
     public function elenco(Request $request, Response $response): Response
@@ -55,16 +51,21 @@ $addbook = new Book($this->getDoctrineConnection());
     </HEAD>
     <BODY>
         <?php
-        $prefix = $this->getPrefix();
         $dbal = $this->getDoctrineConnection();
 
-        $count = $dbal->fetchOne('SELECT COUNT(*) FROM ' . $prefix . '_valutazioni');
+        $count = $dbal->fetchOne('SELECT COUNT(*) FROM books');
 
-        $limit = isset($_GET['limit']) && preg_match('/\\d+/', (string) $_GET['limit']) ? $_GET['limit'] : 0;
+        $offset = $request->getQueryParams()['offset'] ?? 0;
+        if (is_string($offset) && preg_match('/^\\d+$/', $offset)) {
+            $offset = intval($offset);
+        } else {
+            $offset = 0;
+        }
 
-        $books = $dbal->fetchAllAssociative(
-            'SELECT ISBN FROM ' . $prefix . '_valutazioni LIMIT ?, 50',
-            [$limit]
+        $books = $dbal->executeQuery(
+            'SELECT ISBN FROM books LIMIT ?, 50',
+            [$offset],
+            [Type::getType('integer')],
         );
 
         echo "<table border=\"1\" align=\"center\" width=\"755\">\n";
@@ -92,7 +93,7 @@ $addbook = new Book($this->getDoctrineConnection());
         }
         echo '</table>';
 
-        echo '<a href="/books?Limit=' . ($limit + 50) . '">Pagina ' . ($limit / 50 + 2) . '</a>'; ?>
+        echo '<a href="/books?offset=' . ($offset + 50) . '">Pagina ' . ($offset / 50 + 2) . '</a>'; ?>
     <p><?php echo $count; ?> libri presenti.</p>
     </BODY>
     </HTML>
@@ -100,10 +101,5 @@ $addbook = new Book($this->getDoctrineConnection());
         $response->getBody()->write((string) ob_get_clean());
 
         return $response;
-    }
-
-    private function getPrefix(): string
-    {
-        return 'phpyabs';
     }
 }

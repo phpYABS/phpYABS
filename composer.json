@@ -12,10 +12,12 @@
         "php": "^8.4",
         "ext-pdo": "*",
         "doctrine/dbal": "^3.3",
+        "monolog/monolog": "^3.8",
         "ronanguilloux/isocodes": "^2.3",
         "slim/psr7": "^1.5",
         "slim/slim": "^4.9",
-        "slim/twig-view": "^3.3"
+        "slim/twig-view": "^3.3",
+        "symfony/var-dumper": "^7.2"
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.42",

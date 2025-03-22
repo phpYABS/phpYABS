@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // vim: set shiftwidth=4 tabstop=4 expandtab cindent :
 
 /*

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // vim: set shiftwidth=4 tabstop=4 expandtab cindent :
 
 /**
@@ -31,7 +33,4 @@ define('PATH_TEMPLATES', PATH_APPLICATION . $DS . 'templates');
 $startmodule = 'acquisti';
 $intestazione = 'My Customer';
 $edit = true;
-
-$prefix = 'phpyabs';
-
 $debug = true;

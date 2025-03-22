@@ -1,23 +1,26 @@
 <?php
 // se c'è una richiesta di nuovo acquisto, elimino il precedente
+use Doctrine\DBAL\Connection;
 use PhpYabs\DB\Acquisto;
 
 if ('Nuovo' == $_GET['Azione']) {
-    unset($_SESSION['IdAcquisto']);
+    unset($_SESSION['purchase_id']);
     unset($_SESSION['totalec']);
     unset($_SESSION['totaleb']);
 }
 
-$acquisto = new Acquisto();
-if (isset($_GET['IdAcquisto'])) {
-    if (!$acquisto->setID($_GET['IdAcquisto'])) {
-        $errmsg = "L'acquisto " . $_GET['IdAcquisto'] . ' non esiste!';
+global $dbal;
+assert($dbal instanceof Connection);
+$acquisto = new Acquisto($dbal);
+if (isset($_GET['purchase_id'])) {
+    if (!$acquisto->setID($_GET['purchase_id'])) {
+        $errmsg = "L'acquisto " . $_GET['purchase_id'] . ' non esiste!';
     }
-} elseif (isset($_SESSION['IdAcquisto'])) {
-    $acquisto->setID($_SESSION['IdAcquisto']);
+} elseif (isset($_SESSION['purchase_id'])) {
+    $acquisto->setID($_SESSION['purchase_id']);
 }
 
-$IdAcquisto = $_SESSION['IdAcquisto'] = $acquisto->getID();
+$purchase_id = $_SESSION['purchase_id'] = $acquisto->getID();
 
 $trovato = true;
 
@@ -37,18 +40,18 @@ if (isset($_POST['newISBN'])) {
 <body onLoad="document.libro.newISBN.focus()">
 <font face="Arial, Helvetica, sans-serif">
 <h1 align="center">Valutazione dei libri in acquisto</h1>
-<h2 align="center">Acquisto N° <?php echo $IdAcquisto; ?></h2>
+<h2 align="center">Acquisto N° <?php echo $purchase_id; ?></h2>
 <?php if (isset($errmsg) && $errmsg) {
     echo "<p align=\"center\"><font color=\"RED\">$errmsg</font></p>";
 } ?>
 <?php
-$acquisto->PrintAcquisto();
+$acquisto->printAcquisto();
 if (!$trovato) {
     echo "<script language=\"Javascript\">alert('Libro non trovato!');</script>";
 }
-$bill = $acquisto->GetBill();
+$bill = $acquisto->getBill();
 ?>
-<p align="center"><?php echo $acquisto->NumBook(); ?> Libri acquistati<br>Totale contanti: <?php echo $bill['totalec']; ?> &euro;
+<p align="center"><?php echo $acquisto->numBook(); ?> Libri acquistati<br>Totale contanti: <?php echo $bill['totalec']; ?> &euro;
 &nbsp;&nbsp;&nbsp;&nbsp;Totale buono: <?php echo $bill['totaleb']; ?> &euro;
 &nbsp;&nbsp;&nbsp;&nbsp;Totale rottamazione: <?php echo $bill['totaler']; ?> &euro;</p>
 <div align="center">

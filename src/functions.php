@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use PhpYabs\ValueObject\ISBN;
 
 function fullisbn(string $isbn): ?string

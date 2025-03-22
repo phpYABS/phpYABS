@@ -25,13 +25,14 @@ document.form1.ISBN.focus()
   </form>
 </div>
 <?php } else {
-    $modbook = new Book();
+    global $dbal;
+    $modbook = new Book($dbal);
 
-    $fields = ['ISBN' => $_GET['ISBN'],  'Titolo' => $_GET['Titolo'], 'Autore' => $_GET['Autore'],
-        'Editore' => $_GET['Editore'], 'Prezzo' => $_GET['Prezzo'], ];
+    $fields = ['ISBN' => $_GET['ISBN'],  'title' => $_GET['title'], 'author' => $_GET['author'],
+        'publisher' => $_GET['publisher'], 'price' => $_GET['price'], ];
 
     $modbook->setFields($fields);
-    $modbook->setValutazione($_GET['Valutazione']);
+    $modbook->setCondition($_GET['condition']);
 
     if ($modbook->saveToDB()) {
         echo '<p align="center">Libro modificato!</p>';
@@ -41,7 +42,7 @@ document.form1.ISBN.focus()
 
     if ($f = $modbook->getFields()) {
         [$ISBN, $Titolo, $Autore, $Editore, $Prezzo] = $f;
-        $valutazione = $modbook->getValutazione();
+        $valutazione = $modbook->getCondition();
         switch ($valutazione) {
             case 'zero':
                 $selzero = 'selected';

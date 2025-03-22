@@ -1,7 +1,7 @@
 <?php
-global $conn, $prefix;
+global $conn;
 
-$risultato = $conn->query('SELECT COUNT(*) FROM ' . $prefix . '_valutazioni');
+$risultato = $conn->query('SELECT COUNT(*) FROM buyback_rates');
 [$totlibri] = $risultato?->fields ?? 0;
 
 $get_start = 0;
@@ -97,8 +97,8 @@ $pag = (int) ($start / 50) + 1;
             }
         }
 
-        $risultato = $conn->Query('SELECT ' . $prefix . '_libri.ISBN, Titolo, Autore, Editore FROM '
-    . $prefix . '_libri INNER JOIN ' . $prefix . '_valutazioni ON ' . $prefix . '_libri.ISBN = '
+        $risultato = $conn->Query('SELECT books.ISBN, Titolo, Autore, Editore FROM '
+    . $prefix . '_libri INNER JOIN buyback_rates ON books.ISBN = '
     . $prefix . "_valutazioni.ISBN ORDER BY Editore, Autore, Titolo, ISBN LIMIT $start,50");
         while (false !== ($risultati = $risultato->FetchRow())) {
             $risultato1 = $conn->query('SELECT COUNT(*) FROM ' . $prefix . '_destinazioni ' .

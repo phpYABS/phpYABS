@@ -1,5 +1,9 @@
 <?php
 
-if (preg_match('/^[a-z0-9]+$/i', (string) ($action = $_REQUEST['Azione']))) {
+declare(strict_types=1);
+
+$action = $_REQUEST['Azione'] ?? null;
+
+if (is_string($action) && preg_match('/^[a-z0-9]+$/i', $action)) {
     include $action . '.php';
 }

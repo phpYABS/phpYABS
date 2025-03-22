@@ -1,11 +1,7 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML PUBLIC 4.01 Transitional//EN">
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Valutazione dei libri in acquisto</title>
-    <link href="/css/main.css" rel="stylesheet" type="text/css">
-</head>
-<body onLoad="document.libro.newISBN.focus()">
+{% extends 'base.twig' %}
+{% block title %}Valutazione dei libri in acquisto{% endblock %}
+{% block body_attr %}onLoad="document.libro.newISBN.focus()"{% endblock %}
+{% block body %}
 <font face="Arial, Helvetica, sans-serif">
     <h1 align="center">Valutazione dei libri in acquisto</h1>
     <h2 align="center">Acquisto N° {{ purchase_id }}</h2>
@@ -27,5 +23,4 @@
         </form>
     </div>
 </font>
-</body>
-</html>
+{% endblock body %}

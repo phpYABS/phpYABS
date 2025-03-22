@@ -32,29 +32,18 @@ use Doctrine\DBAL\Connection;
 abstract class ActiveRecord
 {
     /**
-     * Database connection.
-     */
-    protected \ADOConnection $_db;
-
-    /**
      * Table prefix.
      */
     private string $prefix = 'phpyabs';
     private readonly Connection $dbalConnection;
 
-    public function __construct(?\ADOConnection $connection = null, ?Connection $dbalConnection = null)
+    public function __construct(?Connection $dbalConnection = null)
     {
-        if (is_null($connection)) {
-            global $conn;
-            $connection = $conn;
-        }
-
         if (is_null($dbalConnection)) {
             global $dbal;
             $dbalConnection = $dbal;
         }
 
-        $this->_db = $connection;
         $this->dbalConnection = $dbalConnection;
     }
 
@@ -66,33 +55,6 @@ abstract class ActiveRecord
     protected function getPrefix(): string
     {
         return $this->prefix;
-    }
-
-    /**
-     * @param \ADORecordSet<array>|bool $recordSet
-     */
-    protected function fetchColumn(\ADORecordSet|bool $recordSet, int $column = 0): mixed
-    {
-        if (!$recordSet instanceof \ADORecordSet) {
-            return null;
-        }
-
-        $row = $recordSet->FetchRow();
-        if (!is_array($row)) {
-            return null;
-        }
-
-        return $row[$column];
-    }
-
-    protected function fetchStringColumn(\ADORecordSet|bool $recordSet, int $column = 0): ?string
-    {
-        $column = $this->fetchColumn($recordSet, $column);
-        if (is_scalar($column)) {
-            return (string) $column;
-        }
-
-        return null;
     }
 
     protected function getDbalConnection(): Connection

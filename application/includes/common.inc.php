@@ -32,20 +32,11 @@ session_start();
 
 $loader = require __DIR__ . '/../../vendor/autoload.php';
 
-global $conn;
-$conn = ADONewConnection('pdo');
-assert($conn instanceof ADOConnection);
-
-$conn->PConnect(
-    (string) getenv('DB_URL'),
-    (string) getenv('DB_USER'),
-    (string) getenv('DB_PASS')
-);
-
 global $dbal;
-$pdo = $conn->_connectionID;
-assert($pdo instanceof PDO);
-$driver = 'pdo_' . $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
+$dbal = DriverManager::getConnection([
+    'url' => (string) getenv('DB_URL'),
+    'user' => (string) getenv('DB_USER'),
+    'password' => (string) getenv('DB_PASS'),
+]);
 
-$dbal = DriverManager::getConnection(compact('pdo', 'driver'));
 date_default_timezone_set(Configuration::TIMEZONE);

@@ -15,14 +15,8 @@ use Doctrine\DBAL\Connection;
 abstract class AbstractFacade
 {
     public function __construct(
-        private readonly \ADOConnection $ADOConnection,
         private readonly Connection $doctrineConnection,
     ) {
-    }
-
-    protected function getADOConnection(): \ADOConnection
-    {
-        return $this->ADOConnection;
     }
 
     protected function getDoctrineConnection(): Connection

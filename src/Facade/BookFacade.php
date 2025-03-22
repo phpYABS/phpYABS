@@ -20,17 +20,17 @@ class BookFacade extends AbstractFacade
 </head>
 <body>
 <?php
-$addbook = new Book($this->getADOConnection());
-        if ('POST' !== $_SERVER['REQUEST_METHOD'] || !$addbook->IsValidISBN($_POST['ISBN'])) {
+$addbook = new Book($this->getDoctrineConnection());
+        if ('POST' !== $_SERVER['REQUEST_METHOD'] || !$addbook->isValidISBN($_POST['ISBN'])) {
             include PATH_TEMPLATES . '/oldones/libri/tabadd.php';
         } else {
             $fields = ['ISBN' => $_POST['ISBN'], 'Titolo' => $_POST['Titolo'], 'Autore' => $_POST['Autore'],
                 'Editore' => $_POST['Editore'], 'Prezzo' => $_POST['Prezzo'], ];
 
-            $addbook->SetFields($fields);
-            $addbook->SetValutazione($_POST['Valutazione']);
+            $addbook->setFields($fields);
+            $addbook->setValutazione($_POST['Valutazione']);
 
-            if ($addbook->SaveToDB()) {
+            if ($addbook->saveToDB()) {
                 echo '<p>Libro inserito</p>';
             } else {
                 echo "<p>Errore nell'inserimento del libro</p>";
@@ -55,14 +55,18 @@ $addbook = new Book($this->getADOConnection());
     </HEAD>
     <BODY>
         <?php
-        global $conn, $prefix;
+        $prefix = $this->getPrefix();
+        $dbal = $this->getDoctrineConnection();
 
-        $rset = $conn->Execute('SELECT COUNT(*) FROM ' . $prefix . '_valutazioni');
-        $count = $rset->fields[0];
+        $count = $dbal->fetchOne('SELECT COUNT(*) FROM ' . $prefix . '_valutazioni');
 
         $limit = isset($_GET['limit']) && preg_match('/\\d+/', (string) $_GET['limit']) ? $_GET['limit'] : 0;
 
-        $rset = $conn->Execute('SELECT ISBN FROM ' . $prefix . "_valutazioni LIMIT $limit, 50");
+        $books = $dbal->fetchAllAssociative(
+            'SELECT ISBN FROM ' . $prefix . '_valutazioni LIMIT ?, 50',
+            [$limit]
+        );
+
         echo "<table border=\"1\" align=\"center\" width=\"755\">\n";
         echo "<tr>\n";
         echo "<td>ISBN</td>\n";
@@ -72,11 +76,11 @@ $addbook = new Book($this->getADOConnection());
         echo "<td>Prezzo</td>\n";
         echo '</tr>', PHP_EOL;
 
-        while (!$rset->EOF) {
+        foreach ($books as $row) {
             echo "<tr>\n";
 
-            $book = new Book();
-            $book->GetFromDB($rset->fields['ISBN']);
+            $book = new Book($dbal);
+            $book->getFromDB($row['ISBN']);
 
             foreach ($book->getFields() ?: [] as $chiave => $valore) {
                 if (!is_numeric($chiave)) {
@@ -85,9 +89,6 @@ $addbook = new Book($this->getADOConnection());
             }
 
             echo '</tr>';
-            $rset->MoveNext();
-
-            unset($book);
         }
         echo '</table>';
 
@@ -99,5 +100,10 @@ $addbook = new Book($this->getADOConnection());
         $response->getBody()->write((string) ob_get_clean());
 
         return $response;
+    }
+
+    private function getPrefix(): string
+    {
+        return 'phpyabs';
     }
 }

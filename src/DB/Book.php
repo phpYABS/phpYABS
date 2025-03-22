@@ -4,6 +4,7 @@
 
 namespace PhpYabs\DB;
 
+use Doctrine\DBAL\Connection;
 use PhpYabs\ValueObject\ISBN;
 
 /**
@@ -32,9 +33,9 @@ class Book extends ActiveRecord
     /** @var string[] */
     private array $fields;
 
-    public function __construct(?\ADOConnection $connection = null)
+    public function __construct(?Connection $dbalConnection = null)
     {
-        parent::__construct($connection);
+        parent::__construct(null, $dbalConnection);
 
         $this->fields = [];
         $this->setValutazione(false);
@@ -131,104 +132,105 @@ class Book extends ActiveRecord
     public function saveToDB(): bool
     {
         $prefix = $this->getPrefix();
+        $dbal = $this->getDbalConnection();
 
         if ($this->checkFields($this->fields)) {
-            $rset = $this->_db->Execute('SELECT * FROM ' . $prefix . "_libri WHERE ISBN='" . $this->fields['ISBN'] . "'");
+            $existingBook = $dbal->fetchAssociative(
+                'SELECT * FROM ' . $prefix . '_libri WHERE ISBN = ?',
+                [$this->fields['ISBN']]
+            );
 
-            if ($rset instanceof \ADORecordSet && !$rset->EOF) {
-                $updateSQL = $this->_db->GetUpdateSQL($rset, $this->fields);
-                if ($updateSQL) {
-                    $this->_db->Execute($updateSQL);
-                }
+            if ($existingBook) {
+                // Update existing book
+                $dbal->update(
+                    $prefix . '_libri',
+                    $this->fields,
+                    ['ISBN' => $this->fields['ISBN']]
+                );
             } else {
-                $insertSQL = $this->_db->GetInsertSQL($rset, $this->fields);
-
-                if ($insertSQL) {
-                    $this->_db->Execute($insertSQL);
-                }
-            }
-
-            if ($rset instanceof \ADORecordSet) {
-                $rset->Close();
+                // Insert new book
+                $dbal->insert($prefix . '_libri', $this->fields);
             }
 
             if ($this->_valutazione) {
-                $valfields = ['ISBN' => $this->fields['ISBN'], 'Valutazione' => $this->_valutazione];
+                $valfields = [
+                    'ISBN' => $this->fields['ISBN'],
+                    'Valutazione' => $this->_valutazione,
+                ];
 
-                $rset = $this->_db->Execute('SELECT * FROM ' . $prefix . "_valutazioni WHERE ISBN='" . $this->fields['ISBN'] . "'");
+                $existingValuation = $dbal->fetchAssociative(
+                    'SELECT * FROM ' . $prefix . '_valutazioni WHERE ISBN = ?',
+                    [$this->fields['ISBN']]
+                );
 
-                if ($rset instanceof \ADORecordSet && !$rset->EOF) {
-                    $updateSQL = $this->_db->GetUpdateSQL($rset, $valfields);
-                    if ($updateSQL) {
-                        $this->_db->Execute($updateSQL);
-                    }
+                if ($existingValuation) {
+                    $dbal->update(
+                        $prefix . '_valutazioni',
+                        $valfields,
+                        ['ISBN' => $this->fields['ISBN']]
+                    );
                 } else {
-                    $insertSQL = $this->_db->GetInsertSQL($rset, $valfields);
-                    if ($insertSQL) {
-                        $this->_db->Execute($insertSQL);
-                    }
+                    $dbal->insert($prefix . '_valutazioni', $valfields);
                 }
-                $rset->Close();
             } else {
-                $this->_db->Execute('DELETE FROM ' . $prefix . "_valutazioni WHERE ISBN='" . $this->fields['ISBN'] . "'");
+                $dbal->delete(
+                    $prefix . '_valutazioni',
+                    ['ISBN' => $this->fields['ISBN']]
+                );
             }
         }
 
-        $rset = $this->_db->Execute('SELECT ISBN FROM ' . $prefix . "_libri WHERE ISBN='" . $this->fields['ISBN'] . "'");
-        if ($rset instanceof \ADORecordSet) {
-            $rset->Close();
+        $result = $dbal->fetchOne(
+            'SELECT ISBN FROM ' . $prefix . '_libri WHERE ISBN = ?',
+            [$this->fields['ISBN']]
+        );
 
-            return !$rset->EOF;
-        }
-
-        return false;
+        return false !== $result;
     }
 
     // carica i dati dal database, specificato l'isbn
     public function getFromDB(string $ISBN): bool
     {
-        global $prefix;
+        $prefix = $this->getPrefix();
+        $dbal = $this->getDbalConnection();
 
         $ISBN = static::getShortISBN($ISBN);
 
         if ($ISBN && static::isValidISBN($ISBN)) {
-            $rset = $this->_db->Execute('SELECT ISBN, Titolo, Autore, Editore, Prezzo FROM ' . $prefix . "_libri WHERE ISBN='$ISBN'");
-            if (!$rset instanceof \ADORecordSet) {
-                return false;
-            }
-            $fields = $rset->fields;
+            $fields = $dbal->fetchAssociative(
+                'SELECT ISBN, Titolo, Autore, Editore, Prezzo FROM ' . $prefix . '_libri WHERE ISBN = ?',
+                [$ISBN]
+            );
 
-            if (!is_array($fields) || 0 === $rset->NumRows()) {
-                $rset->Close();
-
+            if (!$fields) {
                 return false;
             }
 
-            $this->SetFields($fields);
+            $this->setFields($fields);
 
-            $rset = $this->_db->Execute('SELECT valutazione FROM ' . $prefix . "_valutazioni WHERE ISBN='$ISBN'");
-            $Valutazione = $this->fetchStringColumn($rset) ?: false;
-            $this->setValutazione($Valutazione);
+            $valutazione = $dbal->fetchOne(
+                'SELECT valutazione FROM ' . $prefix . '_valutazioni WHERE ISBN = ?',
+                [$ISBN]
+            );
 
-            if ($rset instanceof \ADORecordSet) {
-                $rset->Close();
-            }
+            $this->setValutazione($valutazione ?: false);
 
-            return is_string($Valutazione);
-        } else {
-            return false;
+            return false !== $valutazione;
         }
+
+        return false;
     }
 
     public function delete(): bool
     {
-        global $prefix;
+        $prefix = $this->getPrefix();
+        $dbal = $this->getDbalConnection();
 
         $ISBN = $this->fields['ISBN'];
-        if (static::IsValidISBN($ISBN)) {
-            $this->_db->Execute('DELETE FROM ' . $prefix . "_libri WHERE ISBN = '$ISBN'");
-            $this->_db->Execute('DELETE FROM ' . $prefix . "_valutazioni WHERE ISBN = '$ISBN'");
-            $this->_db->Execute('DELETE FROM ' . $prefix . "_destinazioni WHERE ISBN = '$ISBN'");
+        if (static::isValidISBN($ISBN)) {
+            $dbal->delete($prefix . '_libri', ['ISBN' => $ISBN]);
+            $dbal->delete($prefix . '_valutazioni', ['ISBN' => $ISBN]);
+            $dbal->delete($prefix . '_destinazioni', ['ISBN' => $ISBN]);
 
             return true;
         }

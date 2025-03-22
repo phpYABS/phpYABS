@@ -28,20 +28,20 @@ namespace PhpYabs\DB;
  * @author Davide Bellettini <dvbellet@users.sourceforge.net>
  * @license GNU General Public License
  */
+use Doctrine\DBAL\Connection;
+
 class Acquisto extends ActiveRecord
 {
     private int $ID;
 
-    public function __construct(?\ADOConnection $connection = null)
+    public function __construct(?Connection $dbalConnection = null)
     {
-        parent::__construct($connection);
+        parent::__construct(null, $dbalConnection);
 
         $prefix = $this->getPrefix();
-        $conn = $this->_db;
+        $dbal = $this->getDbalConnection();
 
-        $rset = $conn->Execute('SELECT MAX(IdAcquisto) FROM ' . $prefix . '_acquisti');
-        $IdAcquisto = $this->fetchColumn($rset) ?? 0;
-
+        $IdAcquisto = $dbal->fetchOne('SELECT MAX(IdAcquisto) FROM ' . $prefix . '_acquisti') ?? 0;
         $this->ID = $IdAcquisto + 1;
     }
 
@@ -52,20 +52,22 @@ class Acquisto extends ActiveRecord
 
     public function setID(int $ID): bool
     {
-        global $prefix;
+        $prefix = $this->getPrefix();
+        $dbal = $this->getDbalConnection();
 
         if ($ID === $this->ID) {
             return true;
         }
 
-        $rset = $this->_db->Execute('SELECT * FROM ' . $prefix . "_acquisti WHERE IdAcquisto='$ID'");
-        if ($rset instanceof \ADORecordSet) {
-            if ($ok = !$rset->EOF) {
-                $this->ID = $ID;
-            }
-            $rset->Close();
+        $exists = $dbal->fetchOne(
+            'SELECT 1 FROM ' . $prefix . '_acquisti WHERE IdAcquisto = ?',
+            [$ID]
+        );
 
-            return $ok;
+        if ($exists) {
+            $this->ID = $ID;
+
+            return true;
         }
 
         return false;
@@ -73,12 +75,16 @@ class Acquisto extends ActiveRecord
 
     public function addBook(string $ISBN): string
     {
-        global $prefix;
+        $prefix = $this->getPrefix();
+        $dbal = $this->getDbalConnection();
 
-        $book = new Book();
+        $book = new Book($dbal);
 
         if ($book->getFromDB($ISBN)) {
-            $this->_db->Execute('INSERT INTO ' . $prefix . "_acquisti (IdAcquisto,ISBN) VALUES ('" . $this->ID . "','$ISBN')");
+            $dbal->insert($prefix . '_acquisti', [
+                'IdAcquisto' => $this->ID,
+                'ISBN' => $ISBN,
+            ]);
 
             return 'si';
         }
@@ -88,39 +94,51 @@ class Acquisto extends ActiveRecord
 
     public function delBook(string $IdLibro): bool
     {
-        global $prefix;
+        $prefix = $this->getPrefix();
+        $dbal = $this->getDbalConnection();
 
         if (is_numeric($IdLibro)) {
-            $this->_db->Execute('DELETE FROM ' . $prefix . "_acquisti WHERE IdLibro='$IdLibro' AND IdAcquisto='" . $this->ID . "'");
+            $dbal->delete($prefix . '_acquisti', [
+                'IdLibro' => $IdLibro,
+                'IdAcquisto' => $this->ID,
+            ]);
 
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     public function numBook(): int
     {
-        global $prefix;
-        $rset = $this->_db->Execute('SELECT * FROM ' . $prefix . "_acquisti WHERE IdAcquisto='" . $this->ID . "'");
+        $prefix = $this->getPrefix();
+        $dbal = $this->getDbalConnection();
 
-        return $rset instanceof \ADORecordSet ? $rset->RecordCount() : 0;
+        return (int) $dbal->fetchOne(
+            'SELECT COUNT(*) FROM ' . $prefix . '_acquisti WHERE IdAcquisto = ?',
+            [$this->ID]
+        );
     }
 
     public function printAcquisto(): void
     {
-        global $prefix;
-        $rset = $this->_db->Execute('SELECT IdLibro, ISBN FROM ' . $prefix . "_acquisti WHERE IdAcquisto='" . $this->ID . "'");
+        $prefix = $this->getPrefix();
+        $dbal = $this->getDbalConnection();
 
-        if (!$rset instanceof \ADORecordSet) {
+        $books = $dbal->fetchAllAssociative(
+            'SELECT IdLibro, ISBN FROM ' . $prefix . '_acquisti WHERE IdAcquisto = ?',
+            [$this->ID]
+        );
+
+        if (!$books) {
             return;
         }
 
         $numero = 1;
-        foreach ($rset as [$IdLibro, $ISBN]) {
-            $book = new Book();
+        foreach ($books as $row) {
+            $book = new Book($dbal);
 
-            if ($book->getFromDB($ISBN) && is_array($fields = $book->getFields())) {
+            if ($book->getFromDB($row['ISBN']) && is_array($fields = $book->getFields())) {
                 [$ISBN, $Titolo, $Autore, $Editore, $Prezzo] = $fields;
                 $sISBN = $ISBN;
                 $ISBN = $book->getFullIsbn();
@@ -131,8 +149,6 @@ class Acquisto extends ActiveRecord
                 include \PATH_TEMPLATES . '/oldones/acquisti/tabview.php';
                 ++$numero;
             }
-
-            $rset->MoveNext();
         }
     }
 
@@ -141,19 +157,20 @@ class Acquisto extends ActiveRecord
      */
     public function getBill(): array
     {
-        global $prefix;
+        $prefix = $this->getPrefix();
+        $dbal = $this->getDbalConnection();
 
         $totaleb = $totalec = $totaler = 0.0;
 
-        $rset = $this->_db->Execute('SELECT ISBN From ' . $prefix . "_acquisti WHERE IdAcquisto ='" . $this->ID . "'");
-        if (!$rset instanceof \ADORecordSet) {
-            $rset = [];
-        }
+        $books = $dbal->fetchAllAssociative(
+            'SELECT ISBN FROM ' . $prefix . '_acquisti WHERE IdAcquisto = ?',
+            [$this->ID]
+        );
 
-        foreach ($rset as $fields) {
-            $book = new Book();
+        foreach ($books as $fields) {
+            $book = new Book($dbal);
 
-            if ($book->GetFromDB($fields['ISBN'])) {
+            if ($book->getFromDB($fields['ISBN'])) {
                 switch ($book->getValutazione()) {
                     case 'rotmed':
                         $totaler += 0.5;

@@ -27,6 +27,7 @@ declare(strict_types=1);
  * @license GNU GPL 3 or later
  */
 
+use DI\ContainerBuilder;
 use Doctrine\DBAL\Connection;
 use PhpYabs\Facade\BookFacade;
 use PhpYabs\Facade\MainFacade;
@@ -35,21 +36,25 @@ use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
 
 require_once __DIR__ . '/../application/includes/common.inc.php';
-$app = AppFactory::create();
+
+$builder = new ContainerBuilder();
+global $dbal;
+assert($dbal instanceof Connection);
+
+$builder->addDefinitions([
+    Connection::class => $dbal,
+]);
+$builder->useAutowiring(true);
+$app = AppFactory::createFromContainer($builder->build());
 
 $twig = Twig::create(__DIR__ . '/../templates');
 $app->add(TwigMiddleware::create($app, $twig));
 
-global $dbal;
-assert($dbal instanceof Connection);
-$mainFacade = new MainFacade($dbal);
-$bookFacade = new BookFacade($dbal);
-
-$app->any('/modules.php', [$mainFacade, 'modules']);
-$app->get('/menu.php', [$mainFacade, 'menu']);
-$app->get('/', [$mainFacade, 'index']);
-$app->any('/books', [$bookFacade, 'elenco']);
-$app->any('/books/add', [$bookFacade, 'aggiungi']);
-$app->any('/books/edit', [$bookFacade, 'modifica']);
+$app->any('/modules.php', [MainFacade::class, 'modules']);
+$app->get('/menu.php', [MainFacade::class, 'menu']);
+$app->get('/', [MainFacade::class, 'index']);
+$app->any('/books', [BookFacade::class, 'elenco']);
+$app->any('/books/add', [BookFacade::class, 'aggiungi']);
+$app->any('/books/edit', [BookFacade::class, 'modifica']);
 
 $app->run();

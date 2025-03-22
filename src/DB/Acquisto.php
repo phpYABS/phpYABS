@@ -123,7 +123,7 @@ class Acquisto extends ActiveRecord
             if ($book->getFromDB($ISBN) && is_array($fields = $book->getFields())) {
                 [$ISBN, $Titolo, $Autore, $Editore, $Prezzo] = $fields;
                 $sISBN = $ISBN;
-                $ISBN = $book->GetFullISBN();
+                $ISBN = $book->getFullIsbn();
                 $Valutazione = $book->GetValutazione();
                 $Buono = $book->GetBuono();
                 $Contanti = $book->GetContanti();

@@ -4,6 +4,8 @@
 
 namespace PhpYabs\DB;
 
+use PhpYabs\ValueObject\ISBN;
+
 /**
  * $Id: file-header.php 299 2009-11-21 17:09:54Z dvbellet $.
  *
@@ -241,75 +243,19 @@ class Book extends ActiveRecord
 
     public static function getShortISBN(string $ISBN): string|false
     {
-        if (strlen($ISBN) > 9) {
-            $ISBN = substr($ISBN, 0, strlen($ISBN) - 1);
-        }
-
-        while (strlen($ISBN) > 9) {
-            $ISBN = substr($ISBN, 1, strlen($ISBN) - 1);
-        }
-
-        if (self::isValidISBN($ISBN)) {
-            return $ISBN;
-        } else {
+        try {
+            return ISBN::fromString($ISBN)->version10->withoutChecksum;
+        } catch (\InvalidArgumentException $e) {
             return false;
         }
     }
 
-    public function getFullIsbn(): string
+    public function getFullIsbn(): ?string
     {
-        $ISBN = $this->fields['ISBN'];
-        $ISBN .= self::ISBNCheck($ISBN);
-
-        return $ISBN;
-    }
-
-    public static function isbnCheck(string $ISBN): string
-    {
-        $checksum = 0;
-
-        for ($i = 0; $i < 9; ++$i) {
-            $checksum += ($i + 1) * (int) $ISBN[$i];
+        try {
+            return (string) ISBN::fromString($this->fields['ISBN'])->version10;
+        } catch (\InvalidArgumentException $e) {
+            return null;
         }
-
-        $checksum %= 11;
-        if (10 == $checksum) {
-            $checksum = 'X';
-        }
-
-        return (string) $checksum;
-    }
-
-    public function getEAN(?string $ISBN = null): string|false
-    {
-        if (null === $ISBN) {
-            $ISBN = $this->fields['ISBN'];
-        }
-
-        if (static::GetShortISBN($ISBN)) {
-            $EAN = '978' . $ISBN;
-            $EAN .= static::EANCheck($EAN);
-        } else {
-            $EAN = false;
-        }
-
-        return $EAN;
-    }
-
-    public static function EANCheck(string $ean): int
-    {
-        $checksum = 0;
-
-        for ($i = 2; $i <= 12; $i += 2) {
-            $checksum += (int) substr($ean, $i - 1, 1);
-        }
-
-        $checksum *= 3;
-
-        for ($i = 1; $i <= 11; $i += 2) {
-            $checksum += (int) substr($ean, $i - 1, 1);
-        }
-
-        return 10 - ($checksum % 10);
     }
 }

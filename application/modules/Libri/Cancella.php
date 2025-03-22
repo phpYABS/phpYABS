@@ -44,7 +44,7 @@ use PhpYabs\DB\Book;
 
         include PATH_TEMPLATES . '/oldones/libri/tabdel.php';
     } else {
-        echo '<p align="center">Libro ' . $delbook->GetFullIsbn() . ' non trovato!</p>';
+        echo '<p align="center">Libro ' . $delbook->getFullIsbn() . ' non trovato!</p>';
     }
 }
 ?>

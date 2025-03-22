@@ -30,7 +30,7 @@ final class ISBN10 extends ISBN
 
     public static function from13(ISBN13 $isbn): ISBN10
     {
-        $clean = preg_replace('[^0-9]', '', $isbn);
+        $clean = preg_replace('[^0-9]', '', (string) $isbn);
 
         return self::fromNineDigits(substr((string) $clean, 3, 9));
     }

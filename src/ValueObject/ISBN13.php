@@ -9,7 +9,7 @@ final class ISBN13 extends ISBN
     public static function from10(ISBN10 $isbn10): self
     {
         // Convert to ISBN-13
-        $isbn13 = '978' . substr($isbn10, 0, 9);
+        $isbn13 = '978' . substr((string) $isbn10, 0, 9);
 
         // Calculate check digit
         $sum = 0;

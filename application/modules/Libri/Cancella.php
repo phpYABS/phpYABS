@@ -27,16 +27,16 @@ use PhpYabs\DB\Book;
 </div>
 <?php } else {
     $delbook = new Book();
-    $delbook->GetFromDB($_GET['ISBN']);
+    $delbook->getFromDB($_GET['ISBN']);
 
     if ('on' == $_GET['cancella']) {
-        $delbook->Delete();
+        $delbook->delete();
         echo '<p>Libro Cancellato!</p>';
-    } elseif ($f = $delbook->GetFields()) {
+    } elseif ($f = $delbook->getFields()) {
         [$ISBN, $Titolo, $Autore, $Editore, $Prezzo] = $f;
-        $ISBN = $delbook->GetFullISBN();
+        $ISBN = $delbook->getFullISBN();
 
-        $Valutazione = $delbook->GetValutazione();
+        $Valutazione = $delbook->getValutazione();
 
         if ('' == $Valutazione) {
             $Valutazione = '&nbsp;';

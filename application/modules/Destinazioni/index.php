@@ -127,7 +127,7 @@ $pag = (int) ($start / 50) + 1;
         </td>
       <?php
           $risultati[0] = fullisbn($risultati[0]);
-          foreach ($risultati as $i => $risultato) {
+            foreach ($risultati as $i => $risultato) {
                 if (strlen((string) $risultato) < 1) {
                     $risultati[$i] = '&nbsp;';
                 } else {

@@ -54,9 +54,9 @@ class Book extends ActiveRecord
      */
     public function setFields(array $fields): bool
     {
-        $fields['ISBN'] = (string) static::GetShortISBN($fields['ISBN']);
+        $fields['ISBN'] = (string) static::getShortISBN($fields['ISBN']);
 
-        if ($this->CheckFields($fields)) {
+        if ($this->checkFields($fields)) {
             foreach ($fields as $key => $value) {
                 $this->fields[$key] = strtoupper(addslashes($value));
             }
@@ -72,7 +72,7 @@ class Book extends ActiveRecord
      */
     public function getFields(): array|false
     {
-        if ($this->CheckFields($this->fields)) {
+        if ($this->checkFields($this->fields)) {
             return $this->fields;
         } else {
             return false;
@@ -109,7 +109,7 @@ class Book extends ActiveRecord
         return $this->_condition;
     }
 
-    public function getBuono(): float
+    public function getStoreCredit(): float
     {
         return match ($this->getCondition()) {
             'rotmed' => 0.5,
@@ -119,7 +119,7 @@ class Book extends ActiveRecord
         };
     }
 
-    public function getContanti(): float
+    public function getCashValue(): float
     {
         return match ($this->getCondition()) {
             'rotmed' => 0.5,

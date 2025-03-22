@@ -19,7 +19,7 @@ class BookFacade extends AbstractFacade
             'inserted' => false,
         ];
 
-        if ('POST' === $request->getMethod() && $addbook->isValidISBN($_POST['ISBN']) ?? '') {
+        if ('POST' === $request->getMethod() && $addbook->isValidISBN($_POST['ISBN'] ?? '')) {
             $fields = [
                 'ISBN' => $_POST['ISBN'],
                 'title' => $_POST['title'],

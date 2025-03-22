@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpYabs\Facade;
 
 use Doctrine\DBAL\Types\Type;
@@ -100,8 +102,12 @@ class BookFacade extends AbstractFacade
         if ('POST' === $request->getMethod()) {
             $parsedBody = $request->getParsedBody() ?? [];
 
-            $fields = ['ISBN' => $parsedBody['ISBN'], 'title' => $parsedBody['title'], 'author' => $parsedBody['author'],
-                'publisher' => $parsedBody['publisher'], 'price' => $parsedBody['price'],];
+            $fields = ['ISBN' => $parsedBody['ISBN'],
+                'title' => $parsedBody['title'],
+                'author' => $parsedBody['author'],
+                'publisher' => $parsedBody['publisher'],
+                'price' => $parsedBody['price'],
+            ];
 
             $book->setFields($fields);
             $book->setRate($parsedBody['rate']);

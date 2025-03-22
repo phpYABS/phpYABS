@@ -25,6 +25,7 @@
  * @license GNU GPL 3 or later
  */
 
+use Doctrine\DBAL\Connection;
 use PhpYabs\Facade\BookFacade;
 use PhpYabs\Facade\MainFacade;
 use Slim\Factory\AppFactory;
@@ -38,6 +39,7 @@ $twig = Twig::create(__DIR__ . '/../templates');
 $app->add(TwigMiddleware::create($app, $twig));
 
 global $dbal;
+assert($dbal instanceof Connection);
 $mainFacade = new MainFacade($dbal);
 $bookFacade = new BookFacade($dbal);
 

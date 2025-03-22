@@ -79,7 +79,7 @@ class Acquisto extends ActiveRecord
         $book = new Book($dbal);
 
         if ($book->getFromDB($ISBN)) {
-            $dbal->insert($prefix . '_acquisti', [
+            $dbal->insert('purchases', [
                 'purchase_id' => $this->ID,
                 'ISBN' => $ISBN,
             ]);

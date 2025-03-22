@@ -1,5 +1,11 @@
 USE phpyabs;
 
+CREATE TABLE `destinations` (
+  `ISBN` char(9) NOT NULL,
+  `destination` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`ISBN`, `destination`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE `purchases` (
   `book_id` int(10) unsigned NOT NULL auto_increment,
   `purchase_id` int(10) unsigned NOT NULL default '0',

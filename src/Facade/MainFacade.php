@@ -46,42 +46,12 @@ class MainFacade extends AbstractFacade
     <p><a href="/books/delete">Cancella Libro</a></p>
     <?php } ?>
 <p><a href="/purchases">Elenco Acquisti</a></p>
-<p><a href="modules.php?Nome=Destinazioni">Destinazioni</a></p>
+<p><a href="/destinations">Destinazioni</a></p>
 <p><a href="/stats">Statistiche</a></p>
 <p><a href="/books" target="_blank">Elenco Libri</a></p>
 </BODY>
 </HTML>
     <?php
-        $response->getBody()->write((string) ob_get_clean());
-
-        return $response;
-    }
-
-    public function modules(Request $request, Response $response): Response
-    {
-        ob_start();
-
-        $module = $request->getQueryParams()['Nome'] ?? '';
-        if (!is_string($module) || !preg_match('/^[a-z0-9]+$/i', $module)) {
-            $module = '---';
-        }
-
-        $file = PATH_APPLICATION . "/modules/$module/index.php";
-
-        if (!file_exists($file)) {
-            $response
-                ->withStatus(404)
-                ->withHeader('Content-Type', 'text/plain')
-                ->getBody()->write('Not found')
-            ;
-
-            return $response;
-        }
-
-        global $dbal;
-        $dbal = $this->getDoctrineConnection();
-        include $file;
-
         $response->getBody()->write((string) ob_get_clean());
 
         return $response;

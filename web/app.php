@@ -34,6 +34,7 @@ use Doctrine\DBAL\Tools\DsnParser;
 use Monolog\Handler\SyslogHandler;
 use Monolog\Logger;
 use PhpYabs\Facade\BookFacade;
+use PhpYabs\Facade\DestinationFacade;
 use PhpYabs\Facade\MainFacade;
 use PhpYabs\Facade\PurchaseFacade;
 use PhpYabs\Facade\StatisticsFacade;
@@ -69,13 +70,13 @@ $app->add(function (Request $request, RequestHandlerInterface $handler) {
     return $handler->handle($request);
 });
 
-$app->any('/modules.php', [MainFacade::class, 'modules']);
 $app->get('/menu', [MainFacade::class, 'menu']);
 $app->get('/', [MainFacade::class, 'index']);
 $app->any('/books', [BookFacade::class, 'index']);
 $app->any('/books/add', [BookFacade::class, 'aggiungi']);
 $app->any('/books/edit', [BookFacade::class, 'modifica']);
 $app->any('/books/delete', [BookFacade::class, 'delete']);
+$app->any('/destinations', [DestinationFacade::class, 'index']);
 $app->get('/purchases', [PurchaseFacade::class, 'index']);
 $app->any('/purchases/current', [PurchaseFacade::class, 'current']);
 $app->get('/stats', [StatisticsFacade::class, 'index']);

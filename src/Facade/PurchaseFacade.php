@@ -66,9 +66,9 @@ class PurchaseFacade extends AbstractFacade
             }
 
             $acquisto = new Acquisto($dbal);
-            if ($id === 'current' && isset($_SESSION['purchase_id'])) {
+            if ('current' === $id && isset($_SESSION['purchase_id'])) {
                 $acquisto->setID($_SESSION['purchase_id']);
-            } elseif (preg_match('/^\d+$/', $id)) {
+            } elseif (preg_match('/^\\d+$/', $id)) {
                 if (!$acquisto->setID((int) $id)) {
                     $errmsg = "L'acquisto $id non esiste!";
                 }

@@ -117,7 +117,7 @@ class DestinationFacade extends AbstractFacade
         SELECT books.ISBN, title, author, publisher
         FROM books
         INNER JOIN buyback_rates
-        ON books.ISBN = buyback_rates.ISBN ORDER BY Editore, Autore, Titolo, ISBN LIMIT $start,50
+        ON books.ISBN = buyback_rates.ISBN ORDER BY publisher, author, title, ISBN LIMIT $start,50
         SQL
                     );
 

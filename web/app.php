@@ -37,9 +37,9 @@ $app = AppFactory::create();
 $twig = Twig::create(__DIR__ . '/../templates');
 $app->add(TwigMiddleware::create($app, $twig));
 
-global $conn, $dbal;
-$mainFacade = new MainFacade($conn, $dbal);
-$bookFacade = new BookFacade($conn, $dbal);
+global $dbal;
+$mainFacade = new MainFacade($dbal);
+$bookFacade = new BookFacade($dbal);
 
 $app->any('/modules.php', [$mainFacade, 'modules']);
 $app->get('/menu.php', [$mainFacade, 'menu']);

@@ -45,7 +45,7 @@ use Slim\Psr7\Request;
 use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
 
-require_once __DIR__ . '/../application/includes/common.inc.php';
+require_once __DIR__ . '/../src/bootstrap.php';
 
 $builder = new ContainerBuilder();
 $builder->addDefinitions([

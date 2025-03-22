@@ -35,6 +35,7 @@ use Monolog\Handler\SyslogHandler;
 use Monolog\Logger;
 use PhpYabs\Facade\BookFacade;
 use PhpYabs\Facade\MainFacade;
+use PhpYabs\Facade\StatisticsFacade;
 use Psr\Log\LoggerInterface;
 use Slim\Factory\AppFactory;
 use Slim\Views\Twig;
@@ -66,5 +67,6 @@ $app->get('/', [MainFacade::class, 'index']);
 $app->any('/books', [BookFacade::class, 'elenco']);
 $app->any('/books/add', [BookFacade::class, 'aggiungi']);
 $app->any('/books/edit', [BookFacade::class, 'modifica']);
+$app->get('/stats', [StatisticsFacade::class, 'index']);
 
 $app->run();

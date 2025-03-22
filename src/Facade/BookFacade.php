@@ -148,7 +148,7 @@ class BookFacade extends AbstractFacade
         return $view->render($response, 'books/list.twig', compact('count', 'books'));
     }
 
-    public function delete(Request $request, Response $response): ResponseInterface
+    public function delete(Request $request, Response $response, array $parameters): ResponseInterface
     {
         $vars = ['deleted' => false, 'book' => null, 'rate' => null];
         $view = Twig::fromRequest($request);
@@ -156,6 +156,8 @@ class BookFacade extends AbstractFacade
         $book = new Book($this->getDoctrineConnection());
         if (isset($_POST['ISBN'])) {
             $book->getFromDB($_POST['ISBN']);
+        } elseif (isset($parameters['ISBN'])) {
+            $book->getFromDB($parameters['ISBN']);
         }
 
         $delete = isset($_POST['delete']) && 'true' === $_POST['delete'];

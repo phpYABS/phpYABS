@@ -106,7 +106,7 @@ class BookFacade extends AbstractFacade
         ?>
         </body>
         </html>
-<?php
+        <?php
         $response->getBody()->write((string) ob_get_clean());
 
         return $response;
@@ -143,58 +143,23 @@ class BookFacade extends AbstractFacade
 
     public function delete(Request $request, Response $response): ResponseInterface
     {
-        return $this->buffered($response, function () {
-            $dbal = $this->getDoctrineConnection();
-            ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-<title>Cancella Libro</title>
-<link href="/css/main.css" rel="stylesheet" type="text/css">
-</head>
-<body>
-<h1 align="center">ATTENZIONE!!</h1>
-<h1 align="center">Il seguente libro sta per essere cancellato</h1>
-<h2 align="center">L'operazione &egrave; IRREVERSIBILE</h2>
-<?php if (!isset($_POST['ISBN'])) {?>
-  <div align="center">
-  <form action="/books/delete" method="post" name="form1">
-  ISBN
-  <input type="text" name="ISBN">
-  <input type="hidden" name="delete" value="true">
-  <input type="submit" name="Invia" value="Ok">
-</form>
-  <script language="JavaScript" type="text/javascript">
-    document.form1.ISBN.focus();
-  </script>
-</div>
-<?php } else {
-    $delbook = new Book($dbal);
-    $delbook->getFromDB($_POST['ISBN']);
+        $vars = ['deleted' => false, 'book' => null, 'condition' => null];
+        $view = Twig::fromRequest($request);
 
-    $delete = isset($_POST['delete']) && 'true' === $_POST['delete'];
-    if ($delete) {
-        $delbook->delete();
-        echo '<p>Libro Cancellato!</p>';
-    } elseif ($f = $delbook->getFields()) {
-        [$ISBN, $Titolo, $Autore, $Editore, $Prezzo] = $f;
-        $ISBN = $delbook->getFullISBN();
-
-        $Valutazione = $delbook->getCondition();
-
-        if ('' == $Valutazione) {
-            $Valutazione = '&nbsp;';
+        $book = new Book($this->getDoctrineConnection());
+        if (isset($_POST['ISBN'])) {
+            $book->getFromDB($_POST['ISBN']);
         }
 
-        include PATH_TEMPLATES . '/oldones/libri/tabdel.php';
-    } else {
-        echo '<p align="center">Libro ' . $delbook->getFullIsbn() . ' non trovato!</p>';
-    }
-}
-            ?>
-</body>
-</html>
-<?php
-        });
+        $delete = isset($_POST['delete']) && 'true' === $_POST['delete'];
+        if ($delete) {
+            $book->delete();
+            $vars['deleted'] = true;
+        } else {
+            $vars['book'] = $book->getFields();
+            $vars['condition'] = $book->getCondition();
+        }
+
+        return $view->render($response, 'books/delete.twig', $vars);
     }
 }

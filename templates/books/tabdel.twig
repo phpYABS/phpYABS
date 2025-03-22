@@ -3,38 +3,40 @@
   <tr>
     <th width="80">ISBN:</th>
     <td>
-      <?php echo $ISBN ?? ''; ?>
+      {{ book.ISBN }}
     </td>
   </tr>
   <tr>
     <th width="80">Titolo:</th>
     <td>
-      <?php echo $Titolo ?? ''; ?>
+      {{ book.title }}
     </td>
   </tr>
   <tr>
     <th width="80">Autore:</th>
     <td>
-      <?php echo $Autore ?? ''; ?>
+      {{ book.author }}
     </td>
   </tr>
   <tr>
     <th width="80">Editore:</th>
     <td>
-      <?php echo $Editore ?? ''; ?>
+      {{ book.publisher }}
     </td>
   </tr>
   <tr>
     <th width="80">Prezzo:</th>
     <td>
-      <?php echo $Prezzo ?? ''; ?>
+      {{ book.price }}
     </td>
   </tr>
   <tr>
     <th width="80">Valutazione:</th>
-    <td><u><?php echo $Valutazione ?? ''; ?></u></td>
+    <td><u>{{ book.condition }}</u></td>
   </tr>
 </table>
 </p>
-<div align="center"><a href="<?php echo $_SERVER['PHP_SELF'] . '?Nome=' . $_GET['Nome'] . '&Azione=' . $_GET['Azione'] . '&ISBN=' .
-        ($ISBN ?? '') . '&cancella=on'; ?>">Cancella Libro</a>
+<form action="/books/delete">
+  <input type="submit" value="Cancella libro">
+
+</form>

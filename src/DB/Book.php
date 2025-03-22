@@ -49,7 +49,7 @@ class Book extends ActiveRecord
      */
     public function checkFields(array $fields): bool
     {
-        return static::isValidISBN($fields['ISBN']) && strlen($fields['title'] ?? '') > 0;
+        return static::isValidISBN($fields['ISBN'] ?? '') && strlen($fields['title'] ?? '') > 0;
     }
 
     /**

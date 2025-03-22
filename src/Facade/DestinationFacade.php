@@ -75,7 +75,7 @@ class DestinationFacade extends AbstractFacade
             <body>
             <h1 align="center">Aggiunta destinazioni</h1>
             <p align="center">Pagina <?php echo $pag; ?></p>
-            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="GET">
+            <form action="/destinations" method="GET">
                 <?php
 
                 if (strlen($destination) > 0) {

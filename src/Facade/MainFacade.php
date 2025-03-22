@@ -34,7 +34,7 @@ class MainFacade extends AbstractFacade
 </HEAD>
 <BODY>
 <h1>Menu</h1>
-<p><a href="modules.php?Nome=Acquisti&Azione=Nuovo">Nuovo Acquisto</a></p>
+<p><a href="/purchases/current?Azione=Nuovo">Nuovo Acquisto</a></p>
 <form action="modules.php" method="get" name="acquisto">
         Recupera acquisto:
   <input name="purchase_id" type="text" id="purchase_id" maxlength="10" style="width:90px">
@@ -47,7 +47,7 @@ class MainFacade extends AbstractFacade
     <p><a href="/books/edit">Modifica Libro</a></p>
     <p><a href="modules.php?Nome=Libri&Azione=Cancella">Cancella Libro</a></p>
     <?php } ?>
-<p><a href="modules.php?Nome=Acquisti&Azione=Elenco">Elenco Acquisti</a></p>
+<p><a href="/purchases">Elenco Acquisti</a></p>
 <p><a href="modules.php?Nome=Destinazioni">Destinazioni</a></p>
 <p><a href="/stats">Statistiche</a></p>
 <p><a href="/books" target="_blank">Elenco Libri</a></p>

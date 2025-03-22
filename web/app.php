@@ -35,9 +35,12 @@ use Monolog\Handler\SyslogHandler;
 use Monolog\Logger;
 use PhpYabs\Facade\BookFacade;
 use PhpYabs\Facade\MainFacade;
+use PhpYabs\Facade\PurchaseFacade;
 use PhpYabs\Facade\StatisticsFacade;
+use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
 use Slim\Factory\AppFactory;
+use Slim\Psr7\Request;
 use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
 
@@ -60,6 +63,11 @@ $app = AppFactory::createFromContainer($builder->build());
 
 $twig = Twig::create(__DIR__ . '/../templates');
 $app->add(TwigMiddleware::create($app, $twig));
+$app->add(function (Request $request, RequestHandlerInterface $handler) {
+    session_start();
+
+    return $handler->handle($request);
+});
 
 $app->any('/modules.php', [MainFacade::class, 'modules']);
 $app->get('/menu', [MainFacade::class, 'menu']);
@@ -67,6 +75,9 @@ $app->get('/', [MainFacade::class, 'index']);
 $app->any('/books', [BookFacade::class, 'index']);
 $app->any('/books/add', [BookFacade::class, 'aggiungi']);
 $app->any('/books/edit', [BookFacade::class, 'modifica']);
+$app->get('/purchases', [PurchaseFacade::class, 'index']);
+$app->post('/purchases', [PurchaseFacade::class, 'index']);
+$app->get('/purchases/current', [PurchaseFacade::class, 'current']);
 $app->get('/stats', [StatisticsFacade::class, 'index']);
 
 $app->run();

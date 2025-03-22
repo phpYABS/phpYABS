@@ -1,9 +1,8 @@
 parameters:
     level: 4
     bootstrapFiles:
-        - application/includes/common.inc.php
+        - src/bootstrap.php
     paths:
-        - application
         - src
         - tests
         - web

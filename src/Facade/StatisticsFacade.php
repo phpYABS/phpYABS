@@ -11,19 +11,19 @@ class StatisticsFacade extends AbstractFacade
     {
         $dbal = $this->getDoctrineConnection();
         // conto gli acquisti
-        $nacquisti = $dbal->fetchOne('SELECT COUNT(purchase_id) FROM purchases');
+        $nacquisti = $dbal->fetchOne('SELECT COUNT(purchase_id) FROM purchases') ?: 0;
 
         // conto i libri acquistati
-        $libriacq = $dbal->fetchOne('SELECT COUNT(*) FROM purchases');
+        $libriacq = $dbal->fetchOne('SELECT COUNT(*) FROM purchases') ?: 0;
 
         // conto i libri non trovati
-        $nerrori = $dbal->fetchOne("SELECT COUNT(ISBN) FROM hits WHERE found='no'");
+        $nerrori = $dbal->fetchOne("SELECT COUNT(ISBN) FROM hits WHERE found='no'") ?: 0;
 
         // conto gli spari totali
-        $totspari = $dbal->fetchOne('SELECT SUM(hits) FROM hits');
+        $totspari = $dbal->fetchOne('SELECT SUM(hits) FROM hits') ?: 0;
 
         // conto gli spari falliti
-        $errspari = $dbal->fetchOne("SELECT SUM(hits) FROM hits WHERE found='no'");
+        $errspari = $dbal->fetchOne("SELECT SUM(hits) FROM hits WHERE found='no'") ?: 0;
 
         // calcolo gli spari con successo
         $spariok = $totspari - $errspari;

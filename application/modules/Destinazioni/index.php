@@ -126,9 +126,9 @@ $pag = (int) ($start / 50) + 1;
           <input name="destina[<?php echo $risultati[0]; ?>]" type="radio" value="off" <?php echo $checkedNO; ?>>
         </td>
       <?php
-      $risultati[0] = fullisbn($risultati[0]);
-            for ($i = 0; $i < (is_countable($risultati) ? count($risultati) : 0); ++$i) {
-                if (strlen((string) $risultati[$i]) < 1) {
+          $risultati[0] = fullisbn($risultati[0]);
+          foreach ($risultati as $i => $risultato) {
+                if (strlen((string) $risultato) < 1) {
                     $risultati[$i] = '&nbsp;';
                 } else {
                     $risultati[$i] = htmlentities((string) $risultati[$i]);

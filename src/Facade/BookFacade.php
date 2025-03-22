@@ -112,7 +112,7 @@ class BookFacade extends AbstractFacade
         return $response;
     }
 
-    public function elenco(Request $request, Response $response): ResponseInterface
+    public function index(Request $request, Response $response): ResponseInterface
     {
         $dbal = $this->getDoctrineConnection();
         $count = $dbal->fetchOne('SELECT COUNT(*) FROM books');

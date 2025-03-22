@@ -64,7 +64,7 @@ $app->add(TwigMiddleware::create($app, $twig));
 $app->any('/modules.php', [MainFacade::class, 'modules']);
 $app->get('/menu', [MainFacade::class, 'menu']);
 $app->get('/', [MainFacade::class, 'index']);
-$app->any('/books', [BookFacade::class, 'elenco']);
+$app->any('/books', [BookFacade::class, 'index']);
 $app->any('/books/add', [BookFacade::class, 'aggiungi']);
 $app->any('/books/edit', [BookFacade::class, 'modifica']);
 $app->get('/stats', [StatisticsFacade::class, 'index']);

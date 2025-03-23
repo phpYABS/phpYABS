@@ -13,6 +13,7 @@ services:
     image: mariadb:latest
     volumes:
       - ./data/sql:/docker-entrypoint-initdb.d
+      - ./var/mysql:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=phpyabs
     ports:

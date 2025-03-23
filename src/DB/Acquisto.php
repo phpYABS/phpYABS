@@ -134,6 +134,7 @@ class Acquisto extends ActiveRecord
             $book = new Book($dbal);
 
             if ($book->getFromDB($row['ISBN']) && is_array($fields = $book->getFields())) {
+                $fields['bookId'] = $row['book_id'];
                 $fields['ISBN'] = $book->getFullIsbn();
                 $fields['rate'] = $book->getRate();
                 $fields['storeCredit'] = $book->getStoreCredit();

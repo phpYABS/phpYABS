@@ -1,31 +1,104 @@
 body {
-	background-color: #CCCCFF;
-	font-family: Arial, Helvetica, sans-serif;
-	color: #111111;
+    background-color: #f5f6fa;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: #2c3e50;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
 }
+
 a:link, a:active, a:visited {
-  text-decoration: none;
+    text-decoration: none;
+    transition: all 0.3s ease;
 }
+
 a:link {
-  color: #9900FF;
+    color: #3498db;
 }
+
 a:active {
-  color: #FF3333;
+    color: #e74c3c;
 }
+
 a:hover {
-  text-decoration: underline;
-   color: #FF00FF;
+    text-decoration: none;
+    color: #2980b9;
+    transform: translateX(5px);
 }
 
 div#menu {
     float: left;
-    width: 200px;
-    background-color: #FFCCCC;
-    padding: 10px;
-    margin: 10px;
-    border: 1px solid #FF0000;
+    width: 250px;
+    background-color: #ffffff;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+div#menu h1 {
+    color: #2c3e50;
+    font-size: 24px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #3498db;
+}
+
+div#menu nav p {
+    margin: 10px 0;
+}
+
+div#menu nav a {
+    display: block;
+    padding: 8px 15px;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    color: #2c3e50;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+div#menu nav a:hover {
+    background-color: #3498db;
+    color: #ffffff;
+    transform: translateX(5px);
+}
+
+div#menu form {
+    margin: 15px 0;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+div#menu input[type="text"] {
+    padding: 8px;
+    border: 1px solid #dcdde1;
+    border-radius: 4px;
+    width: 90px;
+    margin-right: 5px;
+}
+
+div#menu input[type="submit"] {
+    padding: 8px 15px;
+    background-color: #3498db;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+div#menu input[type="submit"]:hover {
+    background-color: #2980b9;
 }
 
 div#content {
     float: left;
+    background-color: #ffffff;
+    padding: 25px;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    min-width: 60%;
 }

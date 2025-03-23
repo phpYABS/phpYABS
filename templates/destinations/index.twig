@@ -1,0 +1,53 @@
+{% extends 'base.twig' %}
+{% block title %}Destinazioni{% endblock title %}
+{% block body %}
+<h1 align="center">Aggiunta destinazioni</h1>
+<p align="center">Pagina <?php echo $pag; ?></p>
+<form action="/destinations" method="GET">
+    {% if destination %}
+        <input type="hidden" name="destination" value="{{ destination | upper }}">
+    {% endif %}
+
+    <table width="100%" border="1" align="center">
+        <tr>
+            <td colspan="7">
+                <p align="center">
+                    <input type="text" name="destination" value="{{ destination | upper }}"
+                           style="width: 400px" {% if destination %}disabled{% endif %}></p>
+            </td>
+        </tr>
+        {% for book in books %}
+        <tr>
+            <td>
+                S&igrave;
+                <input name="destina[{{ book.ISBN }}]" type="radio"
+                       value="on" {% if book.selected %}checked{% endif %}>
+                No
+                <input name="destina[{{ book.ISBN }}]" type="radio"
+                       value="off" {% if not book.selected %}checked{% endif %}>
+            </td>
+            <td>{{ book.ISBN }}</td>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.publisher }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <input type="hidden" name="start" value="<?php echo $start; ?>">
+    <table align="center" border="1">
+        <tr>
+            <td><input name="invia" type="submit" value="Avanti"></td>
+            <td><input name="invia" type="submit" value="Indietro"></td>
+            <td><input name="invia" type="submit" value="Salva"></td>
+            <td><input type="reset" value="Azzera"></td>
+        </tr>
+    </table>
+</form>
+{% if destination %}
+    {% for page in pages %}
+        <a href="/destinations?destination={{ destination | upper }}&start={{ page.start }}">{{ page.page }}</a>
+    {% endfor %}
+{% endif %}
+<p align="center"><a href="/destinations?destination=_NEW">Nuova destination</a></p>
+{% endblock body %}

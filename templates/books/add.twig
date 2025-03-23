@@ -1,6 +1,6 @@
 {% extends "base.twig" %}
 {% block title %}Aggiungi libro{% endblock title %}
-{% block body %}
+{% block content %}
 {% if error %}
     <p>Errore nell'inserimento del libro</p>
 {% elseif inserted %}
@@ -8,4 +8,4 @@
 {% else %}
     {% include "books/tabadd.twig" %}
 {% endif %}
-{% endblock body %}
+{% endblock content %}

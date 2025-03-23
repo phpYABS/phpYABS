@@ -1,7 +1,7 @@
 {% extends 'base.twig' %}
 {% block title %}Valutazione dei libri in acquisto{% endblock %}
 {% block body_attr %}onLoad="document.libro.newISBN.focus()"{% endblock %}
-{% block body %}
+{% block content %}
 <font face="Arial, Helvetica, sans-serif">
     <h1 align="center">Valutazione dei libri in acquisto</h1>
     <h2 align="center">Acquisto N° {{ purchase_id }}</h2>
@@ -25,4 +25,4 @@
         </form>
     </div>
 </font>
-{% endblock body %}
+{% endblock content %}

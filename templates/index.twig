@@ -1,10 +1,4 @@
-<html>
-<head>
-    <title>phpYabs {{ version }} - {{ header }}</title>
-</head>
-<frameset cols="160,*">
-    <frame src="/menu" name="menu">
-    <frame src="/purchases/current" name="main">
-</frameset>
-<noframes></noframes>
-</html>
+{% extends 'base.twig' %}
+{% block content %}
+Welcome to the phpYabs application. This is the home page.
+{% endblock content %}

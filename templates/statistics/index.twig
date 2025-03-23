@@ -1,11 +1,7 @@
-<html>
-<head>
-    <title>Statistiche</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link href="/css/main.css" rel="stylesheet" type="text/css">
-</head>
+{% extends 'base.twig' %}
+{% block title %}Statistiche{% endblock title %}
 
-<body>
+{% block content %}
 <p>Libri acquistati: <b>{{ libriacq }}</b></p>
 <p>Libri (unici) non trovati: <b>{{ nerrori }}</b></p>
 <p>&nbsp;</p>
@@ -13,5 +9,4 @@
 <p>Trovati: <b>{{ spariok }}</b></p>
 <p>Non trovati: <b>{{ errspari }}</b></p>
 <p>Totali: <b>{{ totspari }}</b></p>
-</body>
-</html>
+{% endblock content %}

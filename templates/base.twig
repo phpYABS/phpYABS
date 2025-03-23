@@ -8,6 +8,13 @@
 </head>
 <body {% block body_attr %}{% endblock %}>
 {% block body %}
-{% endblock %}
+    <div id="menu">
+        {% include 'menu.twig' %}
+    </div>
+    <div id="content">
+        {% block content %}
+        {% endblock content %}
+    </div>
+{% endblock body %}
 </body>
 </html>

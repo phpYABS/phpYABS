@@ -1,6 +1,6 @@
 {% extends "base.twig" %}
 {% block title %}Modifica libro{% endblock title %}
-{% block body %}
+{% block content %}
 <script language="JavaScript" type="text/javascript">
     document.form1.ISBN.focus()
 </script>
@@ -12,4 +12,4 @@
 {% else %}
     {% include "books/tabsearch4mod.twig" %}
 {% endif %}
-{% endblock body %}
+{% endblock content %}

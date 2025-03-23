@@ -1,6 +1,6 @@
 {% extends 'base.twig' %}
 {% block title %}Destinazioni{% endblock title %}
-{% block body %}
+{% block content %}
 <h1 align="center">Aggiunta destinazioni</h1>
 <p align="center">Pagina <?php echo $pag; ?></p>
 <form action="/destinations" method="GET">
@@ -50,4 +50,4 @@
     {% endfor %}
 {% endif %}
 <p align="center"><a href="/destinations?destination=_NEW">Nuova destination</a></p>
-{% endblock body %}
+{% endblock content %}

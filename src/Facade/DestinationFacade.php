@@ -93,7 +93,7 @@ class DestinationFacade extends AbstractFacade
                    b.title,
                    b.author,
                    b.publisher,
-                   COUNT(d.ISBN) AS selected
+                   IF(d.ISBN IS NOT NULL, 1, 0) AS selected
             FROM books b
                      INNER JOIN buyback_rates br ON b.ISBN = br.ISBN
                      LEFT JOIN destinations d ON d.ISBN = b.ISBN AND d.destination = :destination

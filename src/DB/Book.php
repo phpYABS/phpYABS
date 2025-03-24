@@ -252,7 +252,7 @@ class Book extends ActiveRecord
     {
         try {
             return ISBN::fromString($ISBN)->version10->withoutChecksum;
-        } catch (\InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException) {
             return false;
         }
     }
@@ -261,7 +261,7 @@ class Book extends ActiveRecord
     {
         try {
             return (string) ISBN::fromString($this->fields['ISBN'])->version10;
-        } catch (\InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException) {
             return null;
         }
     }

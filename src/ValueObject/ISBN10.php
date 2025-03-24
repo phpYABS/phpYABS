@@ -35,6 +35,7 @@ final class ISBN10 extends ISBN
         return self::fromNineDigits(substr((string) $clean, 3, 9));
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->value;

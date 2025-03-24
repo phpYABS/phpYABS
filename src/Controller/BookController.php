@@ -39,7 +39,6 @@ class BookController extends AbstractController
             $vars['error'] = !$vars['inserted'];
         }
 
-
         return $this->render('books/add.twig', $vars);
     }
 

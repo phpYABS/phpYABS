@@ -2,27 +2,29 @@
 
 declare(strict_types=1);
 
-namespace PhpYabs\Facade;
+namespace PhpYabs\Controller;
 
 use PhpYabs\Configuration\Constants;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Psr7\Request;
-use Slim\Psr7\Response;
 use Slim\Views\Twig;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 
-class MainFacade extends AbstractFacade
+#[Route('/')]
+class MainController extends AbstractController
 {
-    public function index(Request $request, Response $response): ResponseInterface
+    #[Route('/')]
+    public function index(): Response
     {
         global $intestazione;
-        $view = Twig::fromRequest($request);
 
-        return $view->render($response, 'index.twig', [
+        return $this->render('index.twig', [
             'version' => Constants::VERSION,
             'header' => $intestazione,
         ]);
     }
 
+    #[Route('/menu')]
     public function menu(Request $request, Response $response): ResponseInterface
     {
         global $edit;

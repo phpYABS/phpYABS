@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpYabs\Facade;
+namespace PhpYabs\Controller;
 
 use Doctrine\DBAL\Types\Type;
 use PhpYabs\DB\Book;
@@ -11,7 +11,7 @@ use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 use Slim\Views\Twig;
 
-class BookFacade extends AbstractFacade
+class BookController extends AbstractController
 {
     public function aggiungi(Request $request, Response $response): ResponseInterface
     {

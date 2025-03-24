@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpYabs\Facade;
+namespace PhpYabs\Controller;
 
 use Doctrine\DBAL\Types\Types;
 use Psr\Http\Message\ResponseInterface;
@@ -10,7 +10,7 @@ use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 use Slim\Views\Twig;
 
-class DestinationFacade extends AbstractFacade
+class DestinationController extends AbstractController
 {
     public function index(Request $request, Response $response): ResponseInterface
     {

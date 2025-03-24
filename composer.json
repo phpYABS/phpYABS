@@ -12,14 +12,25 @@
         "php": "^8.4",
         "ext-pdo": "*",
         "doctrine/dbal": "^3.3",
+        "doctrine/doctrine-bundle": "^2.14",
+        "doctrine/doctrine-migrations-bundle": "^3.4",
+        "doctrine/orm": "^3.3",
         "monolog/monolog": "^3.8",
         "php-di/php-di": "^7.0",
         "ronanguilloux/isocodes": "^2.3",
         "slim/psr7": "^1.5",
         "slim/slim": "^4.9",
         "slim/twig-view": "^3.3",
+        "symfony/flex": "^2.5",
+        "symfony/framework-bundle": "^7.2",
+        "symfony/psr-http-message-bridge": "^7.2",
+        "symfony/runtime": "^7.2",
         "symfony/translation": "^7.2",
-        "symfony/var-dumper": "^7.2"
+        "symfony/twig-bundle": "^7.2",
+        "symfony/var-dumper": "^7.2",
+        "symfony/yaml": "^7.2",
+        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.42",
@@ -41,8 +52,16 @@
     },
     "config": {
         "allow-plugins": {
-            "ergebnis/composer-normalize": true
+            "ergebnis/composer-normalize": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
         },
         "sort-packages": true
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        }
     }
 }

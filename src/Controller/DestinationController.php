@@ -5,16 +5,14 @@ declare(strict_types=1);
 namespace PhpYabs\Controller;
 
 use Doctrine\DBAL\Types\Types;
-use Psr\Http\Message\ResponseInterface;
-use Slim\Psr7\Request;
-use Slim\Psr7\Response;
-use Slim\Views\Twig;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 
 class DestinationController extends AbstractController
 {
-    public function index(Request $request, Response $response): ResponseInterface
+    #[Route('/destinations', methods: ['GET'])]
+    public function index(): Response
     {
-        $view = Twig::fromRequest($request);
         $data = [];
         $dbal = $this->getDoctrineConnection();
 
@@ -124,6 +122,6 @@ class DestinationController extends AbstractController
             }
         }
 
-        return $view->render($response, 'destinations/index.twig', $data);
+        return $this->render('destinations/index.twig', $data);
     }
 }

@@ -16,6 +16,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.4",
         "doctrine/orm": "^3.3",
         "ronanguilloux/isocodes": "^2.3",
+        "siburuxue/doctrine-helper": "^1.0",
         "symfony/flex": "^2.5",
         "symfony/framework-bundle": "^7.2",
         "symfony/psr-http-message-bridge": "^7.2",
@@ -32,7 +33,8 @@
         "friendsofphp/php-cs-fixer": "^3.73",
         "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": "^12.0",
-        "rector/rector": "^2.0"
+        "rector/rector": "^2.0",
+        "symfony/maker-bundle": "^1.62"
     },
     "minimum-stability": "stable",
     "autoload": {

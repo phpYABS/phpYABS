@@ -35,6 +35,10 @@ reload: | down up
 bash:
 	docker compose exec php bash
 
+.PHONY: logs
+logs:
+	docker compose logs -f
+
 .PHONY: interactive
 interactive:
 	docker compose exec php php -a

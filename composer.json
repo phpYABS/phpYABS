@@ -13,6 +13,7 @@
         "ext-pdo": "*",
         "doctrine/dbal": "^3.3",
         "monolog/monolog": "^3.8",
+        "php-di/php-di": "^7.0",
         "ronanguilloux/isocodes": "^2.3",
         "slim/psr7": "^1.5",
         "slim/slim": "^4.9",

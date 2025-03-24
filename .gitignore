@@ -1,7 +1,5 @@
-auth.json
-.idea
-/bin/
-vendor
-/nbproject/
-failure.png
 *.cache
+.idea
+auth.json
+failure.png
+vendor

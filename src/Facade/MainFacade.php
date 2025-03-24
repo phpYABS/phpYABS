@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PhpYabs\Facade;
 
-use PhpYabs\Configuration\Configuration;
+use PhpYabs\Configuration\Constants;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
@@ -18,7 +18,7 @@ class MainFacade extends AbstractFacade
         $view = Twig::fromRequest($request);
 
         return $view->render($response, 'index.twig', [
-            'version' => Configuration::VERSION,
+            'version' => Constants::VERSION,
             'header' => $intestazione,
         ]);
     }

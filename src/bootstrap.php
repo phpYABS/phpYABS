@@ -3,9 +3,9 @@
 declare(strict_types=1);
 require __DIR__ . '/../vendor/autoload.php';
 
-use PhpYabs\Configuration\Configuration;
+use PhpYabs\Configuration\Constants;
 
-date_default_timezone_set(Configuration::TIMEZONE);
+date_default_timezone_set(Constants::TIMEZONE);
 
 $DS = DIRECTORY_SEPARATOR;
 

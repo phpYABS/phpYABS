@@ -537,16 +537,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "3.8.1",
+            "version": "3.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "aef6ee73a77a66e404dd6540934a9ef1b3c855b4"
+                "reference": "10d85740180ecba7896c87e06a166e0c95a0e3b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/aef6ee73a77a66e404dd6540934a9ef1b3c855b4",
-                "reference": "aef6ee73a77a66e404dd6540934a9ef1b3c855b4",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/10d85740180ecba7896c87e06a166e0c95a0e3b6",
+                "reference": "10d85740180ecba7896c87e06a166e0c95a0e3b6",
                 "shasum": ""
             },
             "require": {
@@ -624,7 +624,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Seldaek/monolog/issues",
-                "source": "https://github.com/Seldaek/monolog/tree/3.8.1"
+                "source": "https://github.com/Seldaek/monolog/tree/3.9.0"
             },
             "funding": [
                 {
@@ -636,7 +636,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-12-05T17:15:07+00:00"
+            "time": "2025-03-24T10:02:05+00:00"
         },
         {
             "name": "nikic/fast-route",
@@ -3412,16 +3412,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.1.9",
+            "version": "2.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "0876262406b99b6e7909fbb213c1f245023a2362"
+                "reference": "8ca5f79a8f63c49b2359065832a654e1ec70ac30"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/0876262406b99b6e7909fbb213c1f245023a2362",
-                "reference": "0876262406b99b6e7909fbb213c1f245023a2362",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/8ca5f79a8f63c49b2359065832a654e1ec70ac30",
+                "reference": "8ca5f79a8f63c49b2359065832a654e1ec70ac30",
                 "shasum": ""
             },
             "require": {
@@ -3466,7 +3466,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-03-23T11:45:29+00:00"
+            "time": "2025-03-24T13:45:00+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -3792,16 +3792,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "12.0.9",
+            "version": "12.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "7835bb4276780e0bbb385ce0a777b839e03096db"
+                "reference": "6075843014de23bcd6992842d69ca99d25d6a433"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/7835bb4276780e0bbb385ce0a777b839e03096db",
-                "reference": "7835bb4276780e0bbb385ce0a777b839e03096db",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6075843014de23bcd6992842d69ca99d25d6a433",
+                "reference": "6075843014de23bcd6992842d69ca99d25d6a433",
                 "shasum": ""
             },
             "require": {
@@ -3869,7 +3869,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.0.9"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.0.10"
             },
             "funding": [
                 {
@@ -3885,7 +3885,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-03-19T13:47:33+00:00"
+            "time": "2025-03-23T16:03:59+00:00"
         },
         {
             "name": "psr/event-dispatcher",

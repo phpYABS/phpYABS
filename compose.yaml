@@ -13,7 +13,6 @@ services:
       - db
   db:
     image: mariadb:latest
-    user: "${UID}:${GID}"
     volumes:
       - ./data/sql:/docker-entrypoint-initdb.d
       - ./var/mysql:/var/lib/mysql
@@ -24,7 +23,6 @@ services:
 
   phpmyadmin:
     image: phpmyadmin:latest
-    user: "${UID}:${GID}"
     ports:
       - "18090:80"
     links:

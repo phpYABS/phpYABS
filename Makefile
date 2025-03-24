@@ -51,7 +51,8 @@ composer:
 composer-install:
 	docker compose exec php composer install
 
-vendor/autoload.php: get-ready
+vendor/autoload.php:
+	$(MAKE) get-ready
 
 .PHONY: unit
 unit: vendor/autoload.php

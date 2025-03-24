@@ -28,15 +28,4 @@ abstract class AbstractController extends BaseController
     {
         return $this->doctrineConnection;
     }
-
-    protected function buffered(Response $response, callable $callable): Response
-    {
-        ob_start();
-
-        $callable();
-
-        $response->getBody()->write((string) ob_get_clean());
-
-        return $response;
-    }
 }

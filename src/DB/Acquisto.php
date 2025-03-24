@@ -81,7 +81,7 @@ class Acquisto extends ActiveRecord
         if ($book->getFromDB($ISBN)) {
             $dbal->insert('purchases', [
                 'purchase_id' => $this->ID,
-                'ISBN' => $ISBN,
+                'ISBN' => substr($ISBN, 0, 9),
             ]);
 
             return 'si';
@@ -139,6 +139,7 @@ class Acquisto extends ActiveRecord
                 $fields['rate'] = $book->getRate();
                 $fields['storeCredit'] = $book->getStoreCredit();
                 $fields['cashValue'] = $book->getCashValue();
+                $fields['dest'] = 'TODO: fix this';
 
                 $fields['sequence'] = ++$numero;
 

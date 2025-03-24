@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace PhpYabs\Controller;
 
-use Psr\Http\Message\ResponseInterface;
-use Slim\Psr7\Request;
-use Slim\Psr7\Response;
-use Slim\Views\Twig;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/stats')]
 class StatisticsController extends AbstractController
 {
-    public function index(Request $request, Response $response): ResponseInterface
+    #[Route('', methods: ['GET'])]
+    public function index(): Response
     {
         $dbal = $this->getDoctrineConnection();
 
@@ -42,8 +42,6 @@ class StatisticsController extends AbstractController
             'spariok',
         );
 
-        $view = Twig::fromRequest($request);
-
-        return $view->render($response, 'statistics/index.twig', $data);
+        return $this->render('statistics/index.twig', $data);
     }
 }

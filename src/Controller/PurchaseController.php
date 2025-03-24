@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace PhpYabs\Controller;
 
 use PhpYabs\DB\Acquisto;
-use Psr\Http\Message\ResponseInterface;
-use Slim\Psr7\Request;
-use Slim\Psr7\Response;
-use Slim\Views\Twig;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/purchases')]
 class PurchaseController extends AbstractController
 {
-    public function index(Request $request, Response $response): ResponseInterface
+    #[Route('', methods: ['GET'])]
+    public function index(): Response
     {
         $sql = <<<SQL
         SELECT purchase_id, COUNT(purchase_id) AS `count`
@@ -22,14 +23,13 @@ class PurchaseController extends AbstractController
 
         $data['purchases'] = $this->getDoctrineConnection()->fetchAllAssociative($sql);
 
-        $view = Twig::fromRequest($request);
-
-        return $view->render($response, 'purchases/index.twig', $data);
+        return $this->render('purchases/index.twig', $data);
     }
 
-    public function current(Request $request, Response $response, array $params): ResponseInterface
+    #[Route('/{id}', methods: ['GET', 'POST'])]
+    public function current(Request $request): Response
     {
-        $id = $params['id'] ?? 'current';
+        $id = $request->get('id', 'current');
 
         // se c'è una richiesta di nuovo acquisto, elimino il precedente
         if ('Nuovo' === ($_GET['Azione'] ?? '')) {
@@ -57,9 +57,7 @@ class PurchaseController extends AbstractController
             $acquisto->delBook($_GET['Cancella']);
         }
 
-        $view = Twig::fromRequest($request);
-
-        return $view->render($response, 'purchases/current.twig', [
+        return $this->render('purchases/current.twig', [
             'acquisto' => $acquisto,
             'purchase_id' => $purchase_id,
             'trovato' => $trovato,

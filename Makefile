@@ -1,3 +1,11 @@
+SHELL = /bin/sh
+
+UID := $(shell id -u)
+GID := $(shell id -g)
+
+export UID
+export GID
+
 .PHONY: pipeline
 pipeline: | get-ready unit phpstan cs-fixer
 

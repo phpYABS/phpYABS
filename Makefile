@@ -47,26 +47,28 @@ composer:
 composer-install:
 	docker compose exec php composer install
 
+vendor/autoload.php: get-ready
+
 .PHONY: unit
-unit:
+unit: vendor/autoload.php
 	docker compose exec php vendor/bin/phpunit --testsuite=unit
 
 .PHONY: phpunit
-phpunit:
+phpunit: vendor/autoload.php
 	docker compose exec php vendor/bin/phpunit $(args)
 
 .PHONY: phpstan
-phpstan:
+phpstan: vendor/autoload.php
 	docker compose exec php vendor/bin/phpstan analyze -v
 
 .PHONY: rector
-rector:
+rector: vendor/autoload.php
 	docker compose exec php vendor/bin/rector $(args)
 
 .PHONY: cs-fixer
-cs-fixer:
+cs-fixer: vendor/autoload.php
 	docker compose exec php vendor/bin/php-cs-fixer fix -v
 
 .PHONY: cs-fixer-dry
-cs-fixer-dry:
+cs-fixer-dry: vendor/autoload.php
 	docker compose exec php vendor/bin/php-cs-fixer fix -v --dry-run

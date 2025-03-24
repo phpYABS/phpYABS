@@ -6,12 +6,12 @@ services:
     ports:
       - "18080:80"
     environment:
-      - DB_URL=pdo-mysql://phpyabs:yabbadabbadoo@db/phpyabs
+      - DATABASE_URL=pdo-mysql://phpyabs:yabbadabbadoo@database/phpyabs
     volumes:
       - .:/var/www/project
     links:
-      - db
-  db:
+      - database
+  database:
     image: mariadb:latest
     volumes:
       - ./data/sql:/docker-entrypoint-initdb.d
@@ -26,6 +26,6 @@ services:
     ports:
       - "18090:80"
     links:
-      - db:db_server
+      - database:db_server
     depends_on:
-      - db
+      - database

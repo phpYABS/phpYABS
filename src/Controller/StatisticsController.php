@@ -22,13 +22,13 @@ class StatisticsController extends AbstractController
         $libriacq = $dbal->fetchOne('SELECT COUNT(*) FROM purchases') ?: 0;
 
         // conto i libri non trovati
-        $nerrori = $dbal->fetchOne("SELECT COUNT(ISBN) FROM hits WHERE found='no'") ?: 0;
+        $nerrori = $dbal->fetchOne("SELECT COUNT(ISBN) FROM hits WHERE NOT found") ?: 0;
 
         // conto gli spari totali
         $totspari = $dbal->fetchOne('SELECT SUM(hits) FROM hits') ?: 0;
 
         // conto gli spari falliti
-        $errspari = $dbal->fetchOne("SELECT SUM(hits) FROM hits WHERE found='no'") ?: 0;
+        $errspari = $dbal->fetchOne("SELECT SUM(hits) FROM hits WHERE NOT found") ?: 0;
 
         // calcolo gli spari con successo
         $spariok = $totspari - $errspari;

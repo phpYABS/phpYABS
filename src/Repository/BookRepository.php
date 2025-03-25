@@ -6,25 +6,25 @@ namespace PhpYabs\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use PhpYabs\Entity\Hit;
+use PhpYabs\Entity\Book;
 
 /**
- * @extends ServiceEntityRepository<Hit>
+ * @extends ServiceEntityRepository<Book>
  *
- * @method Hit|null find($id, $lockMode = null, $lockVersion = null)
- * @method Hit|null findOneBy(array $criteria, array $orderBy = null)
- * @method Hit[]    findAll()
- * @method Hit[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Book|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Book|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Book[]    findAll()
+ * @method Book[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class HitsRepository extends ServiceEntityRepository
+class BookRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Hit::class);
+        parent::__construct($registry, Book::class);
     }
 
     //    /**
-    //     * @return Hits[] Returns an array of Hits objects
+    //     * @return Books[] Returns an array of Books objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -38,7 +38,7 @@ class HitsRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Hits
+    //    public function findOneBySomeField($value): ?Books
     //    {
     //        return $this->createQueryBuilder('a')
     //            ->andWhere('a.exampleField = :val')

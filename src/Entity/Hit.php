@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace PhpYabs\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use PhpYabs\Repository\HitsRepository;
+use PhpYabs\Repository\HitRepository;
 
 #[ORM\Table(name: 'hits')]
-#[ORM\Entity(repositoryClass: HitsRepository::class)]
+#[ORM\Entity(repositoryClass: HitRepository::class)]
 class Hit
 {
     #[ORM\Id]

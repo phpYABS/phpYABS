@@ -6,7 +6,7 @@ namespace PhpYabs\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use PhpYabs\Repository\BooksRepository;
+use PhpYabs\Repository\BookRepository;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
@@ -14,7 +14,7 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Index(name: 'title', columns: ['title'])]
 #[ORM\Index(name: 'author', columns: ['author'])]
 #[ORM\Index(name: 'publisher', columns: ['publisher'])]
-#[ORM\Entity(repositoryClass: BooksRepository::class)]
+#[ORM\Entity(repositoryClass: BookRepository::class)]
 class Book
 {
     #[ORM\Id]

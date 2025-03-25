@@ -31,7 +31,9 @@
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
+        "behat/behat": "^3.19",
         "ergebnis/composer-normalize": "^2.42",
+        "friends-of-behat/symfony-extension": "^2.6",
         "friendsofphp/php-cs-fixer": "^3.73",
         "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": "^12.0",

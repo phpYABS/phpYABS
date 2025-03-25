@@ -2,13 +2,13 @@
 
 namespace PhpYabs\Entity;
 
-use App\Repository\PurchasesRepository;
+use PhpYabs\Repository\PurchaseRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'purchases')]
-#[ORM\Entity(repositoryClass: PurchasesRepository::class)]
-class Purchases
+#[ORM\Entity(repositoryClass: PurchaseRepository::class)]
+class Purchase
 {
     #[ORM\Column(name: "book_id")]
     #[ORM\Id]

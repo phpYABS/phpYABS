@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Repository;
+namespace PhpYabs\Repository;
 
-use PhpYabs\Entity\BuybackRates;
+use PhpYabs\Entity\BuybackRate;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<BuybackRates>
+ * @extends ServiceEntityRepository<BuybackRate>
  *
- * @method BuybackRates|null find($id, $lockMode = null, $lockVersion = null)
- * @method BuybackRates|null findOneBy(array $criteria, array $orderBy = null)
- * @method BuybackRates[]    findAll()
- * @method BuybackRates[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method BuybackRate|null find($id, $lockMode = null, $lockVersion = null)
+ * @method BuybackRate|null findOneBy(array $criteria, array $orderBy = null)
+ * @method BuybackRate[]    findAll()
+ * @method BuybackRate[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class BuybackRatesRepository extends ServiceEntityRepository
+class BuybackRateRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, BuybackRates::class);
+        parent::__construct($registry, BuybackRate::class);
     }
 
 //    /**

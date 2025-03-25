@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Repository;
+namespace PhpYabs\Repository;
 
-use PhpYabs\Entity\Hits;
+use PhpYabs\Entity\Hit;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Hits>
+ * @extends ServiceEntityRepository<Hit>
  *
- * @method Hits|null find($id, $lockMode = null, $lockVersion = null)
- * @method Hits|null findOneBy(array $criteria, array $orderBy = null)
- * @method Hits[]    findAll()
- * @method Hits[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Hit|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Hit|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Hit[]    findAll()
+ * @method Hit[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class HitsRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Hits::class);
+        parent::__construct($registry, Hit::class);
     }
 
 //    /**

@@ -2,13 +2,13 @@
 
 namespace PhpYabs\Entity;
 
-use App\Repository\BuybackRatesRepository;
+use PhpYabs\Repository\BuybackRateRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'buyback_rates')]
-#[ORM\Entity(repositoryClass: BuybackRatesRepository::class)]
-class BuybackRates
+#[ORM\Entity(repositoryClass: BuybackRateRepository::class)]
+class BuybackRate
 {
     #[ORM\Column(name: "ISBN", length: 9, options: ["fixed" => true])]
     #[ORM\Id]

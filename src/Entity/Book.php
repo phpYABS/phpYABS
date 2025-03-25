@@ -2,7 +2,7 @@
 
 namespace PhpYabs\Entity;
 
-use App\Repository\BooksRepository;
+use PhpYabs\Repository\BooksRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index(name: 'author', columns: ['author'])]
 #[ORM\Index(name: 'publisher', columns: ['publisher'])]
 #[ORM\Entity(repositoryClass: BooksRepository::class)]
-class Books
+class Book
 {
     #[ORM\Column(name: "ISBN", length: 9, options: ["fixed" => true])]
     #[ORM\Id]

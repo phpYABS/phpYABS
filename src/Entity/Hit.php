@@ -2,13 +2,13 @@
 
 namespace PhpYabs\Entity;
 
-use App\Repository\HitsRepository;
+use PhpYabs\Repository\HitsRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'hits')]
 #[ORM\Entity(repositoryClass: HitsRepository::class)]
-class Hits
+class Hit
 {
     #[ORM\Column(name: "ISBN", length: 9, options: ["fixed" => true])]
     #[ORM\Id]

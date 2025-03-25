@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Repository;
+namespace PhpYabs\Repository;
 
-use PhpYabs\Entity\Destinations;
+use PhpYabs\Entity\Destination;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Destinations>
+ * @extends ServiceEntityRepository<Destination>
  *
- * @method Destinations|null find($id, $lockMode = null, $lockVersion = null)
- * @method Destinations|null findOneBy(array $criteria, array $orderBy = null)
- * @method Destinations[]    findAll()
- * @method Destinations[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Destination|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Destination|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Destination[]    findAll()
+ * @method Destination[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class DestinationsRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Destinations::class);
+        parent::__construct($registry, Destination::class);
     }
 
 //    /**

@@ -32,6 +32,7 @@
     },
     "require-dev": {
         "behat/behat": "^3.19",
+        "behat/mink": "^1.12",
         "ergebnis/composer-normalize": "^2.42",
         "friends-of-behat/symfony-extension": "^2.6",
         "friendsofphp/php-cs-fixer": "^3.73",

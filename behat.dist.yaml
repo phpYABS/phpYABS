@@ -1,0 +1,18 @@
+default:
+    suites:
+        default:
+            contexts:
+                - PhpYabs\Tests\Behat\MainContext
+
+    extensions:
+        Behat\MinkExtension:
+            sessions:
+                symfony:
+                    symfony: ~
+
+        FriendsOfBehat\SymfonyExtension:
+            bootstrap: tests/bootstrap.php
+            kernel:
+                environment: test
+                path: src/Kernel.php
+                class: PhpYabs\Kernel

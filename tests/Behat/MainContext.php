@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Behat;
+namespace PhpYabs\Tests\Behat;
 
 use Behat\Behat\Context\Context;
-use Behat\Behat\Tester\Exception\PendingException;
+use Behat\MinkExtension\Context\MinkContext;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpYabs\Entity\Book;
@@ -20,18 +20,17 @@ use Symfony\Component\HttpKernel\KernelInterface;
  *
  * @see http://behat.org/en/latest/quick_start.html
  */
-final class MainContext implements Context
+final class MainContext extends MinkContext
 {
     private ?Response $response;
 
-    private ?EntityManagerInterface $entityManager;
     private Connection $dbal;
 
-    public function __construct(private KernelInterface $kernel)
-    {
-        $container = $this->kernel->getContainer();
-        $this->entityManager = $container->get(EntityManagerInterface::class);
-        $this->dbal = $container->get('doctrine.dbal.default_connection');
+    public function __construct(
+        private readonly KernelInterface $kernel,
+        private readonly EntityManagerInterface $entityManager
+    ) {
+        $this->dbal = $this->entityManager->getConnection();
     }
 
     /**
@@ -72,5 +71,8 @@ final class MainContext implements Context
             ->setPublisher($publisher)
             ->setPrice($price)
             ->setRate(Rate::tryFrom($rate));
+
+        $this->entityManager->persist($book);
+        $this->entityManager->flush();
     }
 }

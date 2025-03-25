@@ -3,5 +3,6 @@ services:
         autowire: true
         autoconfigure: true
 
-    App\Tests\Behat\:
+    PhpYabs\Tests\Behat\:
+        public: true
         resource: '../tests/Behat/*'

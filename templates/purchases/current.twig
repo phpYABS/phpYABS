@@ -14,9 +14,10 @@
     {% if not trovato %}
         <script>alert('Libro non trovato!');</script>";
     {% endif %}
-    <p align="center">{{ acquisto.numBook }} Libri acquistati<br>Totale contanti: {{ acquisto.bill.totalec }} &euro;
-        &nbsp;&nbsp;&nbsp;&nbsp;Totale buono: {{ acquisto.bill.totaleb }} &euro;
-        &nbsp;&nbsp;&nbsp;&nbsp;Totale rottamazione: {{ acquisto.bill.totaler }} &euro;</p>
+    <p align="center">{{ acquisto.numBook }} Libri acquistati<br>
+        Totale contanti: {{ acquisto.bill.totalec | format_currency('EUR') }}
+        Totale buono: {{ acquisto.bill.totaleb | format_currency('EUR') }}
+        Totale rottamazione: {{ acquisto.bill.totaler | format_currency('EUR') }}</p>
     <div align="center">
         <form action="/purchases/current" method="post" name="libro">
             ISBN o EAN

@@ -5,15 +5,19 @@ Feature: Add book
 
   Scenario: Add a book
     Given there is no book in database
-    And I am on "add book" page
+    And I am on "/books/add"
     When I fill in the following:
-    | ISBN    | 880450745     |
-    | Titolo  | 1984          |
-    | Autore  | George Orwell |
-    | Editore | Fabbri        |
-    | Prezzo  | 3             |
-    And I select "Macero" from "Valutazione"
+    | ISBN      | 880450745     |
+    | title     | 1984          |
+    | author    | George Orwell |
+    | publisher | Fabbri        |
+    | price     | 3             |
+    And I select "Macero" from "rate"
     And I press "Aggiungi"
     Then the response should contain "Libro inserito"
-    Given I am on "book list" page
-    Then I should see book fields
+    Given I am on "/books"
+    Then I should see "880450745"
+    And I should see "1984"
+    And I should see "George Orwell"
+    And I should see "Fabbri"
+    And I should see "3.00"

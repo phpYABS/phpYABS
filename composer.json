@@ -23,6 +23,7 @@
         "symfony/runtime": "^7.2",
         "symfony/translation": "^7.2",
         "symfony/twig-bundle": "^7.2",
+        "symfony/uid": "^7.2",
         "symfony/var-dumper": "^7.2",
         "symfony/yaml": "^7.2",
         "twig/extra-bundle": "^2.12|^3.0",

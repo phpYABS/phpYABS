@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace PhpYabs\Entity;
 
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use PhpYabs\Repository\HitsRepository;
 
@@ -12,16 +11,15 @@ use PhpYabs\Repository\HitsRepository;
 #[ORM\Entity(repositoryClass: HitsRepository::class)]
 class Hit
 {
-    #[ORM\Column(name: 'ISBN', length: 9, options: ['fixed' => true])]
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'NONE')]
-    private ?string $isbn = null;
+    #[ORM\Column(name: 'ISBN', length: 9, unique: true, options: ['fixed' => true])]
+    private string $isbn;
 
     #[ORM\Column(name: 'hits', options: ['default' => 0])]
     private ?int $hits = 0;
 
-    #[ORM\Column(name: 'found', type: Types::STRING)]
-    private ?string $found = '\'yes\'';
+    #[ORM\Column]
+    private ?bool $found;
 
     public function getIsbn(): ?string
     {

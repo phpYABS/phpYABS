@@ -7,6 +7,8 @@ namespace PhpYabs\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use PhpYabs\Repository\BooksRepository;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Table(name: 'books')]
 #[ORM\Index(name: 'title', columns: ['title'])]
@@ -15,22 +17,30 @@ use PhpYabs\Repository\BooksRepository;
 #[ORM\Entity(repositoryClass: BooksRepository::class)]
 class Book
 {
-    #[ORM\Column(name: 'ISBN', length: 9, options: ['fixed' => true])]
     #[ORM\Id]
+    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private ?Uuid $id;
+
+    #[ORM\Column(name: 'ISBN', length: 9, unique: true, options: ['fixed' => true])]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     private ?string $isbn = null;
 
-    #[ORM\Column(name: 'title', length: 40, options: ['default' => '\'\''])]
-    private ?string $title = '\'\'';
+    #[ORM\Column(name: 'title', length: 40)]
+    private ?string $title;
 
-    #[ORM\Column(name: 'author', length: 20, nullable: true, options: ['default' => 'NULL'])]
+    #[ORM\Column(name: 'author', length: 20, nullable: true)]
     private ?string $author = 'NULL';
 
-    #[ORM\Column(name: 'publisher', length: 25, nullable: true, options: ['default' => 'NULL'])]
+    #[ORM\Column(name: 'publisher', length: 25, nullable: true)]
     private ?string $publisher = 'NULL';
 
     #[ORM\Column(name: 'price', type: Types::DECIMAL, precision: 5, scale: 2, options: ['default' => 0.00])]
     private ?string $price = '0.00';
+
+    #[ORM\OneToOne(targetEntity: BuybackRate::class)]
+    private ?BuybackRate $buybackRate = null;
 
     public function getIsbn(): ?string
     {

@@ -11,24 +11,23 @@ use PhpYabs\Repository\DestinationsRepository;
 #[ORM\Entity(repositoryClass: DestinationsRepository::class)]
 class Destination
 {
-    #[ORM\Column(name: 'ISBN', length: 9, options: ['fixed' => true])]
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'NONE')]
-    private ?string $isbn = null;
+    #[ORM\ManyToOne(targetEntity: Book::class, inversedBy: 'destinations')]
+    private ?Book $book;
 
-    #[ORM\Column(name: 'destination', length: 100)]
     #[ORM\Id]
+    #[ORM\Column(name: 'destination', length: 100)]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     private ?string $destination = null;
 
-    public function getIsbn(): ?string
+    public function getBook(): Book
     {
-        return $this->isbn;
+        return $this->book;
     }
 
-    public function setIsbn(string $isbn): static
+    public function setBook(Book $book): static
     {
-        $this->isbn = $isbn;
+        $this->book = $book;
 
         return $this;
     }

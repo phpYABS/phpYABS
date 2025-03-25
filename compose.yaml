@@ -26,6 +26,6 @@ services:
     ports:
       - "18090:80"
     links:
-      - database:db_server
+      - database:db
     depends_on:
       - database

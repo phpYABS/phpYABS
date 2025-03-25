@@ -7,29 +7,38 @@ namespace PhpYabs\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use PhpYabs\Repository\BuybackRateRepository;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Table(name: 'buyback_rates')]
 #[ORM\Entity(repositoryClass: BuybackRateRepository::class)]
 class BuybackRate
 {
-    #[ORM\Column(name: 'ISBN', length: 9, options: ['fixed' => true])]
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'NONE')]
-    private ?string $isbn = null;
+    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private ?Uuid $id;
 
-    #[ORM\Column(name: 'rate', type: Types::STRING)]
-    private ?string $rate = '\'zero\'';
+    #[ORM\OneToOne(targetEntity: Book::class)]
+    private ?Book $book;
 
-    public function getIsbn(): ?string
+    #[ORM\Column(enumType: Rate::class)]
+    private ?Rate $rate = Rate::ZERO;
+
+    public function getId(): ?Uuid
     {
-        return $this->isbn;
+        return $this->id;
     }
 
-    public function setIsbn(string $isbn): static
+    public function getBook(): ?Book
     {
-        $this->isbn = $isbn;
+        return $this->book;
+    }
 
-        return $this;
+    public function setBook(?Book $book): void
+    {
+        $this->book = $book;
     }
 
     public function getRate(): ?string

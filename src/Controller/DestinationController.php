@@ -91,10 +91,10 @@ class DestinationController extends AbstractController
                    b.title,
                    b.author,
                    b.publisher,
-                   IF(d.ISBN IS NOT NULL, 1, 0) AS selected
+                   IF(d.book_id IS NOT NULL, 1, 0) AS selected
             FROM books b
-                     INNER JOIN buyback_rates br ON b.ISBN = br.ISBN
-                     LEFT JOIN destinations d ON d.ISBN = b.ISBN AND d.destination = :destination
+                     INNER JOIN buyback_rates br ON b.buyback_rate_id = br.id
+                     LEFT JOIN destinations d ON d.book_id = b.id AND d.destination = :destination
             ORDER BY publisher, author, title, ISBN
             LIMIT :offset,50
             SQL;
@@ -112,6 +112,7 @@ class DestinationController extends AbstractController
             );
 
             $data['books'] = $books;
+            $data['pages'] = [];
 
             $npag = (int) ceil($totlibri / 50);
             for ($i = 1; $i <= $npag; ++$i) {

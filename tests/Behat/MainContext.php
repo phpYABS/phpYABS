@@ -28,7 +28,7 @@ final class MainContext extends MinkContext
 
     public function __construct(
         private readonly KernelInterface $kernel,
-        private readonly EntityManagerInterface $entityManager
+        private readonly EntityManagerInterface $entityManager,
     ) {
         $this->dbal = $this->entityManager->getConnection();
     }
@@ -70,7 +70,8 @@ final class MainContext extends MinkContext
             ->setAuthor($author)
             ->setPublisher($publisher)
             ->setPrice($price)
-            ->setRate(Rate::tryFrom($rate));
+            ->setRate(Rate::tryFrom($rate))
+        ;
 
         $this->entityManager->persist($book);
         $this->entityManager->flush();

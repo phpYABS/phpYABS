@@ -13,7 +13,7 @@ class DestinationController extends AbstractController
     #[Route('/destinations', methods: ['GET'])]
     public function index(): Response
     {
-        $data = [];
+        $data = ['books' => []];
         $dbal = $this->getDoctrineConnection();
 
         $risultato = $dbal->fetchOne('SELECT COUNT(*) FROM books');

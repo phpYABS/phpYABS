@@ -16,7 +16,7 @@ class DestinationController extends AbstractController
         $data = [];
         $dbal = $this->getDoctrineConnection();
 
-        $risultato = $dbal->fetchOne('SELECT COUNT(*) FROM buyback_rates');
+        $risultato = $dbal->fetchOne('SELECT COUNT(*) FROM books');
         $totlibri = $risultato ?? 0;
         $data['totLibri'] = $totlibri;
 
@@ -73,27 +73,48 @@ class DestinationController extends AbstractController
             if (isset($_GET['destina']) && is_array($_GET['destina'])) {
                 foreach ($_GET['destina'] as $chiave => $valore) {
                     if ('on' == $valore) {
-                        $esiste = $dbal->fetchOne('SELECT COUNT(*) FROM destinations ' .
-                            "WHERE ISBN = '$chiave' AND destination = '$destination'");
-                        if (!$esiste) {
-                            $dbal->executeStatement('INSERT INTO destinations (ISBN, destination) ' .
-                                " VALUES ('$chiave', '$destination')");
-                        }
+                        $dbal->executeStatement(<<<SQL
+                            INSERT INTO destinations (book_id, destination)
+                            VALUES (:book_id, :destination)
+                            ON DUPLICATE KEY UPDATE destination = :destination
+                            SQL,
+                            [
+                                'book_id' => $chiave,
+                                'destination' => $destination,
+                            ],
+                            [
+                                'book_id' => Types::INTEGER,
+                                'destination' => Types::STRING,
+                            ],
+                        );
                     } else {
-                        $dbal->executeStatement("DELETE FROM destinations WHERE ISBN='$chiave' " .
-                            "AND destination = '$destination'");
+                        $dbal->executeStatement(<<<SQL
+                            DELETE FROM destinations
+                            WHERE book_id = :book_id
+                            AND destination = :destination
+                            SQL,
+                            [
+                                'book_id' => $chiave,
+                                'destination' => $destination,
+                            ],
+                            [
+                                'book_id' => Types::INTEGER,
+                                'destination' => Types::STRING,
+                            ],
+                        );
                     }
                 }
             }
 
             $sql = <<<SQL
-            SELECT b.ISBN,
+            SELECT b.id,
+                   b.ISBN,
                    b.title,
                    b.author,
                    b.publisher,
+                   b.rate,
                    IF(d.book_id IS NOT NULL, 1, 0) AS selected
             FROM books b
-                     INNER JOIN buyback_rates br ON b.buyback_rate_id = br.id
                      LEFT JOIN destinations d ON d.book_id = b.id AND d.destination = :destination
             ORDER BY publisher, author, title, ISBN
             LIMIT :offset,50

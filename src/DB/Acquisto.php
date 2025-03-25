@@ -6,6 +6,8 @@ declare(strict_types=1);
 
 namespace PhpYabs\DB;
 
+use PhpYabs\Entity\Book;
+
 /**
  * $Id: file-header.php 299 2009-11-21 17:09:54Z dvbellet $.
  *
@@ -32,14 +34,19 @@ namespace PhpYabs\DB;
  */
 
 use Doctrine\DBAL\Connection;
+use Doctrine\ORM\EntityManagerInterface;
+use PhpYabs\Repository\BookRepository;
 
 class Acquisto extends ActiveRecord
 {
     private int $ID;
+    private BookRepository $bookRepository;
 
-    public function __construct(Connection $dbal)
+    public function __construct(Connection $dbal, private EntityManagerInterface $em)
     {
         parent::__construct($dbal);
+
+        $this->bookRepository = $em->getRepository(Book::class);
 
         $purchase_id = $dbal->fetchOne('SELECT MAX(purchase_id) FROM purchases') ?? 0;
         $this->ID = $purchase_id + 1;
@@ -76,12 +83,12 @@ class Acquisto extends ActiveRecord
     {
         $dbal = $this->getDbalConnection();
 
-        $book = new Book($dbal);
+        $book = $this->bookRepository->findOneBy(['isbn' => $ISBN]);
 
-        if ($book->getFromDB($ISBN)) {
+        if ($book) {
             $dbal->insert('purchases', [
                 'purchase_id' => $this->ID,
-                'ISBN' => substr($ISBN, 0, 9),
+                'book_id' => $book->getId(),
             ]);
 
             return 'si';
@@ -121,7 +128,7 @@ class Acquisto extends ActiveRecord
         $dbal = $this->getDbalConnection();
 
         $books = $dbal->fetchAllAssociative(
-            'SELECT book_id, ISBN FROM purchases WHERE purchase_id = ?',
+            'SELECT purchase_id, book_id FROM purchases WHERE purchase_id = ?',
             [$this->ID],
         );
 
@@ -131,12 +138,16 @@ class Acquisto extends ActiveRecord
 
         $numero = 1;
         foreach ($books as $row) {
-            $book = new Book($dbal);
+            $book = $this->bookRepository->find($row['book_id']);
 
-            if ($book->getFromDB($row['ISBN']) && is_array($fields = $book->getFields())) {
+            if ($book instanceof Book) {
                 $fields['bookId'] = $row['book_id'];
+                $fields['title'] = $book->getTitle();
+                $fields['author'] = $book->getAuthor();
+                $fields['publisher'] = $book->getPublisher();
+                $fields['price'] = $book->getPrice();
                 $fields['ISBN'] = $book->getFullIsbn();
-                $fields['rate'] = $book->getRate();
+                $fields['rate'] = $book->getRate()->value;
                 $fields['storeCredit'] = $book->getStoreCredit();
                 $fields['cashValue'] = $book->getCashValue();
                 $fields['dest'] = 'TODO: fix this';
@@ -157,28 +168,28 @@ class Acquisto extends ActiveRecord
 
         $totaleb = $totalec = $totaler = 0.0;
 
-        $books = $dbal->fetchAllAssociative(
-            'SELECT ISBN FROM purchases WHERE purchase_id = ?',
-            [$this->ID],
-        );
+        $sql = <<<SQL
+        SELECT b.rate, b.price
+        FROM purchases p
+        INNER JOIN books b ON p.book_id = b.id
+        WHERE p.purchase_id = ?
+        SQL;
 
-        foreach ($books as $fields) {
-            $book = new Book($dbal);
+        $books = $dbal->executeQuery($sql, [$this->ID]);
 
-            if ($book->getFromDB($fields['ISBN'])) {
-                switch ($book->getRate()) {
-                    case 'rotmed':
-                        $totaler += 0.5;
-                        break;
-                    case 'rotsup':
-                        $totaler += 1.0;
-                        break;
-                    case 'buono':
-                        $prezzo = $book->getPrice();
-                        $totaleb += round($prezzo / 3, 2);
-                        $totalec += round($prezzo / 4, 2);
-                        break;
-                }
+        while (false !== ($book = $books->fetchAssociative())) {
+            switch ($book['rate']) {
+                case 'rotmed':
+                    $totaler += 0.5;
+                    break;
+                case 'rotsup':
+                    $totaler += 1.0;
+                    break;
+                case 'buono':
+                    $prezzo = $book['price'];
+                    $totaleb += round($prezzo / 3, 2);
+                    $totalec += round($prezzo / 4, 2);
+                    break;
             }
         }
 

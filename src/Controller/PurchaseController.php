@@ -38,7 +38,7 @@ class PurchaseController extends AbstractController
             unset($_SESSION['totaleb']);
         }
 
-        $acquisto = new Acquisto($this->getDoctrineConnection());
+        $acquisto = new Acquisto($this->getDoctrineConnection(), $this->entityManager);
         if ('current' === $id && isset($_SESSION['purchase_id'])) {
             $acquisto->setID($_SESSION['purchase_id']);
         } elseif (preg_match('/^\\d+$/', $id)) {

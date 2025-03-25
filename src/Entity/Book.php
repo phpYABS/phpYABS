@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PhpYabs\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use PhpYabs\Repository\BookRepository;
@@ -38,6 +39,12 @@ class Book
 
     #[ORM\Column(enumType: Rate::class)]
     private ?Rate $rate = Rate::ZERO;
+
+    /**
+     * @var Collection<int, Destination>
+     */
+    #[ORM\OneToMany(targetEntity: Destination::class, mappedBy: 'book')]
+    private Collection $destinations;
 
     public function getId(): ?int
     {
@@ -146,5 +153,10 @@ class Book
             Rate::BUONO => round(floatval($this->price) / 4, 2),
             default => 0.0,
         };
+    }
+
+    public function getDestinations(): Collection
+    {
+        return $this->destinations;
     }
 }

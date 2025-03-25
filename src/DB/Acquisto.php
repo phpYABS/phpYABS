@@ -117,7 +117,7 @@ class Acquisto extends ActiveRecord
     {
         $dbal = $this->getDbalConnection();
 
-        return (int) $dbal->fetchOne(
+        return (int)$dbal->fetchOne(
             'SELECT COUNT(*) FROM purchases WHERE purchase_id = ?',
             [$this->ID],
         );
@@ -150,7 +150,15 @@ class Acquisto extends ActiveRecord
                 $fields['rate'] = $book->getRate()->value;
                 $fields['storeCredit'] = $book->getStoreCredit();
                 $fields['cashValue'] = $book->getCashValue();
-                $fields['dest'] = 'TODO: fix this';
+                $fields['dest'] = $book
+                    ->getDestinations()
+                    ->map(fn($d) => $d->getDestination())
+                    ->reduce(function ($a, $b) {
+                        if (strlen((string) $a) > 0) {
+                            return $a . ', ' . $b;
+                        }
+                        return $b;
+                    });
 
                 $fields['sequence'] = ++$numero;
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PhpYabs\Controller;
 
 use PhpYabs\Configuration\Constants;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 

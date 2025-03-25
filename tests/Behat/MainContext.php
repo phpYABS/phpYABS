@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace PhpYabs\Tests\Behat;
 
-use Behat\Behat\Context\Context;
 use Behat\MinkExtension\Context\MinkContext;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;

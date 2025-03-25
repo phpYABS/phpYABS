@@ -7,7 +7,9 @@ namespace PhpYabs\Controller;
 use Doctrine\DBAL\Types\Type;
 use PhpYabs\Entity\Book;
 use PhpYabs\Entity\Rate;
+use PhpYabs\Form\BookType;
 use PhpYabs\ValueObject\ISBN;
+use PhpYabs\ValueObject\ISBN10;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -18,31 +20,23 @@ class BookController extends AbstractController
     #[Route('/add', methods: ['GET', 'POST'])]
     public function addAction(Request $request): Response
     {
-        $addbook = new Book();
+        $form = $this->createForm(BookType::class);
 
         $vars = [
             'error' => false,
             'inserted' => false,
+            'form' => $form,
         ];
 
-        try {
-            $isbn = ISBN::fromString($request->get('ISBN', ''));
-        } catch (\InvalidArgumentException) {
-            $isbn = null;
-        }
-
-        if ($isbn && 'POST' === $request->getMethod()) {
-            $addbook
-                ->setISBN($isbn->version10->withoutChecksum)
-                ->setTitle($request->get('title'))
-                ->setAuthor($request->get('author'))
-                ->setPublisher($request->get('publisher'))
-                ->setPrice($request->get('price'))
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $book = $form->getData();
+            $isbn = ISBN10::fromNineDigits($book->getISBN());
+            $book
+                ->setISBN($isbn->withoutChecksum)
             ;
 
-            $this->addRate($request, $addbook);
-
-            $this->entityManager->persist($addbook);
+            $this->entityManager->persist($book);
             $this->entityManager->flush();
             $vars['inserted'] = true;
         }

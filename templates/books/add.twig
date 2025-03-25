@@ -6,6 +6,6 @@
 {% elseif inserted %}
     <p>Libro inserito</p>
 {% else %}
-    {% include "books/tabadd.twig" %}
+    {{ form(form) }}
 {% endif %}
 {% endblock content %}

@@ -7,12 +7,12 @@ Feature: Add book
     Given there is no book in database
     And I am on "/books/add"
     When I fill in the following:
-    | ISBN      | 880450745     |
-    | title     | 1984          |
-    | author    | George Orwell |
-    | publisher | Fabbri        |
-    | price     | 3             |
-    And I select "Macero" from "rate"
+    | book[isbn]      | 880450745     |
+    | book[title]     | 1984          |
+    | book[author]    | George Orwell |
+    | book[publisher] | Fabbri        |
+    | book[price]     | 3             |
+    And I select "ZERO" from "book[rate]"
     And I press "Aggiungi"
     Then the response should contain "Libro inserito"
     Given I am on "/books"

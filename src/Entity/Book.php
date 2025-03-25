@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use PhpYabs\Repository\BookRepository;
 use PhpYabs\ValueObject\ISBN;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'books')]
 #[ORM\Index(name: 'title', columns: ['title'])]
@@ -22,16 +23,20 @@ class Book
     #[ORM\GeneratedValue]
     private ?int $id;
 
+    #[Assert\Length(min: 9, max: 9)]
     #[ORM\Column(name: 'ISBN', length: 9, unique: true, options: ['fixed' => true])]
     private ?string $isbn = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(name: 'title', length: 40)]
     private ?string $title;
 
-    #[ORM\Column(name: 'author', length: 20, nullable: true)]
+    #[Assert\NotBlank]
+    #[ORM\Column(name: 'author', length: 20)]
     private ?string $author = 'NULL';
 
-    #[ORM\Column(name: 'publisher', length: 25, nullable: true)]
+    #[Assert\NotBlank]
+    #[ORM\Column(name: 'publisher', length: 25)]
     private ?string $publisher = 'NULL';
 
     #[ORM\Column(name: 'price', type: Types::DECIMAL, precision: 5, scale: 2, options: ['default' => 0.00])]

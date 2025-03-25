@@ -112,7 +112,6 @@ class Book extends ActiveRecord
         return $this->_rate;
     }
 
-
     public function saveToDB(): bool
     {
         $dbal = $this->getDbalConnection();

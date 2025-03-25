@@ -6,8 +6,7 @@ declare(strict_types=1);
 
 namespace PhpYabs\DB;
 
-use PhpYabs\Entity\Book;
-
+use Doctrine\DBAL\Connection;
 /**
  * $Id: file-header.php 299 2009-11-21 17:09:54Z dvbellet $.
  *
@@ -33,8 +32,8 @@ use PhpYabs\Entity\Book;
  * @license GNU General Public License
  */
 
-use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpYabs\Entity\Book;
 use PhpYabs\Repository\BookRepository;
 
 class Acquisto extends ActiveRecord
@@ -117,7 +116,7 @@ class Acquisto extends ActiveRecord
     {
         $dbal = $this->getDbalConnection();
 
-        return (int)$dbal->fetchOne(
+        return (int) $dbal->fetchOne(
             'SELECT COUNT(*) FROM purchases WHERE purchase_id = ?',
             [$this->ID],
         );
@@ -152,13 +151,15 @@ class Acquisto extends ActiveRecord
                 $fields['cashValue'] = $book->getCashValue();
                 $fields['dest'] = $book
                     ->getDestinations()
-                    ->map(fn($d) => $d->getDestination())
+                    ->map(fn ($d) => $d->getDestination())
                     ->reduce(function ($a, $b) {
                         if (strlen((string) $a) > 0) {
                             return $a . ', ' . $b;
                         }
+
                         return $b;
-                    });
+                    })
+                ;
 
                 $fields['sequence'] = ++$numero;
 

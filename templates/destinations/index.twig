@@ -20,10 +20,10 @@
         <tr>
             <td>
                 S&igrave;
-                <input name="destina[{{ book.ISBN }}]" type="radio"
+                <input name="destina[{{ book.id }}]" type="radio"
                        value="on" {% if book.selected %}checked{% endif %}>
                 No
-                <input name="destina[{{ book.ISBN }}]" type="radio"
+                <input name="destina[{{ book.id }}]" type="radio"
                        value="off" {% if not book.selected %}checked{% endif %}>
             </td>
             <td>{{ book.ISBN }}</td>

@@ -7,8 +7,6 @@ namespace PhpYabs\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use PhpYabs\Repository\BookRepository;
-use Symfony\Bridge\Doctrine\Types\UuidType;
-use Symfony\Component\Uid\Uuid;
 
 #[ORM\Table(name: 'books')]
 #[ORM\Index(name: 'title', columns: ['title'])]
@@ -18,13 +16,11 @@ use Symfony\Component\Uid\Uuid;
 class Book
 {
     #[ORM\Id]
-    #[ORM\Column(type: UuidType::NAME, unique: true)]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    private ?Uuid $id;
+    #[ORM\Column]
+    #[ORM\GeneratedValue]
+    private ?int $id;
 
     #[ORM\Column(name: 'ISBN', length: 9, unique: true, options: ['fixed' => true])]
-    #[ORM\GeneratedValue(strategy: 'NONE')]
     private ?string $isbn = null;
 
     #[ORM\Column(name: 'title', length: 40)]
@@ -39,15 +35,27 @@ class Book
     #[ORM\Column(name: 'price', type: Types::DECIMAL, precision: 5, scale: 2, options: ['default' => 0.00])]
     private ?string $price = '0.00';
 
-    #[ORM\OneToOne(targetEntity: BuybackRate::class)]
-    private ?BuybackRate $buybackRate = null;
+    #[ORM\Column(enumType: Rate::class)]
+    private ?Rate $rate = Rate::ZERO;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function setId(?int $id): Book
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 
     public function getIsbn(): ?string
     {
         return $this->isbn;
     }
 
-    public function setIsbn(string $isbn): static
+    public function setIsbn(?string $isbn): Book
     {
         $this->isbn = $isbn;
 
@@ -59,7 +67,7 @@ class Book
         return $this->title;
     }
 
-    public function setTitle(string $title): static
+    public function setTitle(?string $title): Book
     {
         $this->title = $title;
 
@@ -71,7 +79,7 @@ class Book
         return $this->author;
     }
 
-    public function setAuthor(?string $author): static
+    public function setAuthor(?string $author): Book
     {
         $this->author = $author;
 
@@ -83,7 +91,7 @@ class Book
         return $this->publisher;
     }
 
-    public function setPublisher(?string $publisher): static
+    public function setPublisher(?string $publisher): Book
     {
         $this->publisher = $publisher;
 
@@ -95,9 +103,21 @@ class Book
         return $this->price;
     }
 
-    public function setPrice(string $price): static
+    public function setPrice(?string $price): Book
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getRate(): ?Rate
+    {
+        return $this->rate;
+    }
+
+    public function setRate(?Rate $rate): Book
+    {
+        $this->rate = $rate;
 
         return $this;
     }

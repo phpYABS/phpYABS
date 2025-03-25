@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace PhpYabs\Controller;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as BaseController;
 
 /**
@@ -19,6 +20,7 @@ abstract class AbstractController extends BaseController
 {
     public function __construct(
         private readonly Connection $doctrineConnection,
+        protected readonly EntityManagerInterface $entityManager,
     ) {
     }
 

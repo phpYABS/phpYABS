@@ -204,7 +204,7 @@ class Book extends ActiveRecord
 
         if ($ISBN && static::isValidISBN($ISBN)) {
             $fields = $dbal->fetchAssociative(
-                'SELECT ISBN, title, author, publisher, price FROM books WHERE ISBN = ?',
+                'SELECT ISBN, title, author, publisher, price, rate FROM books WHERE ISBN = ?',
                 [$ISBN],
             );
 
@@ -214,14 +214,7 @@ class Book extends ActiveRecord
 
             $this->setFields($fields);
 
-            $rate = $dbal->fetchOne(
-                'SELECT `rate` FROM buyback_rates WHERE ISBN = ?',
-                [$ISBN],
-            );
-
-            $this->setRate($rate ?: false);
-
-            return false !== $rate;
+            return true;
         }
 
         return false;

@@ -11,43 +11,11 @@ use PhpYabs\Repository\PurchaseRepository;
 #[ORM\Entity(repositoryClass: PurchaseRepository::class)]
 class Purchase
 {
-    #[ORM\Column(name: 'book_id')]
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
-    private ?int $bookId = null;
+    #[ORM\ManyToOne]
+    private ?Book $book;
 
+    #[ORM\Id]
     #[ORM\Column(name: 'purchase_id', options: ['default' => 0])]
-    private ?int $purchaseId = 0;
-
-    #[ORM\Column(name: 'ISBN', length: 9, options: ['fixed' => true])]
-    private ?string $isbn = null;
-
-    public function getBookId(): ?int
-    {
-        return $this->bookId;
-    }
-
-    public function getPurchaseId(): ?int
-    {
-        return $this->purchaseId;
-    }
-
-    public function setPurchaseId(int $purchaseId): static
-    {
-        $this->purchaseId = $purchaseId;
-
-        return $this;
-    }
-
-    public function getIsbn(): ?string
-    {
-        return $this->isbn;
-    }
-
-    public function setIsbn(string $isbn): static
-    {
-        $this->isbn = $isbn;
-
-        return $this;
-    }
+    private ?int $purchaseId;
 }

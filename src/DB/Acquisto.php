@@ -121,7 +121,7 @@ class Acquisto extends ActiveRecord
         $dbal = $this->getDbalConnection();
 
         $books = $dbal->fetchAllAssociative(
-            'SELECT book_id, ISBN FROM purchases WHERE purchase_id = ?',
+            'SELECT purchase_id, book_id FROM purchases WHERE purchase_id = ?',
             [$this->ID],
         );
 
@@ -157,28 +157,28 @@ class Acquisto extends ActiveRecord
 
         $totaleb = $totalec = $totaler = 0.0;
 
-        $books = $dbal->fetchAllAssociative(
-            'SELECT ISBN FROM purchases WHERE purchase_id = ?',
-            [$this->ID],
-        );
+        $sql = <<<SQL
+        SELECT b.rate, b.price
+        FROM purchases p
+        INNER JOIN books b ON p.book_id = b.id
+        WHERE p.purchase_id = ?
+        SQL;
 
-        foreach ($books as $fields) {
-            $book = new Book($dbal);
+        $books = $dbal->executeQuery($sql, [$this->ID]);
 
-            if ($book->getFromDB($fields['ISBN'])) {
-                switch ($book->getRate()) {
-                    case 'rotmed':
-                        $totaler += 0.5;
-                        break;
-                    case 'rotsup':
-                        $totaler += 1.0;
-                        break;
-                    case 'buono':
-                        $prezzo = $book->getPrice();
-                        $totaleb += round($prezzo / 3, 2);
-                        $totalec += round($prezzo / 4, 2);
-                        break;
-                }
+        while (false !== ($book = $books->fetchAssociative())) {
+            switch ($book['rate']) {
+                case 'rotmed':
+                    $totaler += 0.5;
+                    break;
+                case 'rotsup':
+                    $totaler += 1.0;
+                    break;
+                case 'buono':
+                    $prezzo = $book['price'];
+                    $totaleb += round($prezzo / 3, 2);
+                    $totalec += round($prezzo / 4, 2);
+                    break;
             }
         }
 

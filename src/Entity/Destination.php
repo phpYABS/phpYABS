@@ -17,7 +17,6 @@ class Destination
 
     #[ORM\Id]
     #[ORM\Column(name: 'destination', length: 100)]
-    #[ORM\GeneratedValue(strategy: 'NONE')]
     private ?string $destination = null;
 
     public function getBook(): Book

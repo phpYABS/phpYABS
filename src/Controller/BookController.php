@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace PhpYabs\Controller;
 
 use Doctrine\DBAL\Types\Type;
-use PhpYabs\DB\Book;
+use PhpYabs\Entity\Book;
+use PhpYabs\Entity\Rate;
+use PhpYabs\ValueObject\ISBN;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -16,27 +18,33 @@ class BookController extends AbstractController
     #[Route('/add', methods: ['GET', 'POST'])]
     public function addAction(Request $request): Response
     {
-        $addbook = new Book($this->getDoctrineConnection());
+        $addbook = new Book();
 
         $vars = [
             'error' => false,
             'inserted' => false,
         ];
 
-        if ('POST' === $request->getMethod() && $addbook->isValidISBN($_POST['ISBN'] ?? '')) {
-            $fields = [
-                'ISBN' => $_POST['ISBN'],
-                'title' => $_POST['title'],
-                'author' => $_POST['author'],
-                'publisher' => $_POST['publisher'],
-                'price' => $_POST['price'],
-            ];
+        try {
+            $isbn = ISBN::fromString($request->get('ISBN', ''));
+        } catch (\InvalidArgumentException) {
+            $isbn = null;
+        }
 
-            $addbook->setFields($fields);
-            $addbook->setRate($_POST['rate']);
+        if ($isbn && 'POST' === $request->getMethod()) {
+            $addbook
+                ->setISBN($isbn->version10->withoutChecksum)
+                ->setTitle($request->get('title'))
+                ->setAuthor($request->get('author'))
+                ->setPublisher($request->get('publisher'))
+                ->setPrice($request->get('price'))
+            ;
 
-            $vars['inserted'] = $addbook->saveToDB();
-            $vars['error'] = !$vars['inserted'];
+            $this->addRate($request, $addbook);
+
+            $this->entityManager->persist($addbook);
+            $this->entityManager->flush();
+            $vars['inserted'] = true;
         }
 
         return $this->render('books/add.twig', $vars);
@@ -57,18 +65,16 @@ class BookController extends AbstractController
     #[Route('/edit', methods: ['GET', 'POST'])]
     public function modifica(Request $request): Response
     {
-        $book = new Book($this->getDoctrineConnection());
-
         $ISBN = $request->get('ISBN');
         if (!$ISBN) {
             return $this->render('books/edit.twig', ['updated' => false, 'book' => null]);
         }
 
-        if ('GET' === $request->getMethod()) {
-            $book->getFromDB($ISBN);
+        $book = $this->entityManager->getRepository(Book::class)->findOneBy(['isbn' => $ISBN]);
 
-            if ($f = $book->getFields()) {
-                $valutazione = $book->getRate();
+        if ('GET' === $request->getMethod()) {
+            if ($book) {
+                $valutazione = $book->getRate()?->value;
                 switch ($valutazione) {
                     case 'zero':
                         $selzero = 'selected';
@@ -88,7 +94,7 @@ class BookController extends AbstractController
                 }
 
                 return $this->render('books/edit.twig', [
-                    'book' => $f,
+                    'book' => $book,
                     'selzero' => $selzero ?? null,
                     'selrotmed' => $selrotmed ?? null,
                     'selrotsup' => $selrotsup ?? null,
@@ -102,20 +108,22 @@ class BookController extends AbstractController
         if ('POST' === $request->getMethod()) {
             $parsedBody = $request->request->all();
 
-            $fields = ['ISBN' => $parsedBody['ISBN'],
-                'title' => $parsedBody['title'],
-                'author' => $parsedBody['author'],
-                'publisher' => $parsedBody['publisher'],
-                'price' => $parsedBody['price'],
-            ];
+            $book
+                ->setIsbn($parsedBody['ISBN'])
+                ->setTitle($parsedBody['title'])
+                ->setAuthor($parsedBody['author'])
+                ->setPublisher($parsedBody['publisher'])
+                ->setPrice($parsedBody['price'])
+            ;
 
-            $book->setFields($fields);
-            $book->setRate($parsedBody['rate']);
+            $this->addRate($request, $book);
+            $this->entityManager->persist($book);
+            $this->entityManager->flush();
         }
 
         return $this->render('books/edit.twig', [
-            'book' => $book->getFields(),
-            'updated' => $book->saveToDB(),
+            'book' => $book,
+            'updated' => true,
         ]);
     }
 
@@ -131,18 +139,11 @@ class BookController extends AbstractController
             $offset = 0;
         }
 
-        $books = $dbal->fetchFirstColumn(
-            'SELECT ISBN FROM books LIMIT ?, 50',
+        $books = $dbal->fetchAllAssociative(
+            'SELECT * FROM books LIMIT ?, 50',
             [$offset],
             [Type::getType('integer')],
         );
-
-        $books = array_map(function (string $ISBN) use ($dbal) {
-            $book = new Book($dbal);
-            $book->getFromDB($ISBN);
-
-            return $book->getFields();
-        }, $books);
 
         return $this->render('books/list.twig', compact('count', 'books'));
     }
@@ -153,20 +154,31 @@ class BookController extends AbstractController
     {
         $vars = ['deleted' => false, 'book' => null, 'rate' => null];
 
-        $book = new Book($this->getDoctrineConnection());
         $ISBN = $request->get('ISBN');
         if ($ISBN) {
-            $book->getFromDB($ISBN);
+            $book = $this->entityManager->getRepository(Book::class)->findOneBy(['isbn' => $ISBN]);
+        } else {
+            $book = null;
         }
 
-        $delete = isset($_POST['delete']) && 'true' === $_POST['delete'];
+        $delete = $book && isset($_POST['delete']) && 'true' === $_POST['delete'];
         if ($delete) {
-            $vars['deleted'] = $book->delete();
+            $this->entityManager->remove($book);
+            $this->entityManager->flush();
+            $vars['deleted'] = true;
         } else {
-            $vars['book'] = $book->getFields();
-            $vars['rate'] = $book->getRate();
+            $vars['book'] = $book;
+            $vars['rate'] = $book?->getRate()->value;
         }
 
         return $this->render('books/delete.twig', $vars);
+    }
+
+    private function addRate(Request $request, Book $book): void
+    {
+        $rate = $request->get('rate');
+        if ($rate) {
+            $book->setRate(Rate::tryFrom($rate));
+        }
     }
 }

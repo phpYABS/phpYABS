@@ -2,7 +2,7 @@
 {% block title %}Destinazioni{% endblock title %}
 {% block content %}
 <h1 align="center">Aggiunta destinazioni</h1>
-<p align="center">Pagina <?php echo $pag; ?></p>
+<p align="center">Pagina {{ pag }}</p>
 <form action="/destinations" method="GET">
     {% if destination %}
         <input type="hidden" name="destination" value="{{ destination | upper }}">
@@ -34,7 +34,7 @@
         {% endfor %}
     </table>
 
-    <input type="hidden" name="start" value="<?php echo $start; ?>">
+    <input type="hidden" name="start" value="{{ start | default(0) }}">
     <table align="center" border="1">
         <tr>
             <td><input name="invia" type="submit" value="Avanti"></td>

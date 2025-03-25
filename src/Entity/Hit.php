@@ -1,24 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpYabs\Entity;
 
-use PhpYabs\Repository\HitsRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use PhpYabs\Repository\HitsRepository;
 
 #[ORM\Table(name: 'hits')]
 #[ORM\Entity(repositoryClass: HitsRepository::class)]
 class Hit
 {
-    #[ORM\Column(name: "ISBN", length: 9, options: ["fixed" => true])]
+    #[ORM\Column(name: 'ISBN', length: 9, options: ['fixed' => true])]
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: "NONE")]
+    #[ORM\GeneratedValue(strategy: 'NONE')]
     private ?string $isbn = null;
 
-    #[ORM\Column(name: "hits", options: ["default" => 0])]
+    #[ORM\Column(name: 'hits', options: ['default' => 0])]
     private ?int $hits = 0;
 
-    #[ORM\Column(name: "found", type: Types::STRING)]
+    #[ORM\Column(name: 'found', type: Types::STRING)]
     private ?string $found = '\'yes\'';
 
     public function getIsbn(): ?string

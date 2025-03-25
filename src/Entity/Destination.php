@@ -1,23 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpYabs\Entity;
 
-use PhpYabs\Repository\DestinationsRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use PhpYabs\Repository\DestinationsRepository;
 
 #[ORM\Table(name: 'destinations')]
 #[ORM\Entity(repositoryClass: DestinationsRepository::class)]
 class Destination
 {
-    #[ORM\Column(name: "ISBN", length: 9, options: ["fixed" => true])]
+    #[ORM\Column(name: 'ISBN', length: 9, options: ['fixed' => true])]
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: "NONE")]
+    #[ORM\GeneratedValue(strategy: 'NONE')]
     private ?string $isbn = null;
 
-    #[ORM\Column(name: "destination", length: 100)]
+    #[ORM\Column(name: 'destination', length: 100)]
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: "NONE")]
+    #[ORM\GeneratedValue(strategy: 'NONE')]
     private ?string $destination = null;
 
     public function getIsbn(): ?string

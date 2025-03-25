@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpYabs\Entity;
 
-use PhpYabs\Repository\BooksRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use PhpYabs\Repository\BooksRepository;
 
 #[ORM\Table(name: 'books')]
 #[ORM\Index(name: 'title', columns: ['title'])]
@@ -13,21 +15,21 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: BooksRepository::class)]
 class Book
 {
-    #[ORM\Column(name: "ISBN", length: 9, options: ["fixed" => true])]
+    #[ORM\Column(name: 'ISBN', length: 9, options: ['fixed' => true])]
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: "NONE")]
+    #[ORM\GeneratedValue(strategy: 'NONE')]
     private ?string $isbn = null;
 
-    #[ORM\Column(name: "title", length: 40, options: ["default" => '\'\''])]
+    #[ORM\Column(name: 'title', length: 40, options: ['default' => '\'\''])]
     private ?string $title = '\'\'';
 
-    #[ORM\Column(name: "author", length: 20, nullable: true, options: ["default" => 'NULL'])]
+    #[ORM\Column(name: 'author', length: 20, nullable: true, options: ['default' => 'NULL'])]
     private ?string $author = 'NULL';
 
-    #[ORM\Column(name: "publisher", length: 25, nullable: true, options: ["default" => 'NULL'])]
+    #[ORM\Column(name: 'publisher', length: 25, nullable: true, options: ['default' => 'NULL'])]
     private ?string $publisher = 'NULL';
 
-    #[ORM\Column(name: "price", type: Types::DECIMAL, precision: 5, scale: 2, options: ["default" => 0.00])]
+    #[ORM\Column(name: 'price', type: Types::DECIMAL, precision: 5, scale: 2, options: ['default' => 0.00])]
     private ?string $price = '0.00';
 
     public function getIsbn(): ?string

@@ -62,6 +62,10 @@ unit: vendor/autoload.php
 phpunit: vendor/autoload.php
 	docker compose exec php vendor/bin/phpunit $(args)
 
+.PHONY: behat
+behat: vendor/autoload.php
+	docker compose exec php vendor/bin/behat $(args)
+
 .PHONY: phpstan
 phpstan: vendor/autoload.php
 	docker compose exec php vendor/bin/phpstan analyze -v

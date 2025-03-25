@@ -3,7 +3,8 @@ parameters:
     bootstrapFiles:
         - src/bootstrap.php
     paths:
+        - bin
+        - public
         - src
         - tests
-        - web
     treatPhpDocTypesAsCertain: false

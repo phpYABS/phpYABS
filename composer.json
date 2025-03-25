@@ -18,6 +18,7 @@
         "ronanguilloux/isocodes": "^2.3",
         "siburuxue/doctrine-helper": "^1.0",
         "symfony/flex": "^2.5",
+        "symfony/form": "^7.2",
         "symfony/framework-bundle": "^7.2",
         "symfony/psr-http-message-bridge": "^7.2",
         "symfony/runtime": "^7.2",

@@ -5,6 +5,11 @@ declare(strict_types=1);
 namespace App\Tests\Behat;
 
 use Behat\Behat\Context\Context;
+use Behat\Behat\Tester\Exception\PendingException;
+use Doctrine\DBAL\Connection;
+use Doctrine\ORM\EntityManagerInterface;
+use PhpYabs\Entity\Book;
+use PhpYabs\Entity\Rate;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -19,8 +24,14 @@ final class MainContext implements Context
 {
     private ?Response $response;
 
+    private ?EntityManagerInterface $entityManager;
+    private Connection $dbal;
+
     public function __construct(private KernelInterface $kernel)
     {
+        $container = $this->kernel->getContainer();
+        $this->entityManager = $container->get(EntityManagerInterface::class);
+        $this->dbal = $container->get('doctrine.dbal.default_connection');
     }
 
     /**
@@ -39,5 +50,27 @@ final class MainContext implements Context
         if (null === $this->response) {
             throw new \RuntimeException('No response received');
         }
+    }
+
+    /**
+     * @Given /^there is no book in database$/
+     */
+    public function thereIsNoBookInDatabase()
+    {
+        $this->dbal->executeStatement('DELETE FROM books');
+    }
+
+    /**
+     * @Given /^a book with ISBN "([^"]*)" and title "([^"]*)" and author "([^"]*)" and publisher "([^"]*)" and price "([^"]*)" and valutazione "([^"]*)" is added$/
+     */
+    public function aBookIsAdded(string $ISBN, string $title, string $author, string $publisher, string $price, string $rate)
+    {
+        $book = new Book();
+        $book->setIsbn($ISBN)
+            ->setTitle($title)
+            ->setAuthor($author)
+            ->setPublisher($publisher)
+            ->setPrice($price)
+            ->setRate(Rate::tryFrom($rate));
     }
 }

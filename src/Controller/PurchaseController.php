@@ -14,8 +14,12 @@ use Symfony\Component\Routing\Attribute\Route;
 class PurchaseController extends AbstractController
 {
     #[Route('', name: 'purchase_list', methods: ['GET'])]
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        if ($request->query->has('purchase_id')) {
+            return $this->redirectToRoute('purchase_current', ['id' => $request->query->get('purchase_id')]);
+        }
+
         $sql = <<<SQL
         SELECT purchase_id, COUNT(purchase_id) AS `count`
         FROM purchases

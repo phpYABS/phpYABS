@@ -33,6 +33,18 @@ class Hit
         return $this;
     }
 
+    public function matched(): void
+    {
+        ++$this->hits;
+        $this->found = true;
+    }
+
+    public function missed(): void
+    {
+        ++$this->hits;
+        $this->found = false;
+    }
+
     public function getHits(): ?int
     {
         return $this->hits;

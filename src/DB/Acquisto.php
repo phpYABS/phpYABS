@@ -7,9 +7,10 @@ namespace PhpYabs\DB;
 use Doctrine\ORM\EntityManagerInterface;
 use Money\Money;
 use PhpYabs\Entity\Book;
+use PhpYabs\Entity\Hit;
 use PhpYabs\Entity\Purchase;
-use PhpYabs\Entity\Rate;
 use PhpYabs\Repository\BookRepository;
+use PhpYabs\Repository\HitRepository;
 use PhpYabs\Repository\PurchaseRepository;
 
 class Acquisto
@@ -17,9 +18,10 @@ class Acquisto
     private int $ID;
 
     public function __construct(
-        private EntityManagerInterface $em,
+        private readonly EntityManagerInterface $em,
         private readonly PurchaseRepository $purchaseRepository,
         private readonly BookRepository $bookRepository,
+        private readonly HitRepository $hitRepository,
     ) {
         $this->ID = $this->purchaseRepository->getCurrentId() + 1;
     }
@@ -49,6 +51,11 @@ class Acquisto
     public function addBook(string $ISBN): bool
     {
         $book = $this->bookRepository->findOneBy(['isbn' => $ISBN]);
+        $hit = $this->hitRepository->findOneBy(['isbn' => $ISBN]);
+        if (!$hit) {
+            $hit = new Hit()->setIsbn($ISBN);
+            $this->em->persist($hit);
+        }
 
         if ($book) {
             $purchase = new Purchase();
@@ -56,11 +63,15 @@ class Acquisto
                 ->setPurchaseId($this->ID)
             ;
 
+            $hit->matched();
             $this->em->persist($purchase);
             $this->em->flush();
 
             return true;
         }
+
+        $hit->missed();
+        $this->em->flush();
 
         return false;
     }

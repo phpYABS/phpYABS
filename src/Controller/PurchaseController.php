@@ -7,6 +7,7 @@ namespace PhpYabs\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpYabs\DB\Acquisto;
 use PhpYabs\Repository\BookRepository;
+use PhpYabs\Repository\HitRepository;
 use PhpYabs\Repository\PurchaseRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +19,9 @@ class PurchaseController extends AbstractController
 {
     public function __construct(
         EntityManagerInterface $entityManager,
-        private readonly PurchaseRepository $purchaseRepository, private readonly BookRepository $bookRepository,
+        private readonly PurchaseRepository $purchaseRepository,
+        private readonly BookRepository $bookRepository,
+        private readonly HitRepository $hitRepository,
     ) {
         parent::__construct($entityManager);
     }
@@ -49,6 +52,7 @@ class PurchaseController extends AbstractController
             $this->entityManager,
             $this->purchaseRepository,
             $this->bookRepository,
+            $this->hitRepository,
         );
 
         if ('current' === $id && $session->has('purchase_id')) {

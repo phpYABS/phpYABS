@@ -3,6 +3,9 @@
 {% block stylesheets %}
     <link href="/css/books.css" rel="stylesheet">
 {% endblock %}
+{% block scripts %}
+    <script src="/js/books/common.js"></script>
+{% endblock %}
 {% block content %}
 {% if deleted %}
     <p class="success-message">{{ 'book.delete.success'|trans }}</p>
@@ -20,14 +23,6 @@
                 <button type="submit">{{ 'book.delete.search.button'|trans }}</button>
             </form>
         </div>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const isbnInput = document.querySelector('input[name="ISBN"]');
-                if (isbnInput) {
-                    isbnInput.focus();
-                }
-            });
-        </script>
     {% endif %}
 {% endif %}
 {% endblock content %}

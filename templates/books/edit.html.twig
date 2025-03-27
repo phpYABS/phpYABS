@@ -3,15 +3,10 @@
 {% block stylesheets %}
     <link href="/css/books.css" rel="stylesheet">
 {% endblock %}
+{% block scripts %}
+    <script src="/js/books/common.js"></script>
+{% endblock %}
 {% block content %}
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const isbnInput = document.querySelector('input[name="ISBN"]');
-        if (isbnInput) {
-            isbnInput.focus();
-        }
-    });
-</script>
 <h1>{{ 'book.edit.title'|trans }}</h1>
 {% if updated %}
     <p class="success-message">{{ 'book.edit.success'|trans }}</p>

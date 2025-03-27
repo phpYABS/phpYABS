@@ -7,7 +7,9 @@ namespace PhpYabs\Controller;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpYabs\Entity\Destination;
 use PhpYabs\Repository\BookRepository;
+use PhpYabs\Repository\DestinationRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -19,6 +21,7 @@ class DestinationController extends AbstractController
         Connection $doctrineConnection,
         EntityManagerInterface $entityManager,
         private readonly BookRepository $bookRepository,
+        private readonly DestinationRepository $destinationsRepository,
     ) {
         parent::__construct($doctrineConnection, $entityManager);
     }
@@ -74,38 +77,33 @@ class DestinationController extends AbstractController
             if ($request->query->has('destina')) {
                 $destina = $request->query->all('destina');
                 foreach ($destina as $chiave => $valore) {
+                    $book = $this->bookRepository->find($chiave);
+                    if (!$book) {
+                        continue;
+                    }
+
                     if ('on' == $valore) {
-                        $dbal->executeStatement(<<<SQL
-                            INSERT INTO destinations (book_id, destination)
-                            VALUES (:book_id, :destination)
-                            ON DUPLICATE KEY UPDATE destination = :destination
-                            SQL,
-                            [
-                                'book_id' => $chiave,
-                                'destination' => $destination,
-                            ],
-                            [
-                                'book_id' => Types::INTEGER,
-                                'destination' => Types::STRING,
-                            ],
-                        );
+                        $dest = $this->destinationsRepository->findOneBy([
+                            'book' => $book,
+                            'destination' => $destination,
+                        ]);
+                        if (!$dest) {
+                            $dest = new Destination();
+                            $dest->setBook($book);
+                            $dest->setDestination($destination);
+                            $this->entityManager->persist($dest);
+                        }
                     } else {
-                        $dbal->executeStatement(<<<SQL
-                            DELETE FROM destinations
-                            WHERE book_id = :book_id
-                            AND destination = :destination
-                            SQL,
-                            [
-                                'book_id' => $chiave,
-                                'destination' => $destination,
-                            ],
-                            [
-                                'book_id' => Types::INTEGER,
-                                'destination' => Types::STRING,
-                            ],
-                        );
+                        $dest = $this->destinationsRepository->findOneBy([
+                            'book' => $book,
+                            'destination' => $destination,
+                        ]);
+                        if ($dest) {
+                            $this->entityManager->remove($dest);
+                        }
                     }
                 }
+                $this->entityManager->flush();
             }
 
             $sql = <<<SQL

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace PhpYabs\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use PhpYabs\Repository\DestinationsRepository;
+use PhpYabs\Repository\DestinationRepository;
 
 #[ORM\Table(name: 'destinations')]
-#[ORM\Entity(repositoryClass: DestinationsRepository::class)]
+#[ORM\Entity(repositoryClass: DestinationRepository::class)]
 class Destination
 {
     #[ORM\Id]

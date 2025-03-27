@@ -10,12 +10,14 @@ use Doctrine\ORM\Mapping as ORM;
 use PhpYabs\Repository\BookRepository;
 use PhpYabs\ValueObject\ISBN;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Table(name: 'books')]
 #[ORM\Index(name: 'title', columns: ['title'])]
 #[ORM\Index(name: 'author', columns: ['author'])]
 #[ORM\Index(name: 'publisher', columns: ['publisher'])]
 #[ORM\Entity(repositoryClass: BookRepository::class)]
+#[UniqueEntity(fields: 'isbn')]
 class Book
 {
     #[ORM\Id]

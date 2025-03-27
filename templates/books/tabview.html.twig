@@ -1,0 +1,48 @@
+<p>
+<table width="590" border="1" align="center">
+  <tr>
+    <th width="80">{{ 'book.list.number'|trans }}</th>
+    <td>{{ numero }}</td>
+  </tr>
+  <tr>
+    <th width="80">{{ 'book.fields.isbn'|trans }}:</th>
+    <td>{{ ISBN }}</td>
+  </tr>
+  <tr>
+    <th width="80">{{ 'book.fields.title'|trans }}:</th>
+    <td>{{ Titolo }}</td>
+  </tr>
+  <tr>
+    <th width="80">{{ 'book.fields.author'|trans }}:</th>
+    <td>{{ Autore }}</td>
+  </tr>
+  <tr>
+    <th width="80">{{ 'book.fields.publisher'|trans }}:</th>
+    <td>{{ Editore }}</td>
+  </tr>
+  <tr>
+    <th width="80">{{ 'book.fields.price'|trans }}:</th>
+    <td>{{ Prezzo }}</td>
+  </tr>
+  <tr>
+    <th width="80">{{ 'book.fields.rating'|trans }}:</th>
+    <td><u>{{ Valutazione }}</u></td>
+  </tr>
+  <tr>
+    <th width="80">{{ 'book.list.store_credit'|trans }}:</th>
+    <td>{{ Buono }}</td>
+  </tr>
+  <tr>
+    <th width="80">{{ 'book.list.cash'|trans }}:</th>
+    <td>{{ Contanti }}</td>
+  </tr>
+  <tr>
+    <th width="80">{{ 'book.list.destination'|trans }}:</th>
+    <td>{{ dest }}</td>
+  </tr>
+  <tr>
+    <th width="80">{{ 'book.list.actions.delete'|trans }}:</th>
+    <td><a href="modules.php?Nome=Acquisti&Azione=Acquisto&Cancella={{ book_id }}">{{ 'book.list.actions.delete'|trans }}</a>
+    <a href="/books/{{ ISBN }}/edit">{{ 'book.list.actions.edit'|trans }}</a></td>
+  </tr>
+</table>

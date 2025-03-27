@@ -42,6 +42,6 @@ class StatisticsController extends AbstractController
             'spariok',
         );
 
-        return $this->render('statistics/index.twig', $data);
+        return $this->render('statistics/index.html.twig', $data);
     }
 }

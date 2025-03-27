@@ -23,7 +23,7 @@ class PurchaseController extends AbstractController
 
         $data['purchases'] = $this->getDoctrineConnection()->fetchAllAssociative($sql);
 
-        return $this->render('purchases/index.twig', $data);
+        return $this->render('purchases/index.html.twig', $data);
     }
 
     #[Route('/{id}', methods: ['GET', 'POST'])]
@@ -57,7 +57,7 @@ class PurchaseController extends AbstractController
             $acquisto->delBook($_GET['Cancella']);
         }
 
-        return $this->render('purchases/current.twig', [
+        return $this->render('purchases/current.html.twig', [
             'acquisto' => $acquisto,
             'purchase_id' => $purchase_id,
             'trovato' => $trovato,

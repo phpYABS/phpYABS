@@ -144,6 +144,6 @@ class DestinationController extends AbstractController
             }
         }
 
-        return $this->render('destinations/index.twig', $data);
+        return $this->render('destinations/index.html.twig', $data);
     }
 }

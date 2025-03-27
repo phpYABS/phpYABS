@@ -1,0 +1,16 @@
+<h1>{{ 'menu.title'|trans }}</h1>
+<nav>
+    <p><a href="/purchases/current?Azione=Nuovo">{{ 'purchase.menu.new'|trans }}</a></p>
+    <form action="/purchases" method="get" name="acquisto">
+        {{ 'purchase.menu.retrieve'|trans }}:
+        <input name="purchase_id" type="text" id="purchase_id" maxlength="10" style="width:90px">
+        <input type="submit" value="{{ 'menu.search.button'|trans }}">
+    </form>
+    <p><a href="/books/add">{{ 'book.add.title'|trans }}</a></p>
+    <p><a href="/books/edit">{{ 'book.edit.title'|trans }}</a></p>
+    <p><a href="/books/delete">{{ 'book.delete.title'|trans }}</a></p>
+    <p><a href="/purchases">{{ 'purchase.menu.list'|trans }}</a></p>
+    <p><a href="/destinations">{{ 'destination.add.title'|trans }}</a></p>
+    <p><a href="/stats">{{ 'statistics.title'|trans }}</a></p>
+    <p><a href="/books">{{ 'menu.book_list'|trans }}</a></p>
+</nav>

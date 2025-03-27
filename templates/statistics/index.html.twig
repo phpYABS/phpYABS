@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ 'statistics.title'|trans }}{% endblock title %}
+
+{% block content %}
+    <h1>{{ 'statistics.title'|trans }}</h1>
+    <p>{{ 'statistics.books_purchased'|trans }}: <b>{{ libriacq }}</b></p>
+    <p>{{ 'statistics.books_not_found'|trans }}: <b>{{ nerrori }}</b></p>
+    <p>&nbsp;</p>
+    <p><b>{{ 'statistics.shots.title'|trans }}</b></p>
+    <p>{{ 'statistics.shots.found'|trans }}: <b>{{ spariok }}</b></p>
+    <p>{{ 'statistics.shots.not_found'|trans }}: <b>{{ errspari }}</b></p>
+    <p>{{ 'statistics.shots.total'|trans }}: <b>{{ totspari }}</b></p>
+{% endblock content %}

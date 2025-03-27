@@ -1,0 +1,81 @@
+# Italian translations
+# Welcome
+welcome.title: 'Benvenuto'
+welcome.message: "Benvenuto nell'applicazione phpYABS. Questa è la pagina principale."
+
+# Books
+book.add.title: 'Aggiungi libro'
+book.add.success: 'Libro inserito'
+book.add.error: "Errore nell'inserimento del libro"
+book.edit.title: 'Modifica libro'
+book.edit.success: 'Libro modificato'
+book.delete.title: 'Cancella libro'
+book.delete.success: 'Libro Cancellato!'
+book.delete.warning: 'ATTENZIONE!!'
+book.delete.confirm: 'Il seguente libro sta per essere cancellato'
+book.delete.irreversible: "L'operazione è IRREVERSIBILE"
+book.fields.isbn: 'ISBN'
+book.fields.title: 'Titolo'
+book.fields.author: 'Autore'
+book.fields.publisher: 'Editore'
+book.fields.price: 'Prezzo'
+book.fields.rating: 'Valutazione'
+book.rating.none: 'Nessuna'
+book.rating.shredding: 'Macero'
+book.rating.medium_recycling: 'Rottamazione Medie'
+book.rating.superior_recycling: 'Rottamazione Superiori'
+book.rating.store_credit: 'Buono'
+book.actions.add: 'Aggiungi'
+book.actions.cancel: 'Annulla'
+book.actions.modify: 'Modifica'
+book.actions.delete: 'Cancella libro'
+book.list.count: '%count% libri presenti.'
+book.list.number: 'N'
+book.list.store_credit: 'Buono'
+book.list.cash: 'Contanti'
+book.list.destination: 'Dest'
+book.list.actions.delete: 'Cancella'
+book.list.actions.edit: 'Modifica'
+book.search.button: 'Cerca'
+book.delete.search.button: 'Cerca'
+
+# Purchases
+purchase.evaluation.title: 'Valutazione dei libri in acquisto'
+purchase.evaluation.number: 'Acquisto N°'
+purchase.evaluation.not_found: 'Libro non trovato!'
+purchase.evaluation.books_count: '%count% Libri acquistati'
+purchase.evaluation.total_cash: 'Totale contanti'
+purchase.evaluation.total_store_credit: 'Totale buono'
+purchase.evaluation.total_recycling: 'Totale rottamazione'
+purchase.evaluation.isbn_ean: 'ISBN o EAN'
+purchase.menu.new: 'Nuovo Acquisto'
+purchase.menu.retrieve: 'Recupera acquisto'
+purchase.menu.list: 'Elenco Acquisti'
+purchase.list.purchase: 'Acquisto'
+purchase.list.books_count: 'N° Libri'
+purchase.search.button: 'Aggiungi'
+
+# Destinations
+destination.add.title: 'Aggiunta destinazioni'
+destination.add.page: 'Pagina'
+destination.add.yes: 'Sì'
+destination.add.no: 'No'
+destination.add.forward: 'Avanti'
+destination.add.back: 'Indietro'
+destination.add.save: 'Salva'
+destination.add.reset: 'Azzera'
+destination.add.new: 'Nuova destination'
+
+# Statistics
+statistics.title: 'Statistiche'
+statistics.books_purchased: 'Libri acquistati'
+statistics.books_not_found: 'Libri (unici) non trovati'
+statistics.shots.title: '"Spari"'
+statistics.shots.found: 'Trovati'
+statistics.shots.not_found: 'Non trovati'
+statistics.shots.total: 'Totali'
+
+# Menu
+menu.title: 'Menu'
+menu.book_list: 'Elenco Libri'
+menu.search.button: 'Recupera'

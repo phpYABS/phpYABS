@@ -17,7 +17,7 @@ class MainController extends AbstractController
     {
         global $intestazione;
 
-        return $this->render('index.twig', [
+        return $this->render('index.html.twig', [
             'version' => Constants::VERSION,
             'header' => $intestazione,
         ]);

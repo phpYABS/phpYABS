@@ -1,43 +1,43 @@
 <p>
 <table width="590" border="1" align="center">
   <tr>
-    <th width="80">ISBN:</th>
+    <th width="80">{{ 'book.fields.isbn'|trans }}:</th>
     <td>
       {{ book.ISBN }}
     </td>
   </tr>
   <tr>
-    <th width="80">Titolo:</th>
+    <th width="80">{{ 'book.fields.title'|trans }}:</th>
     <td>
       {{ book.title }}
     </td>
   </tr>
   <tr>
-    <th width="80">Autore:</th>
+    <th width="80">{{ 'book.fields.author'|trans }}:</th>
     <td>
       {{ book.author }}
     </td>
   </tr>
   <tr>
-    <th width="80">Editore:</th>
+    <th width="80">{{ 'book.fields.publisher'|trans }}:</th>
     <td>
       {{ book.publisher }}
     </td>
   </tr>
   <tr>
-    <th width="80">Prezzo:</th>
+    <th width="80">{{ 'book.fields.price'|trans }}:</th>
     <td>
       {{ book.price }}
     </td>
   </tr>
   <tr>
-    <th width="80">Valutazione:</th>
+    <th width="80">{{ 'book.fields.rating'|trans }}:</th>
     <td><u>{{ rate }}</u></td>
   </tr>
 </table>
 </p>
 <form action="/books/delete" method="post">
-  <input type="submit" value="Cancella libro">
+  <input type="submit" value="{{ 'book.actions.delete'|trans }}">
   <input type="hidden" name="ISBN" value="{{ book.ISBN }}">
   <input type="hidden" name="delete" value="true">
 </form>

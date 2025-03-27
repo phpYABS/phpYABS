@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ 'purchase.evaluation.title'|trans }}{% endblock %}
+{% block body_attr %}onLoad="document.libro.newISBN.focus()"{% endblock %}
+{% block content %}
+<font face="Arial, Helvetica, sans-serif">
+    <h1 align="center">{{ 'purchase.evaluation.title'|trans }}</h1>
+    <h2 align="center">{{ 'purchase.evaluation.number'|trans }} {{ purchase_id }}</h2>
+    {% if errmsg %}
+        <p align="center"><font color="RED">{{ errmsg }}</font></p>
+    {% endif %}
+    {% for acq in acquisto.acquisti %}
+        {% include 'purchases/tabview.html.twig' with acq %}
+    {% endfor %}
+    {% if not trovato %}
+        <script>alert('{{ 'purchase.evaluation.not_found'|trans }}');</script>
+    {% endif %}
+    <p align="center">{{ 'purchase.evaluation.books_count'|trans({'%count%': acquisto.numBook}) }}<br>
+        {{ 'purchase.evaluation.total_cash'|trans }}: {{ acquisto.bill.totalec | format_currency('EUR') }}
+        {{ 'purchase.evaluation.total_store_credit'|trans }}: {{ acquisto.bill.totaleb | format_currency('EUR') }}
+        {{ 'purchase.evaluation.total_recycling'|trans }}: {{ acquisto.bill.totaler | format_currency('EUR') }}</p>
+    <div align="center">
+        <form action="/purchases/current" method="post" name="libro">
+            {{ 'purchase.evaluation.isbn_ean'|trans }}
+            <input name="newISBN" type="text" maxlength="13">
+            <input type="submit" value="{{ 'purchase.search.button'|trans }}">
+        </form>
+    </div>
+</font>
+{% endblock content %}

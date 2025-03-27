@@ -1,9 +1,9 @@
 <div align="center">
     <form action="/books/edit/search" method="post" name="form1">
         <label>
-            ISBN
+            {{ 'book.fields.isbn'|trans }}
             <input type="text" name="ISBN">
         </label>
-        <input type="submit" name="Invia" value="Ok">
+        <input type="submit" name="Invia" value="{{ 'book.search.button'|trans }}">
     </form>
 </div>

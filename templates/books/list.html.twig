@@ -1,13 +1,13 @@
-{% extends "base.twig" %}
+{% extends "base.html.twig" %}
 {% block content %}
 <table border="1" align="center" width="755">
     <thead>
         <tr>
-            <th>ISBN</th>
-            <th>Titolo</th>
-            <th>Autore</th>
-            <th>Editore</th>
-            <th>Prezzo</th>
+            <th>{{ 'book.fields.isbn'|trans }}</th>
+            <th>{{ 'book.fields.title'|trans }}</th>
+            <th>{{ 'book.fields.author'|trans }}</th>
+            <th>{{ 'book.fields.publisher'|trans }}</th>
+            <th>{{ 'book.fields.price'|trans }}</th>
         </tr>
     </thead>
     {% for book in books %}
@@ -21,5 +21,5 @@
     {% endfor %}
 </table>
 
-<p>{{ count }} libri presenti.</p>
+<p>{{ 'book.list.count'|trans({'%count%': count}) }}</p>
 {% endblock content %}

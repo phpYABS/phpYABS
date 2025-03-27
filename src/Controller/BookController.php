@@ -40,7 +40,7 @@ class BookController extends AbstractController
             $vars['inserted'] = true;
         }
 
-        return $this->render('books/add.twig', $vars);
+        return $this->render('books/add.html.twig', $vars);
     }
 
     #[Route('/edit/search', methods: ['GET', 'POST'])]
@@ -60,7 +60,7 @@ class BookController extends AbstractController
     {
         $ISBN = $request->get('ISBN');
         if (!$ISBN) {
-            return $this->render('books/edit.twig', ['updated' => false, 'book' => null]);
+            return $this->render('books/edit.html.twig', ['updated' => false, 'book' => null]);
         }
 
         $book = $this->entityManager->getRepository(Book::class)->findOneBy(['isbn' => $ISBN]);
@@ -86,7 +86,7 @@ class BookController extends AbstractController
                         break;
                 }
 
-                return $this->render('books/edit.twig', [
+                return $this->render('books/edit.html.twig', [
                     'book' => $book,
                     'selzero' => $selzero ?? null,
                     'selrotmed' => $selrotmed ?? null,
@@ -114,7 +114,7 @@ class BookController extends AbstractController
             $this->entityManager->flush();
         }
 
-        return $this->render('books/edit.twig', [
+        return $this->render('books/edit.html.twig', [
             'book' => $book,
             'updated' => true,
         ]);
@@ -138,7 +138,7 @@ class BookController extends AbstractController
             [Type::getType('integer')],
         );
 
-        return $this->render('books/list.twig', compact('count', 'books'));
+        return $this->render('books/list.html.twig', compact('count', 'books'));
     }
 
     #[Route('/{ISBN}/delete', methods: ['GET', 'POST'])]
@@ -164,7 +164,7 @@ class BookController extends AbstractController
             $vars['rate'] = $book?->getRate()->value;
         }
 
-        return $this->render('books/delete.twig', $vars);
+        return $this->render('books/delete.html.twig', $vars);
     }
 
     private function addRate(Request $request, Book $book): void

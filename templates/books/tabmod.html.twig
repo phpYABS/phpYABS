@@ -1,0 +1,44 @@
+<form action="/books/{{book.ISBN}}/edit" method="post">
+    <table width="600" border="1" align="center">
+        <tr>
+            <th width="80">{{ 'book.fields.isbn'|trans }}:</th>
+            <td>{{ book.ISBN }}
+                <input type="hidden" name="ISBN" value="{{ book.ISBN }}">
+            </td>
+        </tr>
+        <tr>
+            <th width="80">{{ 'book.fields.title'|trans }}:</th>
+            <td><input type="text" name="title" value="{{ book.title }}" style="width:300px"></td>
+        </tr>
+        <tr>
+            <th width="80">{{ 'book.fields.author'|trans }}:</th>
+            <td><input type="text" name="author" value="{{ book.author }}" style="width:300px"></td>
+        </tr>
+        <tr>
+            <th width="80">{{ 'book.fields.publisher'|trans }}:</th>
+            <td><input type="text" name="publisher" value="{{ book.publisher }}" style="width:300px"></td>
+        </tr>
+        <tr>
+            <th width="80">{{ 'book.fields.price'|trans }}:</th>
+            <td><input type="text" name="price" value="{{ book.price }}" style="width:300px"></td>
+        </tr>
+        <tr>
+            <th width="80">{{ 'book.fields.rating'|trans }}:</th>
+            <td>
+                <select name="rate">
+                    <option value="NULL" {{ selnull }}>{{ 'book.rating.none'|trans }}</option>
+                    <option value="zero" {{ selzero }}>{{ 'book.rating.shredding'|trans }}</option>
+                    <option value="rotmed" {{ selrotmed }}>{{ 'book.rating.medium_recycling'|trans }}</option>
+                    <option value="rotsup" {{ selrotsup }}>{{ 'book.rating.superior_recycling'|trans }}</option>
+                    <option value="buono" {{ selbuono }}>{{ 'book.rating.store_credit'|trans }}</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><input id="frm_book_edit_submit" type="submit" value="{{ 'book.actions.modify'|trans }}"/></td>
+            <td><input type="Reset" value="{{ 'book.actions.cancel'|trans }}"/></td>
+        </tr>
+    </table>
+    <input type="hidden" name="Nome" value="Libri">
+    <input type="hidden" name="Azione" value="Modifica">
+</form>

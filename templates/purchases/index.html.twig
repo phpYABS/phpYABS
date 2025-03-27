@@ -1,11 +1,11 @@
-{% extends 'base.twig' %}
+{% extends 'base.html.twig' %}
 {% block content %}
-<h1 align="center">Elenco Acquisti</h1>
+<h1 align="center">{{ 'purchase.menu.list'|trans }}</h1>
 <table width="400" align="center">
     <thead>
         <tr>
-            <td>Acquisto</td>
-            <td>N° Libri</td>
+            <td>{{ 'purchase.list.purchase'|trans }}</td>
+            <td>{{ 'purchase.list.books_count'|trans }}</td>
         </tr>
     </thead>
     {% for purchase in purchases %}

@@ -48,7 +48,7 @@ class Book
     /**
      * @var Collection<int, Destination>
      */
-    #[ORM\OneToMany(targetEntity: Destination::class, mappedBy: 'book')]
+    #[ORM\OneToMany(targetEntity: Destination::class, mappedBy: 'book', cascade: ['persist', 'remove'])]
     private Collection $destinations;
 
     public function getId(): ?int

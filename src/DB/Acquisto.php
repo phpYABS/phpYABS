@@ -133,7 +133,7 @@ class Acquisto
     }
 
     /**
-     * @return array<string,float>
+     * @return array<string,Money>
      */
     public function getBill(): array
     {

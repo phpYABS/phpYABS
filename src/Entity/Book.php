@@ -145,7 +145,7 @@ class Book
 
     public function getPriceObject(): Money
     {
-        return Money::EUR((int) ($this->price * 100));
+        return Money::EUR((int) ((float) $this->price * 100));
     }
 
     public function getStoreCredit(): Money

@@ -44,7 +44,7 @@ class Acquisto
         return false;
     }
 
-    public function addBook(string $ISBN): string
+    public function addBook(string $ISBN): bool
     {
         $book = $this->bookRepository->findOneBy(['isbn' => $ISBN]);
 
@@ -57,10 +57,10 @@ class Acquisto
             $this->em->persist($purchase);
             $this->em->flush();
 
-            return 'si';
+            return true;
         }
 
-        return 'no';
+        return false;
     }
 
     public function delBook(string $bookId): bool

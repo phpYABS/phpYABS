@@ -9,12 +9,15 @@
                 <button type="submit">{{ 'menu.search.button'|trans }}</button>
             </form>
         </li>
+        <li><a href="{{ path('purchase_list') }}">{{ 'menu.purchase.list'|trans }}</a></li>
+
+        <li><a href="{{ path('book_list') }}">{{ 'menu.book_list'|trans }}</a></li>
         <li><a href="{{ path('book_add') }}">{{ 'menu.book.add'|trans }}</a></li>
         <li><a href="{{ path('book_search_for_edit') }}">{{ 'menu.book.edit'|trans }}</a></li>
         <li><a href="{{ path('book_search_for_delete') }}">{{ 'menu.book.delete'|trans }}</a></li>
-        <li><a href="{{ path('purchase_list') }}">{{ 'menu.purchase.list'|trans }}</a></li>
-        <li><a href="{{ path('destination_list') }}">{{ 'menu.destination.add'|trans }}</a></li>
+
+        <li><a href="{{ path('destination_list') }}">{{ 'menu.destination.list'|trans }}</a></li>
+
         <li><a href="{{ path('statistics') }}">{{ 'menu.statistics'|trans }}</a></li>
-        <li><a href="{{ path('book_list') }}">{{ 'menu.book_list'|trans }}</a></li>
     </ul>
 </nav>

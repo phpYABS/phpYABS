@@ -27,6 +27,7 @@
                     <th>{{ 'book.fields.title'|trans }}</th>
                     <th>{{ 'book.fields.author'|trans }}</th>
                     <th>{{ 'book.fields.publisher'|trans }}</th>
+                    <th>{{ 'book.fields.price'|trans }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,6 +49,7 @@
                         <td>{{ book.title }}</td>
                         <td>{{ book.author }}</td>
                         <td>{{ book.publisher }}</td>
+                        <td>{{ book.price | format_currency('EUR') }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

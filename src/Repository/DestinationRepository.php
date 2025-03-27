@@ -33,6 +33,7 @@ class DestinationRepository extends ServiceEntityRepository
                b.author,
                b.publisher,
                b.rate,
+               b.price,
                IF(d.book_id IS NOT NULL, 1, 0) AS selected
         FROM books b
                  LEFT JOIN destinations d ON d.book_id = b.id AND d.destination = :destination

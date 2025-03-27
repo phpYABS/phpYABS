@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/statistics')]
 class StatisticsController extends AbstractController
 {
-    public function __construct(private StatisticsRepository $repository)
+    public function __construct(private readonly StatisticsRepository $repository)
     {
     }
 

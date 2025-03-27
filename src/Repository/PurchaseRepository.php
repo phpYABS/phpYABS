@@ -33,4 +33,14 @@ class PurchaseRepository extends ServiceEntityRepository
 
         return $this->getEntityManager()->getConnection()->fetchAllAssociative($sql);
     }
+
+    public function getCurrentId(): int
+    {
+        $sql = <<<SQL
+        SELECT MAX(purchase_id)
+        FROM purchases
+        SQL;
+
+        return (int) $this->getEntityManager()->getConnection()->fetchOne($sql);
+    }
 }

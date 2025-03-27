@@ -7,6 +7,7 @@ namespace PhpYabs\Controller;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpYabs\DB\Acquisto;
+use PhpYabs\Repository\BookRepository;
 use PhpYabs\Repository\PurchaseRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +20,7 @@ class PurchaseController extends AbstractController
     public function __construct(
         Connection $doctrineConnection,
         EntityManagerInterface $entityManager,
-        private readonly PurchaseRepository $purchaseRepository,
+        private readonly PurchaseRepository $purchaseRepository, private readonly BookRepository $bookRepository,
     ) {
         parent::__construct($doctrineConnection, $entityManager);
     }
@@ -46,7 +47,12 @@ class PurchaseController extends AbstractController
             $session->remove('totaleb');
         }
 
-        $acquisto = new Acquisto($this->getDoctrineConnection(), $this->entityManager);
+        $acquisto = new Acquisto(
+            $this->entityManager,
+            $this->purchaseRepository,
+            $this->bookRepository,
+        );
+
         if ('current' === $id && $session->has('purchase_id')) {
             $acquisto->setID($session->get('purchase_id'));
         } elseif (preg_match('/^\\d+$/', $id)) {

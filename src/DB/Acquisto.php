@@ -4,26 +4,22 @@ declare(strict_types=1);
 
 namespace PhpYabs\DB;
 
-use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpYabs\Entity\Book;
+use PhpYabs\Entity\Purchase;
 use PhpYabs\Repository\BookRepository;
+use PhpYabs\Repository\PurchaseRepository;
 
-class Acquisto extends ActiveRecord
+class Acquisto
 {
     private int $ID;
-    private readonly BookRepository $bookRepository;
 
-    public function __construct(Connection $dbal, private EntityManagerInterface $em)
-    {
-        parent::__construct($dbal);
-
-        $bookRepository = $this->em->getRepository(Book::class);
-        assert($bookRepository instanceof BookRepository);
-        $this->bookRepository = $bookRepository;
-
-        $purchase_id = $dbal->fetchOne('SELECT MAX(purchase_id) FROM purchases') ?? 0;
-        $this->ID = $purchase_id + 1;
+    public function __construct(
+        private EntityManagerInterface $em,
+        private readonly PurchaseRepository $purchaseRepository,
+        private readonly BookRepository $bookRepository,
+    ) {
+        $this->ID = $this->purchaseRepository->getCurrentId() + 1;
     }
 
     public function getID(): int
@@ -33,18 +29,13 @@ class Acquisto extends ActiveRecord
 
     public function setID(int $ID): bool
     {
-        $dbal = $this->getDbalConnection();
-
         if ($ID === $this->ID) {
             return true;
         }
 
-        $exists = $dbal->fetchOne(
-            'SELECT 1 FROM purchases WHERE purchase_id = ?',
-            [$ID],
-        );
+        $entity = $this->purchaseRepository->findOneBy(['purchaseId' => $ID]);
 
-        if ($exists) {
+        if ($entity) {
             $this->ID = $ID;
 
             return true;
@@ -55,15 +46,16 @@ class Acquisto extends ActiveRecord
 
     public function addBook(string $ISBN): string
     {
-        $dbal = $this->getDbalConnection();
-
         $book = $this->bookRepository->findOneBy(['isbn' => $ISBN]);
 
         if ($book) {
-            $dbal->insert('purchases', [
-                'purchase_id' => $this->ID,
-                'book_id' => $book->getId(),
-            ]);
+            $purchase = new Purchase();
+            $purchase->setBook($book)
+                ->setPurchaseId($this->ID)
+            ;
+
+            $this->em->persist($purchase);
+            $this->em->flush();
 
             return 'si';
         }
@@ -73,13 +65,11 @@ class Acquisto extends ActiveRecord
 
     public function delBook(string $bookId): bool
     {
-        $dbal = $this->getDbalConnection();
+        $purchase = $this->purchaseRepository->findOneBy(['purchaseId' => $this->ID, 'book' => $bookId]);
 
-        if (is_numeric($bookId)) {
-            $dbal->delete('purchases', [
-                'book_id' => $bookId,
-                'purchase_id' => $this->ID,
-            ]);
+        if ($purchase) {
+            $this->em->remove($purchase);
+            $this->em->flush();
 
             return true;
         }
@@ -89,33 +79,19 @@ class Acquisto extends ActiveRecord
 
     public function numBook(): int
     {
-        $dbal = $this->getDbalConnection();
-
-        return (int) $dbal->fetchOne(
-            'SELECT COUNT(*) FROM purchases WHERE purchase_id = ?',
-            [$this->ID],
-        );
+        return $this->purchaseRepository->count(['purchaseId' => $this->ID]);
     }
 
     public function getAcquisti(): iterable
     {
-        $dbal = $this->getDbalConnection();
+        $purchases = $this->purchaseRepository->findBy(['purchaseId' => $this->ID]);
 
-        $books = $dbal->fetchAllAssociative(
-            'SELECT purchase_id, book_id FROM purchases WHERE purchase_id = ?',
-            [$this->ID],
-        );
-
-        if (!$books) {
-            return;
-        }
-
-        $numero = 1;
-        foreach ($books as $row) {
-            $book = $this->bookRepository->find($row['book_id']);
+        $numero = 0;
+        foreach ($purchases as $purchase) {
+            $book = $purchase->getBook();
 
             if ($book instanceof Book) {
-                $fields['bookId'] = $row['book_id'];
+                $fields['bookId'] = $book->getId();
                 $fields['title'] = $book->getTitle();
                 $fields['author'] = $book->getAuthor();
                 $fields['publisher'] = $book->getPublisher();
@@ -148,21 +124,13 @@ class Acquisto extends ActiveRecord
      */
     public function getBill(): array
     {
-        $dbal = $this->getDbalConnection();
+        $purchases = $this->purchaseRepository->findBy(['purchaseId' => $this->ID]);
 
         $totaleb = $totalec = $totaler = 0.0;
 
-        $sql = <<<SQL
-        SELECT b.rate, b.price
-        FROM purchases p
-        INNER JOIN books b ON p.book_id = b.id
-        WHERE p.purchase_id = ?
-        SQL;
-
-        $books = $dbal->executeQuery($sql, [$this->ID]);
-
-        while (false !== ($book = $books->fetchAssociative())) {
-            switch ($book['rate']) {
+        foreach ($purchases as $purchase) {
+            $book = $purchase->getBook();
+            switch ($book->getRate()) {
                 case 'rotmed':
                     $totaler += 0.5;
                     break;
@@ -170,7 +138,7 @@ class Acquisto extends ActiveRecord
                     $totaler += 1.0;
                     break;
                 case 'buono':
-                    $prezzo = $book['price'];
+                    $prezzo = (float) $book->getPrice();
                     $totaleb += round($prezzo / 3, 2);
                     $totalec += round($prezzo / 4, 2);
                     break;

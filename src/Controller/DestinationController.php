@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace PhpYabs\Controller;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpYabs\Entity\Destination;
 use PhpYabs\Repository\BookRepository;

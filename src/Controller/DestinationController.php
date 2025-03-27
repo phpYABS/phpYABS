@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace PhpYabs\Controller;
 
 use Doctrine\DBAL\Types\Types;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 class DestinationController extends AbstractController
 {
     #[Route('/destinations', name: 'destination_list', methods: ['GET'])]
-    public function index(): Response
+    public function index(Request $request, SessionInterface $session): Response
     {
         $data = ['books' => []];
         $dbal = $this->getDoctrineConnection();
@@ -23,27 +25,16 @@ class DestinationController extends AbstractController
         $get_start = 0;
         $destination = '';
 
-        if ('_NEW' !== ($_GET['destination'] ?? '')) {
-            foreach ([$_GET, $_COOKIE] as $arr) {
-                if (isset($arr['destination'])) {
-                    $destination = (string) $arr['destination'];
-                    break;
-                }
-            }
-
-            foreach ([$_GET, $_COOKIE] as $arr) {
-                if (isset($arr['start'])) {
-                    $get_start = (int) $arr['start'];
-                    break;
-                }
-            }
+        if ('_NEW' !== $request->query->get('destination', '')) {
+            $destination = $request->query->get('destination') ?? $session->get('destination', '');
+            $get_start = (int) ($request->query->get('start') ?? $session->get('start', 0));
         }
         $data['destination'] = $destination;
 
-        setcookie('start', (string) $get_start, ['expires' => time() + 604800]);
-        setcookie('destination', $destination, ['expires' => time() + 604800]);
+        $session->set('start', $get_start);
+        $session->set('destination', $destination);
 
-        switch ($_GET['invia'] ?? '') {
+        switch ($request->query->get('invia', '')) {
             case 'Avanti':
                 $start = $get_start + 50;
                 if ($start > $totlibri) {
@@ -70,8 +61,9 @@ class DestinationController extends AbstractController
         $pag = (int) ($start / 50) + 1;
         $data['pag'] = $pag;
         if (strlen($destination) > 0) {
-            if (isset($_GET['destina']) && is_array($_GET['destina'])) {
-                foreach ($_GET['destina'] as $chiave => $valore) {
+            if ($request->query->has('destina')) {
+                $destina = $request->query->all('destina');
+                foreach ($destina as $chiave => $valore) {
                     if ('on' == $valore) {
                         $dbal->executeStatement(<<<SQL
                             INSERT INTO destinations (book_id, destination)

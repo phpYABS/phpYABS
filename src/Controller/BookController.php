@@ -154,7 +154,7 @@ class BookController extends AbstractController
             $book = null;
         }
 
-        $delete = $book && isset($_POST['delete']) && 'true' === $_POST['delete'];
+        $delete = $book && 'true' === $request->request->get('delete');
         if ($delete) {
             $this->entityManager->remove($book);
             $this->entityManager->flush();

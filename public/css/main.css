@@ -26,7 +26,7 @@ a:hover {
     transform: translateX(5px);
 }
 
-div#menu {
+header {
     float: left;
     width: 250px;
     background-color: #ffffff;
@@ -36,7 +36,7 @@ div#menu {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-div#menu h1 {
+header h1 {
     color: #2c3e50;
     font-size: 24px;
     margin-bottom: 20px;
@@ -44,11 +44,17 @@ div#menu h1 {
     border-bottom: 2px solid #3498db;
 }
 
-div#menu nav p {
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
     margin: 10px 0;
 }
 
-div#menu nav a {
+nav ul li a {
     display: block;
     padding: 8px 15px;
     border-radius: 5px;
@@ -58,20 +64,26 @@ div#menu nav a {
     transition: all 0.3s ease;
 }
 
-div#menu nav a:hover {
+nav ul li a:hover {
     background-color: #3498db;
     color: #ffffff;
     transform: translateX(5px);
 }
 
-div#menu form {
+.search-form {
     margin: 15px 0;
     padding: 15px;
     background-color: #f8f9fa;
     border-radius: 5px;
 }
 
-div#menu input[type="text"] {
+.search-form label {
+    display: block;
+    margin-bottom: 5px;
+    color: #2c3e50;
+}
+
+.search-form input[type="text"] {
     padding: 8px;
     border: 1px solid #dcdde1;
     border-radius: 4px;
@@ -79,7 +91,7 @@ div#menu input[type="text"] {
     margin-right: 5px;
 }
 
-div#menu input[type="submit"] {
+.search-form button {
     padding: 8px 15px;
     background-color: #3498db;
     color: #ffffff;
@@ -89,11 +101,11 @@ div#menu input[type="submit"] {
     transition: background-color 0.3s ease;
 }
 
-div#menu input[type="submit"]:hover {
+.search-form button:hover {
     background-color: #2980b9;
 }
 
-div#content {
+main {
     float: left;
     background-color: #ffffff;
     padding: 25px;
@@ -101,4 +113,67 @@ div#content {
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     min-width: 60%;
+}
+
+h1, h2 {
+    color: #2c3e50;
+    margin-bottom: 1em;
+}
+
+h1 {
+    font-size: 28px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 24px;
+    text-align: center;
+}
+
+.success-message {
+    color: #27ae60;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+.error-message {
+    color: #c0392b;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+.warning-message {
+    color: #856404;
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    header, main {
+        float: none;
+        width: auto;
+        margin: 10px;
+    }
+    
+    main {
+        min-width: auto;
+    }
+    
+    h1 {
+        font-size: 24px;
+    }
+    
+    h2 {
+        font-size: 20px;
+    }
 }

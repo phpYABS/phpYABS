@@ -1,43 +1,33 @@
-<p>
-<table width="590" border="1" align="center">
-  <tr>
-    <th width="80">{{ 'book.fields.isbn'|trans }}:</th>
-    <td>
-      {{ book.ISBN }}
-    </td>
-  </tr>
-  <tr>
-    <th width="80">{{ 'book.fields.title'|trans }}:</th>
-    <td>
-      {{ book.title }}
-    </td>
-  </tr>
-  <tr>
-    <th width="80">{{ 'book.fields.author'|trans }}:</th>
-    <td>
-      {{ book.author }}
-    </td>
-  </tr>
-  <tr>
-    <th width="80">{{ 'book.fields.publisher'|trans }}:</th>
-    <td>
-      {{ book.publisher }}
-    </td>
-  </tr>
-  <tr>
-    <th width="80">{{ 'book.fields.price'|trans }}:</th>
-    <td>
-      {{ book.price }}
-    </td>
-  </tr>
-  <tr>
-    <th width="80">{{ 'book.fields.rating'|trans }}:</th>
-    <td><u>{{ rate }}</u></td>
-  </tr>
-</table>
-</p>
-<form action="/books/delete" method="post">
-  <input type="submit" value="{{ 'book.actions.delete'|trans }}">
-  <input type="hidden" name="ISBN" value="{{ book.ISBN }}">
-  <input type="hidden" name="delete" value="true">
-</form>
+<section class="book-delete">
+    <table class="book-table">
+        <tr>
+            <th>{{ 'book.fields.isbn'|trans }}:</th>
+            <td>{{ book.ISBN }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'book.fields.title'|trans }}:</th>
+            <td>{{ book.title }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'book.fields.author'|trans }}:</th>
+            <td>{{ book.author }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'book.fields.publisher'|trans }}:</th>
+            <td>{{ book.publisher }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'book.fields.price'|trans }}:</th>
+            <td>{{ book.price }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'book.fields.rating'|trans }}:</th>
+            <td>{{ rate }}</td>
+        </tr>
+    </table>
+    <form action="/books/delete" method="post" class="book-actions">
+        <button type="submit">{{ 'book.actions.delete'|trans }}</button>
+        <input type="hidden" name="ISBN" value="{{ book.ISBN }}">
+        <input type="hidden" name="delete" value="true">
+    </form>
+</section>

@@ -1,43 +1,44 @@
 <p>
-<form method="POST">
-<table width="600" border="1" align="center">
-  <tr>
-    <th width="80">{{ 'book.fields.isbn'|trans }}:</th>
-    <td><input name="ISBN" type="text" id="ISBN">
-</td>
-  </tr>
-  <tr>
-    <th width="80">{{ 'book.fields.title'|trans }}:</th>
-    <td><input name="title" type="text" id="title" style="width:300px"></td>
-  </tr>
-  <tr>
-    <th width="80">{{ 'book.fields.author'|trans }}:</th>
-    <td><input name="author" type="text" id="author" style="width:300px"></td>
-  </tr>
-  <tr>
-    <th width="80">{{ 'book.fields.publisher'|trans }}:</th>
-    <td><input name="publisher" type="text" id="publisher" style="width:300px"></td>
-  </tr>
-  <tr>
-    <th width="80">{{ 'book.fields.price'|trans }}:</th>
-    <td><input name="price" type="text" id="price" style="width:300px"></td>
-  </tr>
-  <tr>
-    <th width="80">{{ 'book.fields.rating'|trans }}:</th>
-    <td><select name="rate" style="width:300px">
-      <option value="NULL" selected>{{ 'book.rating.none'|trans }}</option>
-      <option value="zero">{{ 'book.rating.shredding'|trans }}</option>
-      <option value="rotmed">{{ 'book.rating.medium_recycling'|trans }}</option>
-      <option value="rotsup">{{ 'book.rating.superior_recycling'|trans }}</option>
-      <option value="buono">{{ 'book.rating.store_credit'|trans }}</option>
-    </select></td>
-  </tr>
-  <tr>
-    <td><input type="submit" value="{{ 'book.actions.add'|trans }}"/></td>
-    <td><input type="reset" value="{{ 'book.actions.cancel'|trans }}"></td>
-  </tr>
-</table>
-<input type="hidden" name="Nome" value="Libri">
-<input type="hidden" name="Azione" value="Aggiungi">
+<form method="POST" class="book-form">
+    <table>
+        <tr>
+            <th><label for="ISBN">{{ 'book.fields.isbn'|trans }}:</label></th>
+            <td><input type="text" id="ISBN" name="ISBN" required></td>
+        </tr>
+        <tr>
+            <th><label for="title">{{ 'book.fields.title'|trans }}:</label></th>
+            <td><input type="text" id="title" name="title" required></td>
+        </tr>
+        <tr>
+            <th><label for="author">{{ 'book.fields.author'|trans }}:</label></th>
+            <td><input type="text" id="author" name="author" required></td>
+        </tr>
+        <tr>
+            <th><label for="publisher">{{ 'book.fields.publisher'|trans }}:</label></th>
+            <td><input type="text" id="publisher" name="publisher" required></td>
+        </tr>
+        <tr>
+            <th><label for="price">{{ 'book.fields.price'|trans }}:</label></th>
+            <td><input type="number" id="price" name="price" step="0.01" required></td>
+        </tr>
+        <tr>
+            <th><label for="rate">{{ 'book.fields.rating'|trans }}:</label></th>
+            <td>
+                <select id="rate" name="rate">
+                    <option value="NULL" selected>{{ 'book.rating.none'|trans }}</option>
+                    <option value="zero">{{ 'book.rating.shredding'|trans }}</option>
+                    <option value="rotmed">{{ 'book.rating.medium_recycling'|trans }}</option>
+                    <option value="rotsup">{{ 'book.rating.superior_recycling'|trans }}</option>
+                    <option value="buono">{{ 'book.rating.store_credit'|trans }}</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><button type="submit">{{ 'book.actions.add'|trans }}</button></td>
+            <td><button type="reset">{{ 'book.actions.cancel'|trans }}</button></td>
+        </tr>
+    </table>
+    <input type="hidden" name="Nome" value="Libri">
+    <input type="hidden" name="Azione" value="Aggiungi">
 </form>
 </p>

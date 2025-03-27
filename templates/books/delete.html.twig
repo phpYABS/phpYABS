@@ -2,24 +2,29 @@
 {% block title %}{{ 'book.delete.title'|trans }}{% endblock title %}
 {% block content %}
 {% if deleted %}
-    <p>{{ 'book.delete.success'|trans }}</p>
+    <p class="success-message">{{ 'book.delete.success'|trans }}</p>
 {% else %}
-    <h1 align="center">{{ 'book.delete.warning'|trans }}</h1>
-    <h1 align="center">{{ 'book.delete.confirm'|trans }}</h1>
-    <h2 align="center">{{ 'book.delete.irreversible'|trans }}</h2>
+    <h1>{{ 'book.delete.warning'|trans }}</h1>
+    <h2>{{ 'book.delete.confirm'|trans }}</h2>
+    <p class="warning-message">{{ 'book.delete.irreversible'|trans }}</p>
     {% if book %}
         {% include 'books/tabdel.html.twig' %}
     {% else %}
-        <div align="center">
-            <form action="/books/delete" method="post" name="form1">
-                {{ 'book.fields.isbn'|trans }}
-                <input type="text" name="ISBN">
-                <input type="submit" name="Invia" value="{{ 'book.delete.search.button'|trans }}">
+        <div class="book-search">
+            <form action="/books/delete" method="post">
+                <label for="ISBN">{{ 'book.fields.isbn'|trans }}</label>
+                <input type="text" id="ISBN" name="ISBN" required>
+                <button type="submit">{{ 'book.delete.search.button'|trans }}</button>
             </form>
-            <script language="JavaScript" type="text/javascript">
-                document.form1.ISBN.focus();
-            </script>
         </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const isbnInput = document.querySelector('input[name="ISBN"]');
+                if (isbnInput) {
+                    isbnInput.focus();
+                }
+            });
+        </script>
     {% endif %}
 {% endif %}
 {% endblock content %}

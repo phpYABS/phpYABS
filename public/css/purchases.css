@@ -1,0 +1,135 @@
+.purchase-list {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.purchase-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.purchase-table th,
+.purchase-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #dcdde1;
+}
+
+.purchase-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.purchase-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.purchase-table a {
+    color: #3498db;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.purchase-table a:hover {
+    color: #2980b9;
+}
+
+.purchase-evaluation {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.purchase-summary {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+    margin: 20px 0;
+}
+
+.purchase-summary ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.purchase-summary li {
+    margin: 5px 0;
+    color: #2c3e50;
+}
+
+.purchase-search {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.purchase-search form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.purchase-search label {
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.purchase-search input[type="text"] {
+    padding: 8px 12px;
+    border: 1px solid #dcdde1;
+    border-radius: 4px;
+    width: 200px;
+    font-size: 16px;
+}
+
+.purchase-search button {
+    padding: 8px 16px;
+    background-color: #3498db;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.purchase-search button:hover {
+    background-color: #2980b9;
+}
+
+.purchase-item {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.purchase-item .purchase-table {
+    margin: 0;
+    box-shadow: none;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .purchase-search form {
+        flex-direction: column;
+    }
+    
+    .purchase-search input[type="text"] {
+        width: 100%;
+    }
+    
+    .purchase-search button {
+        width: 100%;
+    }
+    
+    .purchase-table {
+        display: block;
+        overflow-x: auto;
+    }
+} 

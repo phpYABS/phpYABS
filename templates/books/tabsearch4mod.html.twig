@@ -1,9 +1,7 @@
-<div align="center">
-    <form action="/books/edit/search" method="post" name="form1">
-        <label>
-            {{ 'book.fields.isbn'|trans }}
-            <input type="text" name="ISBN">
-        </label>
-        <input type="submit" name="Invia" value="{{ 'book.search.button'|trans }}">
+<div class="book-search">
+    <form action="/books/edit/search" method="post">
+        <label for="ISBN">{{ 'book.fields.isbn'|trans }}</label>
+        <input type="text" id="ISBN" name="ISBN" required>
+        <button type="submit">{{ 'book.search.button'|trans }}</button>
     </form>
 </div>

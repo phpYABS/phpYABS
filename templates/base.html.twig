@@ -1,19 +1,26 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}phpYABS - menu{% endblock title %}</title>
-    <link href="/css/main.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/books.css" rel="stylesheet">
+    <link href="/css/purchases.css" rel="stylesheet">
+    <link href="/css/destinations.css" rel="stylesheet">
+    <link href="/css/statistics.css" rel="stylesheet">
 </head>
 <body {% block body_attr %}{% endblock %}>
 {% block body %}
-    <div id="menu">
-        {% include 'menu.html.twig' %}
-    </div>
-    <div id="content">
+    <header>
+        <nav id="menu">
+            {% include 'menu.html.twig' %}
+        </nav>
+    </header>
+    <main id="content">
         {% block content %}
         {% endblock content %}
-    </div>
+    </main>
 {% endblock body %}
 </body>
 </html>

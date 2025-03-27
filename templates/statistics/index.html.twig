@@ -2,12 +2,41 @@
 {% block title %}{{ 'statistics.title'|trans }}{% endblock title %}
 
 {% block content %}
+<section class="statistics">
     <h1>{{ 'statistics.title'|trans }}</h1>
-    <p>{{ 'statistics.books_purchased'|trans }}: <b>{{ libriacq }}</b></p>
-    <p>{{ 'statistics.books_not_found'|trans }}: <b>{{ nerrori }}</b></p>
-    <p>&nbsp;</p>
-    <p><b>{{ 'statistics.shots.title'|trans }}</b></p>
-    <p>{{ 'statistics.shots.found'|trans }}: <b>{{ spariok }}</b></p>
-    <p>{{ 'statistics.shots.not_found'|trans }}: <b>{{ errspari }}</b></p>
-    <p>{{ 'statistics.shots.total'|trans }}: <b>{{ totspari }}</b></p>
+
+    <div class="statistics-summary">
+        <div class="stat-item">
+            <h2>{{ 'statistics.books.title'|trans }}</h2>
+            <ul>
+                <li>
+                    <span class="stat-label">{{ 'statistics.books_purchased'|trans }}:</span>
+                    <span class="stat-value">{{ libriacq }}</span>
+                </li>
+                <li>
+                    <span class="stat-label">{{ 'statistics.books_not_found'|trans }}:</span>
+                    <span class="stat-value">{{ nerrori }}</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="stat-item">
+            <h2>{{ 'statistics.shots.title'|trans }}</h2>
+            <ul>
+                <li>
+                    <span class="stat-label">{{ 'statistics.shots.found'|trans }}:</span>
+                    <span class="stat-value">{{ spariok }}</span>
+                </li>
+                <li>
+                    <span class="stat-label">{{ 'statistics.shots.not_found'|trans }}:</span>
+                    <span class="stat-value">{{ errspari }}</span>
+                </li>
+                <li>
+                    <span class="stat-label">{{ 'statistics.shots.total'|trans }}:</span>
+                    <span class="stat-value">{{ totspari }}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
 {% endblock content %}

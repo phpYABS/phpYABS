@@ -1,53 +1,76 @@
 {% extends 'base.html.twig' %}
 {% block title %}{{ 'destination.add.title'|trans }}{% endblock title %}
 {% block content %}
-<h1 align="center">{{ 'destination.add.title'|trans }}</h1>
-<p align="center">{{ 'destination.add.page'|trans }} {{ pag }}</p>
-<form action="/destinations" method="GET">
+<section class="destinations">
+    <h1>{{ 'destination.add.title'|trans }}</h1>
+    <p class="page-number">{{ 'destination.add.page'|trans }} {{ pag }}</p>
+
+    <form action="/destinations" method="GET" class="destination-form">
+        {% if destination %}
+            <input type="hidden" name="destination" value="{{ destination | upper }}">
+        {% endif %}
+
+        <div class="destination-header">
+            <label for="destination-input">{{ 'destination.add.destination'|trans }}</label>
+            <input type="text" id="destination-input" name="destination"
+                   value="{{ destination | upper }}" {% if destination %}disabled{% endif %} required>
+        </div>
+
+        <table class="destination-table">
+            <thead>
+                <tr>
+                    <th>{{ 'destination.add.actions'|trans }}</th>
+                    <th>{{ 'book.fields.isbn'|trans }}</th>
+                    <th>{{ 'book.fields.title'|trans }}</th>
+                    <th>{{ 'book.fields.author'|trans }}</th>
+                    <th>{{ 'book.fields.publisher'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                    <tr>
+                        <td class="destination-actions">
+                            <label class="radio-label">
+                                <input type="radio" name="destina[{{ book.id }}]" value="on"
+                                       {% if book.selected %}checked{% endif %}>
+                                {{ 'destination.add.yes'|trans }}
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="destina[{{ book.id }}]" value="off"
+                                       {% if not book.selected %}checked{% endif %}>
+                                {{ 'destination.add.no'|trans }}
+                            </label>
+                        </td>
+                        <td>{{ book.ISBN }}</td>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.author }}</td>
+                        <td>{{ book.publisher }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <input type="hidden" name="start" value="{{ start | default(0) }}">
+
+        <div class="destination-buttons">
+            <button type="submit" name="invia" value="forward">{{ 'destination.add.forward'|trans }}</button>
+            <button type="submit" name="invia" value="back">{{ 'destination.add.back'|trans }}</button>
+            <button type="submit" name="invia" value="save">{{ 'destination.add.save'|trans }}</button>
+            <button type="reset">{{ 'destination.add.reset'|trans }}</button>
+        </div>
+    </form>
+
     {% if destination %}
-        <input type="hidden" name="destination" value="{{ destination | upper }}">
+        <div class="pagination">
+            {% for page in pages %}
+                <a href="/destinations?destination={{ destination | upper }}&start={{ page.start }}"
+                   class="page-link">{{ page.page }}</a>
+            {% endfor %}
+        </div>
     {% endif %}
 
-    <table width="100%" border="1" align="center">
-        <tr>
-            <td colspan="7">
-                <p align="center">
-                    <input type="text" name="destination" value="{{ destination | upper }}"
-                           style="width: 400px" {% if destination %}disabled{% endif %}></p>
-            </td>
-        </tr>
-        {% for book in books %}
-        <tr>
-            <td>
-                {{ 'destination.add.yes'|trans }}
-                <input name="destina[{{ book.id }}]" type="radio"
-                       value="on" {% if book.selected %}checked{% endif %}>
-                {{ 'destination.add.no'|trans }}
-                <input name="destina[{{ book.id }}]" type="radio"
-                       value="off" {% if not book.selected %}checked{% endif %}>
-            </td>
-            <td>{{ book.ISBN }}</td>
-            <td>{{ book.title }}</td>
-            <td>{{ book.author }}</td>
-            <td>{{ book.publisher }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-
-    <input type="hidden" name="start" value="{{ start | default(0) }}">
-    <table align="center" border="1">
-        <tr>
-            <td><input name="invia" type="submit" value="{{ 'destination.add.forward'|trans }}"></td>
-            <td><input name="invia" type="submit" value="{{ 'destination.add.back'|trans }}"></td>
-            <td><input name="invia" type="submit" value="{{ 'destination.add.save'|trans }}"></td>
-            <td><input type="reset" value="{{ 'destination.add.reset'|trans }}"></td>
-        </tr>
-    </table>
-</form>
-{% if destination %}
-    {% for page in pages %}
-        <a href="/destinations?destination={{ destination | upper }}&start={{ page.start }}">{{ page.page }}</a>
-    {% endfor %}
-{% endif %}
-<p align="center"><a href="/destinations?destination=_NEW">{{ 'destination.add.new'|trans }}</a></p>
+    <p class="new-destination">
+        <a href="/destinations?destination=_NEW">{{ 'destination.add.new'|trans }}</a>
+    </p>
+</section>
 {% endblock content %}

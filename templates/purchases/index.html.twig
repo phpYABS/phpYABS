@@ -1,18 +1,22 @@
 {% extends 'base.html.twig' %}
 {% block content %}
-<h1 align="center">{{ 'purchase.menu.list'|trans }}</h1>
-<table width="400" align="center">
-    <thead>
-        <tr>
-            <td>{{ 'purchase.list.purchase'|trans }}</td>
-            <td>{{ 'purchase.list.books_count'|trans }}</td>
-        </tr>
-    </thead>
-    {% for purchase in purchases %}
-        <tr>
-            <td><a href="/purchases/{{ purchase.purchase_id }}">{{ purchase.purchase_id }}</a> </td>
-            <td>{{ purchase.count }}</td>
-        </tr>
-    {% endfor %}
-</table>
+<section class="purchase-list">
+    <h1>{{ 'purchase.menu.list'|trans }}</h1>
+    <table class="purchase-table">
+        <thead>
+            <tr>
+                <th>{{ 'purchase.list.purchase'|trans }}</th>
+                <th>{{ 'purchase.list.books_count'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchase in purchases %}
+                <tr>
+                    <td><a href="/purchases/{{ purchase.purchase_id }}">{{ purchase.purchase_id }}</a></td>
+                    <td>{{ purchase.count }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
 {% endblock content %}

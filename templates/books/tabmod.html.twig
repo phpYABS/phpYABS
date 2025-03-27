@@ -1,31 +1,31 @@
-<form action="/books/{{book.ISBN}}/edit" method="post">
-    <table width="600" border="1" align="center">
+<form action="/books/{{book.ISBN}}/edit" method="post" class="book-form">
+    <table>
         <tr>
-            <th width="80">{{ 'book.fields.isbn'|trans }}:</th>
+            <th><label for="ISBN">{{ 'book.fields.isbn'|trans }}:</label></th>
             <td>{{ book.ISBN }}
-                <input type="hidden" name="ISBN" value="{{ book.ISBN }}">
+                <input type="hidden" id="ISBN" name="ISBN" value="{{ book.ISBN }}">
             </td>
         </tr>
         <tr>
-            <th width="80">{{ 'book.fields.title'|trans }}:</th>
-            <td><input type="text" name="title" value="{{ book.title }}" style="width:300px"></td>
+            <th><label for="title">{{ 'book.fields.title'|trans }}:</label></th>
+            <td><input type="text" id="title" name="title" value="{{ book.title }}" required></td>
         </tr>
         <tr>
-            <th width="80">{{ 'book.fields.author'|trans }}:</th>
-            <td><input type="text" name="author" value="{{ book.author }}" style="width:300px"></td>
+            <th><label for="author">{{ 'book.fields.author'|trans }}:</label></th>
+            <td><input type="text" id="author" name="author" value="{{ book.author }}" required></td>
         </tr>
         <tr>
-            <th width="80">{{ 'book.fields.publisher'|trans }}:</th>
-            <td><input type="text" name="publisher" value="{{ book.publisher }}" style="width:300px"></td>
+            <th><label for="publisher">{{ 'book.fields.publisher'|trans }}:</label></th>
+            <td><input type="text" id="publisher" name="publisher" value="{{ book.publisher }}" required></td>
         </tr>
         <tr>
-            <th width="80">{{ 'book.fields.price'|trans }}:</th>
-            <td><input type="text" name="price" value="{{ book.price }}" style="width:300px"></td>
+            <th><label for="price">{{ 'book.fields.price'|trans }}:</label></th>
+            <td><input type="number" id="price" name="price" value="{{ book.price }}" step="0.01" required></td>
         </tr>
         <tr>
-            <th width="80">{{ 'book.fields.rating'|trans }}:</th>
+            <th><label for="rate">{{ 'book.fields.rating'|trans }}:</label></th>
             <td>
-                <select name="rate">
+                <select id="rate" name="rate">
                     <option value="NULL" {{ selnull }}>{{ 'book.rating.none'|trans }}</option>
                     <option value="zero" {{ selzero }}>{{ 'book.rating.shredding'|trans }}</option>
                     <option value="rotmed" {{ selrotmed }}>{{ 'book.rating.medium_recycling'|trans }}</option>
@@ -35,8 +35,8 @@
             </td>
         </tr>
         <tr>
-            <td><input id="frm_book_edit_submit" type="submit" value="{{ 'book.actions.modify'|trans }}"/></td>
-            <td><input type="Reset" value="{{ 'book.actions.cancel'|trans }}"/></td>
+            <td><button type="submit">{{ 'book.actions.modify'|trans }}</button></td>
+            <td><button type="reset">{{ 'book.actions.cancel'|trans }}</button></td>
         </tr>
     </table>
     <input type="hidden" name="Nome" value="Libri">

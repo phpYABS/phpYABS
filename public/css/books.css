@@ -1,0 +1,121 @@
+.book-form {
+    width: 600px;
+    margin: 0 auto;
+    border: 1px solid #dcdde1;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.book-form th {
+    width: 80px;
+    text-align: left;
+    padding: 10px;
+}
+
+.book-form td {
+    padding: 10px;
+}
+
+.book-form input[type="text"],
+.book-form select {
+    width: 300px;
+    padding: 8px;
+    border: 1px solid #dcdde1;
+    border-radius: 4px;
+}
+
+.book-form input[type="submit"],
+.book-form input[type="reset"] {
+    padding: 8px 15px;
+    margin: 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.book-form input[type="submit"] {
+    background-color: #3498db;
+    color: #ffffff;
+}
+
+.book-form input[type="submit"]:hover {
+    background-color: #2980b9;
+}
+
+.book-form input[type="reset"] {
+    background-color: #e74c3c;
+    color: #ffffff;
+}
+
+.book-form input[type="reset"]:hover {
+    background-color: #c0392b;
+}
+
+.book-table {
+    width: 590px;
+    margin: 0 auto;
+    border: 1px solid #dcdde1;
+    border-radius: 5px;
+    border-collapse: collapse;
+}
+
+.book-table th {
+    width: 80px;
+    text-align: left;
+    padding: 10px;
+    background-color: #f8f9fa;
+}
+
+.book-table td {
+    padding: 10px;
+}
+
+.book-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.book-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.book-actions a {
+    padding: 5px 10px;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    color: #2c3e50;
+    transition: all 0.3s ease;
+}
+
+.book-actions a:hover {
+    background-color: #3498db;
+    color: #ffffff;
+}
+
+.book-search {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.book-search input[type="text"] {
+    padding: 8px;
+    border: 1px solid #dcdde1;
+    border-radius: 4px;
+    width: 200px;
+    margin-right: 10px;
+}
+
+.book-search input[type="submit"] {
+    padding: 8px 15px;
+    background-color: #3498db;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.book-search input[type="submit"]:hover {
+    background-color: #2980b9;
+} 

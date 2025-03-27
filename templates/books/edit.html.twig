@@ -1,12 +1,17 @@
 {% extends "base.html.twig" %}
 {% block title %}{{ 'book.edit.title'|trans }}{% endblock title %}
 {% block content %}
-<script language="JavaScript" type="text/javascript">
-    document.form1.ISBN.focus()
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const isbnInput = document.querySelector('input[name="ISBN"]');
+        if (isbnInput) {
+            isbnInput.focus();
+        }
+    });
 </script>
-<h1 align="center">{{ 'book.edit.title'|trans }}</h1>
+<h1>{{ 'book.edit.title'|trans }}</h1>
 {% if updated %}
-    <p>{{ 'book.edit.success'|trans }}</p>
+    <p class="success-message">{{ 'book.edit.success'|trans }}</p>
 {% elseif book %}
     {% include "books/tabmod.html.twig" %}
 {% else %}

@@ -97,7 +97,7 @@ class Acquisto
                 $fields['title'] = $book->getTitle();
                 $fields['author'] = $book->getAuthor();
                 $fields['publisher'] = $book->getPublisher();
-                $fields['price'] = $book->getPrice();
+                $fields['price'] = $book->getPriceObject();
                 $fields['ISBN'] = $book->getFullIsbn();
                 $fields['rate'] = $book->getRate()->value;
                 $fields['storeCredit'] = $book->getStoreCredit();

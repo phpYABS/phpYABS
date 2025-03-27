@@ -143,12 +143,17 @@ class Book
         return (string) ISBN::fromString($this->isbn)->version10;
     }
 
+    public function getPriceObject(): Money
+    {
+        return Money::EUR((int) ($this->price * 100));
+    }
+
     public function getStoreCredit(): Money
     {
         return match ($this->getRate()) {
             Rate::ROTMED => Money::EUR(50),
             Rate::ROTSUP => Money::EUR(100),
-            Rate::BUONO => Money::EUR($this->getPrice())->divide(3),
+            Rate::BUONO => $this->getPriceObject()->divide(3),
             default => Money::EUR(0),
         };
     }
@@ -158,7 +163,7 @@ class Book
         return match ($this->getRate()) {
             Rate::ROTMED => Money::EUR(50),
             Rate::ROTSUP => Money::EUR(100),
-            Rate::BUONO => Money::EUR($this->getPrice())->divide(4),
+            Rate::BUONO => $this->getPriceObject()->divide(4),
             default => Money::EUR(0),
         };
     }

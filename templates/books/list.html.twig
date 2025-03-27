@@ -21,7 +21,7 @@
                     <td>{{ book.title }}</td>
                     <td>{{ book.author }}</td>
                     <td>{{ book.publisher }}</td>
-                    <td>{{ book.price }}</td>
+                    <td>{{ book.priceObject | money_format }}</td>
                 </tr>
             {% endfor %}
         </tbody>

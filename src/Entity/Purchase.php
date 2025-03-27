@@ -18,4 +18,28 @@ class Purchase
     #[ORM\Id]
     #[ORM\Column(name: 'purchase_id', options: ['default' => 0])]
     private ?int $purchaseId;
+
+    public function getBook(): ?Book
+    {
+        return $this->book;
+    }
+
+    public function setBook(?Book $book): self
+    {
+        $this->book = $book;
+
+        return $this;
+    }
+
+    public function getPurchaseId(): ?int
+    {
+        return $this->purchaseId;
+    }
+
+    public function setPurchaseId(?int $purchaseId): self
+    {
+        $this->purchaseId = $purchaseId;
+
+        return $this;
+    }
 }

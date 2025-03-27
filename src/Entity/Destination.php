@@ -13,11 +13,11 @@ class Destination
 {
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Book::class, inversedBy: 'destinations')]
-    private ?Book $book;
+    private Book $book;
 
     #[ORM\Id]
     #[ORM\Column(name: 'destination', length: 100)]
-    private ?string $destination = null;
+    private string $destination;
 
     public function getBook(): Book
     {

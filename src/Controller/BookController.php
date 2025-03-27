@@ -53,20 +53,14 @@ class BookController extends AbstractController
         return $this->render('books/add.html.twig', $vars);
     }
 
-    #[Route('/edit/search', name: 'book_edit_search', methods: ['GET', 'POST'])]
-    public function searchForEdit(Request $request): Response
+    #[Route('/edit', name: 'book_search_for_edit', methods: ['GET', 'POST'])]
+    public function searchForEditAction(Request $request): Response
     {
         $ISBN = $request->get('ISBN');
-        if ('' === $ISBN) {
-            return $this->modifica($request);
+        if ($ISBN) {
+            return $this->redirectToRoute('book_edit', ['ISBN' => $ISBN]);
         }
 
-        return $this->redirectToRoute('book_edit', ['ISBN' => $ISBN]);
-    }
-
-    #[Route('/edit', name: 'book_search_for_edit', methods: ['GET', 'POST'])]
-    public function searchForEditAction(): Response
-    {
         return $this->render('books/edit.html.twig', ['updated' => false, 'book' => null]);
     }
 

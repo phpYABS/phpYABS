@@ -21,7 +21,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 final class MainContext extends MinkContext
 {
-    private ?Response $response;
+    private ?Response $response = null;
 
     private Connection $dbal;
 

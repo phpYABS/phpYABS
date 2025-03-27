@@ -39,13 +39,15 @@ use PhpYabs\Repository\BookRepository;
 class Acquisto extends ActiveRecord
 {
     private int $ID;
-    private BookRepository $bookRepository;
+    private readonly BookRepository $bookRepository;
 
     public function __construct(Connection $dbal, private EntityManagerInterface $em)
     {
         parent::__construct($dbal);
 
-        $this->bookRepository = $em->getRepository(Book::class);
+        $bookRepository = $this->em->getRepository(Book::class);
+        assert($bookRepository instanceof BookRepository);
+        $this->bookRepository = $bookRepository;
 
         $purchase_id = $dbal->fetchOne('SELECT MAX(purchase_id) FROM purchases') ?? 0;
         $this->ID = $purchase_id + 1;

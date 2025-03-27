@@ -166,4 +166,11 @@ class Book
     {
         return $this->destinations;
     }
+
+    public function setDestinations(Collection $destinations): Book
+    {
+        $this->destinations = $destinations;
+
+        return $this;
+    }
 }

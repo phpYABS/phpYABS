@@ -1,5 +1,5 @@
 <div class="book-search">
-    <form action="{{ path('book_edit_search') }}" method="post">
+    <form action="{{ path('book_search_for_edit') }}" method="post">
         <label for="ISBN">{{ 'book.fields.isbn'|trans }}</label>
         <input type="text" id="ISBN" name="ISBN" required>
         <button type="submit">{{ 'book.search.button'|trans }}</button>

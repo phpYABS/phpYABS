@@ -16,10 +16,10 @@ class Hit
     private string $isbn;
 
     #[ORM\Column(name: 'hits', options: ['default' => 0])]
-    private ?int $hits = 0;
+    private int $hits = 0;
 
     #[ORM\Column]
-    private ?bool $found;
+    private bool $found;
 
     public function getIsbn(): ?string
     {
@@ -45,12 +45,12 @@ class Hit
         return $this;
     }
 
-    public function getFound(): ?string
+    public function getFound(): bool
     {
         return $this->found;
     }
 
-    public function setFound(string $found): static
+    public function setFound(?bool $found): static
     {
         $this->found = $found;
 

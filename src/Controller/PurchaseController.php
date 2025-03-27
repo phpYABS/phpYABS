@@ -46,7 +46,7 @@ class PurchaseController extends AbstractController
             }
         }
 
-        $purchase_id = $session->set('purchase_id', $acquisto->getID());
+        $session->set('purchase_id', $acquisto->getID());
 
         $trovato = true;
 
@@ -58,7 +58,7 @@ class PurchaseController extends AbstractController
 
         return $this->render('purchases/current.html.twig', [
             'acquisto' => $acquisto,
-            'purchase_id' => $purchase_id,
+            'purchase_id' => $acquisto->getID(),
             'trovato' => $trovato,
             'errmsg' => $errmsg ?? '',
         ]);

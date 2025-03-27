@@ -8,7 +8,6 @@ use Doctrine\DBAL\Types\Type;
 use PhpYabs\Entity\Book;
 use PhpYabs\Entity\Rate;
 use PhpYabs\Form\BookType;
-use PhpYabs\ValueObject\ISBN;
 use PhpYabs\ValueObject\ISBN10;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

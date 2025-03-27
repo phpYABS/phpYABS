@@ -23,28 +23,14 @@ class PurchaseRepository extends ServiceEntityRepository
         parent::__construct($registry, Purchase::class);
     }
 
-    //    /**
-    //     * @return Purchases[] Returns an array of Purchases objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('a.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function list(): array
+    {
+        $sql = <<<SQL
+        SELECT purchase_id, COUNT(purchase_id) AS `count`
+        FROM purchases
+        GROUP BY purchase_id
+        SQL;
 
-    //    public function findOneBySomeField($value): ?Purchases
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        return $this->getEntityManager()->getConnection()->fetchAllAssociative($sql);
+    }
 }

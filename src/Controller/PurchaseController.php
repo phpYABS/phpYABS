@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace PhpYabs\Controller;
 
+use Doctrine\DBAL\Connection;
+use Doctrine\ORM\EntityManagerInterface;
 use PhpYabs\DB\Acquisto;
+use PhpYabs\Repository\PurchaseRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -13,6 +16,14 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/purchases')]
 class PurchaseController extends AbstractController
 {
+    public function __construct(
+        Connection $doctrineConnection,
+        EntityManagerInterface $entityManager,
+        private readonly PurchaseRepository $purchaseRepository,
+    ) {
+        parent::__construct($doctrineConnection, $entityManager);
+    }
+
     #[Route('', name: 'purchase_list', methods: ['GET'])]
     public function index(Request $request): Response
     {
@@ -20,13 +31,7 @@ class PurchaseController extends AbstractController
             return $this->redirectToRoute('purchase_current', ['id' => $request->query->get('purchase_id')]);
         }
 
-        $sql = <<<SQL
-        SELECT purchase_id, COUNT(purchase_id) AS `count`
-        FROM purchases
-        GROUP BY purchase_id
-        SQL;
-
-        $data['purchases'] = $this->getDoctrineConnection()->fetchAllAssociative($sql);
+        $data['purchases'] = $this->purchaseRepository->list();
 
         return $this->render('purchases/index.html.twig', $data);
     }

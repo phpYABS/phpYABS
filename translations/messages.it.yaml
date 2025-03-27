@@ -1,8 +1,4 @@
 # Italian translations
-# Welcome
-welcome.title: 'Benvenuto'
-welcome.message: "Benvenuto nell'applicazione phpYABS. Questa è la pagina principale."
-
 # Books
 book.add.title: 'Aggiungi libro'
 book.add.success: 'Libro inserito'

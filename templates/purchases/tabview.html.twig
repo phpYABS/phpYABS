@@ -30,11 +30,11 @@
         </tr>
         <tr>
             <th>{{ 'book.list.store_credit'|trans }}:</th>
-            <td>{{ storeCredit }}</td>
+            <td>{{ storeCredit | money_format }}</td>
         </tr>
         <tr>
             <th>{{ 'book.list.cash'|trans }}:</th>
-            <td>{{ cashValue }}</td>
+            <td>{{ cashValue | money_format }}</td>
         </tr>
         <tr>
             <th>{{ 'book.list.destination'|trans }}:</th>

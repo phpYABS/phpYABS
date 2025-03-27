@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PhpYabs\DB;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Money\Money;
 use PhpYabs\Entity\Book;
 use PhpYabs\Entity\Purchase;
 use PhpYabs\Entity\Rate;
@@ -127,21 +128,23 @@ class Acquisto
     {
         $purchases = $this->purchaseRepository->findBy(['purchaseId' => $this->ID]);
 
-        $totaleb = $totalec = $totaler = 0.0;
+        $totaleb = Money::EUR(0);
+        $totalec = Money::EUR(0);
+        $totaler = Money::EUR(0);
 
         foreach ($purchases as $purchase) {
             $book = $purchase->getBook();
             switch ($book->getRate()) {
                 case Rate::ROTMED:
-                    $totaler += 0.5;
+                    $totaler = $totaler->add(Money::EUR(50));
                     break;
                 case Rate::ROTSUP:
-                    $totaler += 1.0;
+                    $totaler = $totaler->add(Money::EUR(100));
                     break;
                 case Rate::BUONO:
-                    $prezzo = (float) $book->getPrice();
-                    $totaleb += round($prezzo / 3, 2);
-                    $totalec += round($prezzo / 4, 2);
+                    $prezzo = Money::EUR($book->getPrice());
+                    $totaleb = $totaleb->add($prezzo->divide(3));
+                    $totalec = $totalec->add($prezzo->divide(4));
                     break;
                 case Rate::ZERO:
                     // do nothing

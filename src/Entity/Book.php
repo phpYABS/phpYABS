@@ -7,6 +7,7 @@ namespace PhpYabs\Entity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Money\Money;
 use PhpYabs\Repository\BookRepository;
 use PhpYabs\ValueObject\ISBN;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -142,23 +143,23 @@ class Book
         return (string) ISBN::fromString($this->isbn)->version10;
     }
 
-    public function getStoreCredit(): float
+    public function getStoreCredit(): Money
     {
         return match ($this->getRate()) {
-            Rate::ROTMED => 0.5,
-            Rate::ROTSUP => 1.0,
-            Rate::BUONO => round(floatval($this->price) / 3, 2),
-            default => 0.0,
+            Rate::ROTMED => Money::EUR(50),
+            Rate::ROTSUP => Money::EUR(100),
+            Rate::BUONO => Money::EUR($this->getPrice())->divide(3),
+            default => Money::EUR(0),
         };
     }
 
-    public function getCashValue(): float
+    public function getCashValue(): Money
     {
         return match ($this->getRate()) {
-            Rate::ROTMED => 0.5,
-            Rate::ROTSUP => 1.0,
-            Rate::BUONO => round(floatval($this->price) / 4, 2),
-            default => 0.0,
+            Rate::ROTMED => Money::EUR(50),
+            Rate::ROTSUP => Money::EUR(100),
+            Rate::BUONO => Money::EUR($this->getPrice())->divide(4),
+            default => Money::EUR(0),
         };
     }
 

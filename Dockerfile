@@ -12,6 +12,7 @@ RUN apt-get update &&\
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN docker-php-ext-install\
+    bcmath\
     pdo_mysql\
     intl
 

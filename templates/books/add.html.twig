@@ -1,5 +1,8 @@
 {% extends "base.html.twig" %}
 {% block title %}{{ 'book.add.title'|trans }}{% endblock title %}
+{% block stylesheets %}
+    <link href="/css/books.css" rel="stylesheet">
+{% endblock %}
 {% block content %}
 <h1>{{ 'book.add.title'|trans }}</h1>
 {% if error %}

@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}phpYABS - menu{% endblock title %}</title>
     <link href="/css/main.css" rel="stylesheet">
-    <link href="/css/books.css" rel="stylesheet">
-    <link href="/css/purchases.css" rel="stylesheet">
-    <link href="/css/destinations.css" rel="stylesheet">
-    <link href="/css/statistics.css" rel="stylesheet">
+    {% block stylesheets %}{% endblock %}
 </head>
 <body {% block body_attr %}{% endblock %}>
 {% block body %}

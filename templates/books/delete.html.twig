@@ -1,5 +1,8 @@
 {% extends "base.html.twig" %}
 {% block title %}{{ 'book.delete.title'|trans }}{% endblock title %}
+{% block stylesheets %}
+    <link href="/css/books.css" rel="stylesheet">
+{% endblock %}
 {% block content %}
 {% if deleted %}
     <p class="success-message">{{ 'book.delete.success'|trans }}</p>

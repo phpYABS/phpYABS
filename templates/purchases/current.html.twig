@@ -1,5 +1,8 @@
 {% extends 'base.html.twig' %}
 {% block title %}{{ 'purchase.evaluation.title'|trans }}{% endblock %}
+{% block stylesheets %}
+    <link href="/css/purchases.css" rel="stylesheet">
+{% endblock %}
 {% block body_attr %}onLoad="document.libro.newISBN.focus()"{% endblock %}
 {% block content %}
 <section class="purchase-evaluation">

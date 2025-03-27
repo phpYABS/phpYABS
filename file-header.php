@@ -18,7 +18,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 /**
  * @author Davide Bellettini <davide.bellettini@gmail.com>
  * @license GNU GPL 3 or later

@@ -119,9 +119,15 @@ class Book
         return $this->price;
     }
 
-    public function setPrice(?string $price): Book
+    public function setPrice(string|int|Money $price): Book
     {
-        $this->price = $price;
+        if ($price instanceof Money) {
+            $this->price = bcdiv($price->getAmount(), '100', 2);
+        } elseif (is_int($price)) {
+            $this->price = bcdiv((string) $price, '100', 2);
+        } else {
+            $this->price = $price;
+        }
 
         return $this;
     }

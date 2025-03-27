@@ -158,18 +158,18 @@
         flex-direction: column;
         gap: 10px;
     }
-    
+
     .destination-buttons {
         flex-wrap: wrap;
     }
-    
+
     .destination-buttons button {
         flex: 1;
         min-width: 120px;
     }
-    
+
     .destination-table {
         display: block;
         overflow-x: auto;
     }
-} 
+}

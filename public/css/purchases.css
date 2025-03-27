@@ -119,17 +119,17 @@
     .purchase-search form {
         flex-direction: column;
     }
-    
+
     .purchase-search input[type="text"] {
         width: 100%;
     }
-    
+
     .purchase-search button {
         width: 100%;
     }
-    
+
     .purchase-table {
         display: block;
         overflow-x: auto;
     }
-} 
+}

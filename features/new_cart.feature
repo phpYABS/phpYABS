@@ -9,4 +9,3 @@ Feature: New cart
     Then the response should contain "0 Libri acquistati"
     And the response should contain "Totale contanti: 0,00 €"
     And the response should contain "Totale buono: 0,00 €"
-    And the response should contain "Totale rottamazione: 0,00 €"

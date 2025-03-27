@@ -18,11 +18,7 @@
     {% endfor %}
 
     {% if not trovato %}
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                alert('{{ 'purchase.evaluation.not_found'|trans }}');
-            });
-        </script>
+        <p class="error-message">{{ 'purchase.evaluation.not_found'|trans }}</p>
     {% endif %}
 
     <div class="purchase-summary">

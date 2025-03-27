@@ -28,28 +28,13 @@ class BookRepository extends ServiceEntityRepository
         return $this->count([]);
     }
 
-    //    /**
-    //     * @return Books[] Returns an array of Books objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('a.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Books
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function findPaginated(int $offset, int $int): iterable
+    {
+        return $this->createQueryBuilder('b')
+            ->setFirstResult($offset)
+            ->setMaxResults($int)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

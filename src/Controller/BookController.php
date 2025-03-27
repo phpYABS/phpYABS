@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace PhpYabs\Controller;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpYabs\Entity\Book;
 use PhpYabs\Entity\Rate;
@@ -134,7 +133,6 @@ class BookController extends AbstractController
     #[Route('', name: 'book_list', methods: ['GET'])]
     public function index(Request $request): Response
     {
-        $dbal = $this->getDoctrineConnection();
         $count = $this->bookRepository->countAll();
         $offset = $request->query->get('offset', '0');
         if (is_string($offset) && preg_match('/^\\d+$/', $offset)) {
@@ -143,11 +141,7 @@ class BookController extends AbstractController
             $offset = 0;
         }
 
-        $books = $dbal->fetchAllAssociative(
-            'SELECT * FROM books LIMIT ?, 50',
-            [$offset],
-            [Type::getType('integer')],
-        );
+        $books = $this->bookRepository->findPaginated($offset, 50);
 
         return $this->render('books/list.html.twig', compact('count', 'books'));
     }

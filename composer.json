@@ -10,6 +10,7 @@
     ],
     "require": {
         "php": "^8.4",
+        "ext-bcmath": "*",
         "ext-pdo": "*",
         "doctrine/dbal": "^3.3",
         "doctrine/doctrine-bundle": "^2.14",

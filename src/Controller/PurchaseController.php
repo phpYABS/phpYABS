@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/purchases')]
 class PurchaseController extends AbstractController
 {
-    #[Route('', methods: ['GET'])]
+    #[Route('', name: 'purchase_list', methods: ['GET'])]
     public function index(): Response
     {
         $sql = <<<SQL
@@ -26,11 +26,9 @@ class PurchaseController extends AbstractController
         return $this->render('purchases/index.html.twig', $data);
     }
 
-    #[Route('/{id}', methods: ['GET', 'POST'])]
-    public function current(Request $request): Response
+    #[Route('/{id}', name: 'purchase_current', methods: ['GET', 'POST'])]
+    public function current(Request $request, string $id = 'current'): Response
     {
-        $id = $request->get('id', 'current');
-
         // se c'è una richiesta di nuovo acquisto, elimino il precedente
         if ('Nuovo' === ($_GET['Azione'] ?? '')) {
             unset($_SESSION['purchase_id']);

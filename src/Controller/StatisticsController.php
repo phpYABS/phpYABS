@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/stats')]
 class StatisticsController extends AbstractController
 {
-    #[Route('', methods: ['GET'])]
+    #[Route('', name: 'statistics', methods: ['GET'])]
     public function index(): Response
     {
         $dbal = $this->getDoctrineConnection();

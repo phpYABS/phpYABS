@@ -43,8 +43,8 @@
         <tr>
             <th>{{ 'book.list.actions.title'|trans }}:</th>
             <td class="book-actions">
-                <a href="modules.php?Nome=Acquisti&Azione=Acquisto&Cancella={{ book_id }}">{{ 'book.list.actions.delete'|trans }}</a>
-                <a href="/books/{{ ISBN }}/edit">{{ 'book.list.actions.edit'|trans }}</a>
+                <a href="{{ path('purchase_current', {id: 'current', Cancella: book_id}) }}">{{ 'book.list.actions.delete'|trans }}</a>
+                <a href="{{ path('book_edit', {ISBN: ISBN}) }}">{{ 'book.list.actions.edit'|trans }}</a>
             </td>
         </tr>
     </table>

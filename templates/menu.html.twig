@@ -1,20 +1,20 @@
 <h1>{{ 'menu.title'|trans }}</h1>
 <nav>
     <ul>
-        <li><a href="/purchases/current?Azione=Nuovo">{{ 'purchase.menu.new'|trans }}</a></li>
+        <li><a href="{{ path('purchase_current', {id: 'current', Azione: 'Nuovo'}) }}">{{ 'purchase.menu.new'|trans }}</a></li>
         <li>
-            <form action="/purchases" method="get" class="search-form">
+            <form action="{{ path('purchase_list') }}" method="get" class="search-form">
                 <label for="purchase_id">{{ 'purchase.menu.retrieve'|trans }}:</label>
                 <input type="text" id="purchase_id" name="purchase_id" maxlength="10">
                 <button type="submit">{{ 'menu.search.button'|trans }}</button>
             </form>
         </li>
-        <li><a href="/books/add">{{ 'book.add.title'|trans }}</a></li>
-        <li><a href="/books/edit">{{ 'book.edit.title'|trans }}</a></li>
-        <li><a href="/books/delete">{{ 'book.delete.title'|trans }}</a></li>
-        <li><a href="/purchases">{{ 'purchase.menu.list'|trans }}</a></li>
-        <li><a href="/destinations">{{ 'destination.add.title'|trans }}</a></li>
-        <li><a href="/stats">{{ 'statistics.title'|trans }}</a></li>
-        <li><a href="/books">{{ 'menu.book_list'|trans }}</a></li>
+        <li><a href="{{ path('book_add') }}">{{ 'book.add.title'|trans }}</a></li>
+        <li><a href="{{ path('book_edit') }}">{{ 'book.edit.title'|trans }}</a></li>
+        <li><a href="{{ path('book_delete') }}">{{ 'book.delete.title'|trans }}</a></li>
+        <li><a href="{{ path('purchase_list') }}">{{ 'purchase.menu.list'|trans }}</a></li>
+        <li><a href="{{ path('destination_list') }}">{{ 'destination.add.title'|trans }}</a></li>
+        <li><a href="{{ path('statistics') }}">{{ 'statistics.title'|trans }}</a></li>
+        <li><a href="{{ path('book_list') }}">{{ 'menu.book_list'|trans }}</a></li>
     </ul>
 </nav>

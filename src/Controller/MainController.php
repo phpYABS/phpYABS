@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/')]
 class MainController extends AbstractController
 {
-    #[Route('/')]
+    #[Route('/', name: 'home')]
     public function index(): Response
     {
         global $intestazione;

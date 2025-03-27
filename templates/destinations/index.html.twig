@@ -5,7 +5,7 @@
     <h1>{{ 'destination.add.title'|trans }}</h1>
     <p class="page-number">{{ 'destination.add.page'|trans }} {{ pag }}</p>
 
-    <form action="/destinations" method="GET" class="destination-form">
+    <form action="{{ path('destination_list') }}" method="GET" class="destination-form">
         {% if destination %}
             <input type="hidden" name="destination" value="{{ destination | upper }}">
         {% endif %}
@@ -63,14 +63,14 @@
     {% if destination %}
         <div class="pagination">
             {% for page in pages %}
-                <a href="/destinations?destination={{ destination | upper }}&start={{ page.start }}"
+                <a href="{{ path('destination_list', {'destination': destination | upper, 'start': page.start}) }}"
                    class="page-link">{{ page.page }}</a>
             {% endfor %}
         </div>
     {% endif %}
 
     <p class="new-destination">
-        <a href="/destinations?destination=_NEW">{{ 'destination.add.new'|trans }}</a>
+        <a href="{{ path('destination_list', {'destination': '_NEW'}) }}">{{ 'destination.add.new'|trans }}</a>
     </p>
 </section>
 {% endblock content %}

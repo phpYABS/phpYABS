@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class DestinationController extends AbstractController
 {
-    #[Route('/destinations', methods: ['GET'])]
+    #[Route('/destinations', name: 'destination_list', methods: ['GET'])]
     public function index(): Response
     {
         $data = ['books' => []];

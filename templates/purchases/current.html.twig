@@ -32,7 +32,7 @@
     </div>
 
     <div class="purchase-search">
-        <form action="/purchases/current" method="post" name="libro">
+        <form action="{{ path('purchase_current', {id: purchase_id}) }}" method="post" name="libro">
             <label for="newISBN">{{ 'purchase.evaluation.isbn_ean'|trans }}</label>
             <input type="text" id="newISBN" name="newISBN" maxlength="13" required>
             <button type="submit">{{ 'purchase.search.button'|trans }}</button>

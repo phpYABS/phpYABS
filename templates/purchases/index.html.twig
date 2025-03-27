@@ -12,7 +12,7 @@
         <tbody>
             {% for purchase in purchases %}
                 <tr>
-                    <td><a href="/purchases/{{ purchase.purchase_id }}">{{ purchase.purchase_id }}</a></td>
+                    <td><a href="{{ path('purchase_current', {id: purchase.purchase_id}) }}">{{ purchase.purchase_id }}</a></td>
                     <td>{{ purchase.count }}</td>
                 </tr>
             {% endfor %}

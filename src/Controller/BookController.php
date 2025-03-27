@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/books')]
 class BookController extends AbstractController
 {
-    #[Route('/add', methods: ['GET', 'POST'])]
+    #[Route('/add', name: 'book_add', methods: ['GET', 'POST'])]
     public function addAction(Request $request): Response
     {
         $form = $this->createForm(BookType::class);
@@ -43,7 +43,7 @@ class BookController extends AbstractController
         return $this->render('books/add.html.twig', $vars);
     }
 
-    #[Route('/edit/search', methods: ['GET', 'POST'])]
+    #[Route('/edit/search', name: 'book_edit_search', methods: ['GET', 'POST'])]
     public function searchForEdit(Request $request): Response
     {
         $ISBN = $request->get('ISBN');
@@ -51,11 +51,11 @@ class BookController extends AbstractController
             return $this->modifica($request);
         }
 
-        return $this->redirect("/books/$ISBN/edit");
+        return $this->redirectToRoute('book_edit', ['ISBN' => $ISBN]);
     }
 
-    #[Route('/{ISBN}/edit', methods: ['GET', 'POST'])]
-    #[Route('/edit', methods: ['GET', 'POST'])]
+    #[Route('/{ISBN}/edit', name: 'book_edit', methods: ['GET', 'POST'])]
+    #[Route('/edit', name: 'book_edit', methods: ['GET', 'POST'])]
     public function modifica(Request $request): Response
     {
         $ISBN = $request->get('ISBN');
@@ -120,7 +120,7 @@ class BookController extends AbstractController
         ]);
     }
 
-    #[Route('', methods: ['GET'])]
+    #[Route('', name: 'book_list', methods: ['GET'])]
     public function index(Request $request): Response
     {
         $dbal = $this->getDoctrineConnection();
@@ -141,8 +141,8 @@ class BookController extends AbstractController
         return $this->render('books/list.html.twig', compact('count', 'books'));
     }
 
-    #[Route('/{ISBN}/delete', methods: ['GET', 'POST'])]
-    #[Route('/delete', methods: ['GET', 'POST'])]
+    #[Route('/{ISBN}/delete', name: 'book_delete', methods: ['GET', 'POST'])]
+    #[Route('/delete', name: 'book_delete', methods: ['GET', 'POST'])]
     public function delete(Request $request): Response
     {
         $vars = ['deleted' => false, 'book' => null, 'rate' => null];

@@ -74,7 +74,7 @@ class BookController extends AbstractController
             return $this->render('books/edit.html.twig', ['updated' => false, 'book' => null]);
         }
 
-        $book = $this->entityManager->getRepository(Book::class)->findOneBy(['isbn' => $ISBN]);
+        $book = $this->bookRepository->findOneBy(['isbn' => $ISBN]);
 
         if ('GET' === $request->getMethod()) {
             if ($book) {
@@ -160,7 +160,7 @@ class BookController extends AbstractController
 
         $ISBN = $request->get('ISBN');
         if ($ISBN) {
-            $book = $this->entityManager->getRepository(Book::class)->findOneBy(['isbn' => $ISBN]);
+            $book = $this->bookRepository->findOneBy(['isbn' => $ISBN]);
         } else {
             $book = null;
         }

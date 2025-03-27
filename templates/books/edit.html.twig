@@ -11,7 +11,7 @@
 {% if updated %}
     <p class="success-message">{{ 'book.edit.success'|trans }}</p>
 {% elseif book %}
-    {% include "books/tabmod.html.twig" %}
+    {{ form(form) }}
 {% else %}
     {% include "books/tabsearch4mod.html.twig" %}
 {% endif %}

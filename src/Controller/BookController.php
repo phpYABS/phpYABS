@@ -10,6 +10,7 @@ use PhpYabs\Entity\Rate;
 use PhpYabs\Form\BookType;
 use PhpYabs\Repository\BookRepository;
 use PhpYabs\ValueObject\ISBN10;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -29,26 +30,11 @@ class BookController extends AbstractController
     {
         $form = $this->createForm(BookType::class);
 
-        $vars = [
+        return $this->render('books/add.html.twig', [
             'error' => false,
-            'inserted' => false,
             'form' => $form,
-        ];
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $book = $form->getData();
-            $isbn = ISBN10::fromNineDigits($book->getISBN());
-            $book
-                ->setISBN($isbn->withoutChecksum)
-            ;
-
-            $this->entityManager->persist($book);
-            $this->entityManager->flush();
-            $vars['inserted'] = true;
-        }
-
-        return $this->render('books/add.html.twig', $vars);
+            'inserted' => $this->handleForm($form, $request),
+        ]);
     }
 
     #[Route('/edit', name: 'book_search_for_edit', methods: ['GET', 'POST'])]
@@ -66,59 +52,12 @@ class BookController extends AbstractController
     public function modifica(Request $request, string $ISBN): Response
     {
         $book = $this->bookRepository->findOneBy(['isbn' => $ISBN]);
-
-        if ('GET' === $request->getMethod()) {
-            if ($book) {
-                $valutazione = $book->getRate()?->value;
-                switch ($valutazione) {
-                    case 'zero':
-                        $selzero = 'selected';
-                        break;
-                    case 'rotmed':
-                        $selrotmed = 'selected';
-                        break;
-                    case 'rotsup':
-                        $selrotsup = 'selected';
-                        break;
-                    case 'buono':
-                        $selbuono = 'selected';
-                        break;
-                    default:
-                        $selnull = 'selected';
-                        break;
-                }
-
-                return $this->render('books/edit.html.twig', [
-                    'book' => $book,
-                    'selzero' => $selzero ?? null,
-                    'selrotmed' => $selrotmed ?? null,
-                    'selrotsup' => $selrotsup ?? null,
-                    'selbuono' => $selbuono ?? null,
-                    'selnull' => $selnull ?? null,
-                    'updated' => false,
-                ]);
-            }
-        }
-
-        if ('POST' === $request->getMethod()) {
-            $parsedBody = $request->request->all();
-
-            $book
-                ->setIsbn($parsedBody['ISBN'])
-                ->setTitle($parsedBody['title'])
-                ->setAuthor($parsedBody['author'])
-                ->setPublisher($parsedBody['publisher'])
-                ->setPrice($parsedBody['price'])
-            ;
-
-            $this->addRate($request, $book);
-            $this->entityManager->persist($book);
-            $this->entityManager->flush();
-        }
+        $form = $this->createForm(BookType::class, $book);
 
         return $this->render('books/edit.html.twig', [
             'book' => $book,
-            'updated' => true,
+            'form' => $form,
+            'updated' => $this->handleForm($form, $request),
         ]);
     }
 
@@ -170,5 +109,23 @@ class BookController extends AbstractController
         if ($rate) {
             $book->setRate(Rate::tryFrom($rate));
         }
+    }
+
+    private function handleForm(FormInterface $form, Request $request): bool
+    {
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $book = $form->getData();
+            $isbn = ISBN10::fromNineDigits($book->getISBN());
+            $book
+                ->setISBN($isbn->withoutChecksum);
+
+            $this->entityManager->persist($book);
+            $this->entityManager->flush();
+
+            return true;
+        }
+
+        return false;
     }
 }

@@ -65,15 +65,15 @@ class BookController extends AbstractController
         return $this->redirectToRoute('book_edit', ['ISBN' => $ISBN]);
     }
 
-    #[Route('/{ISBN}/edit', name: 'book_edit', methods: ['GET', 'POST'])]
-    #[Route('/edit', name: 'book_edit', methods: ['GET', 'POST'])]
-    public function modifica(Request $request): Response
+    #[Route('/edit', name: 'book_search_for_edit', methods: ['GET', 'POST'])]
+    public function searchForEditAction(): Response
     {
-        $ISBN = $request->get('ISBN');
-        if (!$ISBN) {
-            return $this->render('books/edit.html.twig', ['updated' => false, 'book' => null]);
-        }
+        return $this->render('books/edit.html.twig', ['updated' => false, 'book' => null]);
+    }
 
+    #[Route('/{ISBN}/edit', name: 'book_edit', methods: ['GET', 'POST'])]
+    public function modifica(Request $request, string $ISBN): Response
+    {
         $book = $this->bookRepository->findOneBy(['isbn' => $ISBN]);
 
         if ('GET' === $request->getMethod()) {
@@ -153,7 +153,7 @@ class BookController extends AbstractController
     }
 
     #[Route('/{ISBN}/delete', name: 'book_delete', methods: ['GET', 'POST'])]
-    #[Route('/delete', name: 'book_delete', methods: ['GET', 'POST'])]
+    #[Route('/delete', name: 'book_search_for_delete', methods: ['GET', 'POST'])]
     public function delete(Request $request): Response
     {
         $vars = ['deleted' => false, 'book' => null, 'rate' => null];

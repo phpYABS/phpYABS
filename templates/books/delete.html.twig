@@ -11,7 +11,7 @@
         {% include 'books/tabdel.html.twig' %}
     {% else %}
         <div class="book-search">
-            <form action="/books/delete" method="post">
+            <form action="{{ path('book_search_for_delete') }}" method="post">
                 <label for="ISBN">{{ 'book.fields.isbn'|trans }}</label>
                 <input type="text" id="ISBN" name="ISBN" required>
                 <button type="submit">{{ 'book.delete.search.button'|trans }}</button>

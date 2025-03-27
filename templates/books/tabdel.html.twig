@@ -25,7 +25,7 @@
             <td>{{ rate }}</td>
         </tr>
     </table>
-    <form action="/books/delete" method="post" class="book-actions">
+    <form action="{{ path('book_delete', {ISBN: book.ISBN}) }}" method="post" class="book-actions">
         <button type="submit">{{ 'book.actions.delete'|trans }}</button>
         <input type="hidden" name="ISBN" value="{{ book.ISBN }}">
         <input type="hidden" name="delete" value="true">

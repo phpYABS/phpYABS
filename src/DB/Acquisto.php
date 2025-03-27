@@ -130,28 +130,13 @@ class Acquisto
 
         $totaleb = Money::EUR(0);
         $totalec = Money::EUR(0);
-        $totaler = Money::EUR(0);
 
         foreach ($purchases as $purchase) {
             $book = $purchase->getBook();
-            switch ($book->getRate()) {
-                case Rate::ROTMED:
-                    $totaler = $totaler->add(Money::EUR(50));
-                    break;
-                case Rate::ROTSUP:
-                    $totaler = $totaler->add(Money::EUR(100));
-                    break;
-                case Rate::BUONO:
-                    $prezzo = Money::EUR($book->getPrice());
-                    $totaleb = $totaleb->add($prezzo->divide(3));
-                    $totalec = $totalec->add($prezzo->divide(4));
-                    break;
-                case Rate::ZERO:
-                    // do nothing
-                    break;
-            }
+            $totaleb = $totaleb->add($book->getStoreCredit());
+            $totalec = $totalec->add($book->getCashValue());
         }
 
-        return ['totaleb' => $totaleb, 'totalec' => $totalec, 'totaler' => $totaler];
+        return ['totaleb' => $totaleb, 'totalec' => $totalec];
     }
 }

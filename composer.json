@@ -24,6 +24,7 @@
         "symfony/framework-bundle": "^7.2",
         "symfony/psr-http-message-bridge": "^7.2",
         "symfony/runtime": "^7.2",
+        "symfony/security-csrf": "^7.2",
         "symfony/translation": "^7.2",
         "symfony/twig-bundle": "^7.2",
         "symfony/uid": "^7.2",

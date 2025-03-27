@@ -7,6 +7,7 @@ namespace PhpYabs\DB;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpYabs\Entity\Book;
 use PhpYabs\Entity\Purchase;
+use PhpYabs\Entity\Rate;
 use PhpYabs\Repository\BookRepository;
 use PhpYabs\Repository\PurchaseRepository;
 
@@ -131,16 +132,19 @@ class Acquisto
         foreach ($purchases as $purchase) {
             $book = $purchase->getBook();
             switch ($book->getRate()) {
-                case 'rotmed':
+                case Rate::ROTMED:
                     $totaler += 0.5;
                     break;
-                case 'rotsup':
+                case Rate::ROTSUP:
                     $totaler += 1.0;
                     break;
-                case 'buono':
+                case Rate::BUONO:
                     $prezzo = (float) $book->getPrice();
                     $totaleb += round($prezzo / 3, 2);
                     $totalec += round($prezzo / 4, 2);
+                    break;
+                case Rate::ZERO:
+                    // do nothing
                     break;
             }
         }

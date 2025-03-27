@@ -30,8 +30,6 @@ class DestinationController extends AbstractController
     public function index(Request $request, SessionInterface $session): Response
     {
         $data = ['books' => []];
-        $dbal = $this->getDoctrineConnection();
-
         $totlibri = $this->bookRepository->countAll();
         $data['totLibri'] = $totlibri;
 
@@ -106,33 +104,7 @@ class DestinationController extends AbstractController
                 $this->entityManager->flush();
             }
 
-            $sql = <<<SQL
-            SELECT b.id,
-                   b.ISBN,
-                   b.title,
-                   b.author,
-                   b.publisher,
-                   b.rate,
-                   IF(d.book_id IS NOT NULL, 1, 0) AS selected
-            FROM books b
-                     LEFT JOIN destinations d ON d.book_id = b.id AND d.destination = :destination
-            ORDER BY publisher, author, title, ISBN
-            LIMIT :offset,50
-            SQL;
-
-            $books = $dbal->fetchAllAssociative(
-                $sql,
-                [
-                    'destination' => $destination,
-                    'offset' => $start,
-                ],
-                [
-                    'destination' => Types::STRING,
-                    'offset' => Types::INTEGER,
-                ],
-            );
-
-            $data['books'] = $books;
+            $data['books'] = $this->destinationsRepository->findBooksForDestination($destination, $start);
             $data['pages'] = [];
 
             $npag = (int) ceil($totlibri / 50);

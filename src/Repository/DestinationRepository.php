@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PhpYabs\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\Persistence\ManagerRegistry;
 use PhpYabs\Entity\Destination;
 
@@ -23,28 +24,32 @@ class DestinationRepository extends ServiceEntityRepository
         parent::__construct($registry, Destination::class);
     }
 
-    //    /**
-    //     * @return Destinations[] Returns an array of Destinations objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('a.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findBooksForDestination(string $destination, int $offset): iterable
+    {
+        $sql = <<<SQL
+        SELECT b.id,
+               b.ISBN,
+               b.title,
+               b.author,
+               b.publisher,
+               b.rate,
+               IF(d.book_id IS NOT NULL, 1, 0) AS selected
+        FROM books b
+                 LEFT JOIN destinations d ON d.book_id = b.id AND d.destination = :destination
+        ORDER BY publisher, author, title, ISBN
+        LIMIT :offset,50
+        SQL;
 
-    //    public function findOneBySomeField($value): ?Destinations
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        return $this->getEntityManager()->getConnection()->fetchAllAssociative(
+            $sql,
+            [
+                'destination' => $destination,
+                'offset' => $offset,
+            ],
+            [
+                'destination' => Types::STRING,
+                'offset' => Types::INTEGER,
+            ],
+        );
+    }
 }

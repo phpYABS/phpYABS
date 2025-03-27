@@ -1,7 +1,7 @@
 <h1>{{ 'menu.title'|trans }}</h1>
 <nav>
     <ul>
-        <li><a href="{{ path('purchase_current', {id: 'current', Azione: 'Nuovo'}) }}">{{ 'menu.purchase.new'|trans }}</a></li>
+        <li><a href="{{ path('purchase_current', {id: 'new'}) }}">{{ 'menu.purchase.new'|trans }}</a></li>
         <li>
             <form action="{{ path('purchase_list') }}" method="get" class="search-form">
                 <label for="purchase_id">{{ 'menu.purchase.retrieve'|trans }}:</label>

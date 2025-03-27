@@ -28,10 +28,10 @@ class PurchaseController extends AbstractController
     }
 
     #[Route('/{id}', name: 'purchase_current', methods: ['GET', 'POST'])]
-    public function current(Request $request, SessionInterface $session, string $id = 'current'): Response
+    public function current(Request $request, SessionInterface $session, string $id): Response
     {
         // se c'è una richiesta di nuovo acquisto, elimino il precedente
-        if ('Nuovo' === $request->query->get('Azione', '')) {
+        if ('new' === $id) {
             $session->remove('purchase_id');
             $session->remove('totalec');
             $session->remove('totaleb');

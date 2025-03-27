@@ -7,7 +7,7 @@ namespace PhpYabs\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/stats')]
+#[Route('/statistics')]
 class StatisticsController extends AbstractController
 {
     #[Route('', name: 'statistics', methods: ['GET'])]

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace PhpYabs\Controller;
 
-use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpYabs\Entity\Book;
 use PhpYabs\Entity\Rate;
@@ -19,11 +18,10 @@ use Symfony\Component\Routing\Attribute\Route;
 class BookController extends AbstractController
 {
     public function __construct(
-        Connection $doctrineConnection,
         EntityManagerInterface $entityManager,
         private readonly BookRepository $bookRepository,
     ) {
-        parent::__construct($doctrineConnection, $entityManager);
+        parent::__construct($entityManager);
     }
 
     #[Route('/add', name: 'book_add', methods: ['GET', 'POST'])]

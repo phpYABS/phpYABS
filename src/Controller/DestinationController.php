@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace PhpYabs\Controller;
 
-use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpYabs\Entity\Destination;
 use PhpYabs\Repository\BookRepository;
@@ -17,12 +16,11 @@ use Symfony\Component\Routing\Attribute\Route;
 class DestinationController extends AbstractController
 {
     public function __construct(
-        Connection $doctrineConnection,
         EntityManagerInterface $entityManager,
         private readonly BookRepository $bookRepository,
         private readonly DestinationRepository $destinationsRepository,
     ) {
-        parent::__construct($doctrineConnection, $entityManager);
+        parent::__construct($entityManager);
     }
 
     #[Route('/destinations', name: 'destination_list', methods: ['GET'])]

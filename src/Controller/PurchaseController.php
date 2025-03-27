@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace PhpYabs\Controller;
 
-use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpYabs\DB\Acquisto;
 use PhpYabs\Repository\BookRepository;
@@ -18,11 +17,10 @@ use Symfony\Component\Routing\Attribute\Route;
 class PurchaseController extends AbstractController
 {
     public function __construct(
-        Connection $doctrineConnection,
         EntityManagerInterface $entityManager,
         private readonly PurchaseRepository $purchaseRepository, private readonly BookRepository $bookRepository,
     ) {
-        parent::__construct($doctrineConnection, $entityManager);
+        parent::__construct($entityManager);
     }
 
     #[Route('', name: 'purchase_list', methods: ['GET'])]

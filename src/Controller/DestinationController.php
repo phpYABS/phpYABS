@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace PhpYabs\Controller;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\EntityManagerInterface;
+use PhpYabs\Repository\BookRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -12,14 +15,21 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class DestinationController extends AbstractController
 {
+    public function __construct(
+        Connection $doctrineConnection,
+        EntityManagerInterface $entityManager,
+        private readonly BookRepository $bookRepository,
+    ) {
+        parent::__construct($doctrineConnection, $entityManager);
+    }
+
     #[Route('/destinations', name: 'destination_list', methods: ['GET'])]
     public function index(Request $request, SessionInterface $session): Response
     {
         $data = ['books' => []];
         $dbal = $this->getDoctrineConnection();
 
-        $risultato = $dbal->fetchOne('SELECT COUNT(*) FROM books');
-        $totlibri = $risultato ?? 0;
+        $totlibri = $this->bookRepository->countAll();
         $data['totLibri'] = $totlibri;
 
         $get_start = 0;

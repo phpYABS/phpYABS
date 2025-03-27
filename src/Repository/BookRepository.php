@@ -23,6 +23,11 @@ class BookRepository extends ServiceEntityRepository
         parent::__construct($registry, Book::class);
     }
 
+    public function countAll(): int
+    {
+        return $this->count([]);
+    }
+
     //    /**
     //     * @return Books[] Returns an array of Books objects
     //     */

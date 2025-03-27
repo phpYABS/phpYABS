@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace PhpYabs\Controller;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Type;
+use Doctrine\ORM\EntityManagerInterface;
 use PhpYabs\Entity\Book;
 use PhpYabs\Entity\Rate;
 use PhpYabs\Form\BookType;
+use PhpYabs\Repository\BookRepository;
 use PhpYabs\ValueObject\ISBN10;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +19,14 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/books')]
 class BookController extends AbstractController
 {
+    public function __construct(
+        Connection $doctrineConnection,
+        EntityManagerInterface $entityManager,
+        private readonly BookRepository $bookRepository,
+    ) {
+        parent::__construct($doctrineConnection, $entityManager);
+    }
+
     #[Route('/add', name: 'book_add', methods: ['GET', 'POST'])]
     public function addAction(Request $request): Response
     {
@@ -124,7 +135,7 @@ class BookController extends AbstractController
     public function index(Request $request): Response
     {
         $dbal = $this->getDoctrineConnection();
-        $count = $dbal->fetchOne('SELECT COUNT(*) FROM books');
+        $count = $this->bookRepository->countAll();
         $offset = $request->query->get('offset', '0');
         if (is_string($offset) && preg_match('/^\\d+$/', $offset)) {
             $offset = intval($offset);

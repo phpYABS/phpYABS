@@ -14,11 +14,11 @@
             <ul>
                 <li>
                     <span class="stat-label">{{ 'statistics.books_purchased'|trans }}:</span>
-                    <span class="stat-value">{{ libriacq }}</span>
+                    <span class="stat-value">{{ books_purchased }}</span>
                 </li>
                 <li>
                     <span class="stat-label">{{ 'statistics.books_not_found'|trans }}:</span>
-                    <span class="stat-value">{{ nerrori }}</span>
+                    <span class="stat-value">{{ not_found_count }}</span>
                 </li>
             </ul>
         </div>
@@ -28,15 +28,15 @@
             <ul>
                 <li>
                     <span class="stat-label">{{ 'statistics.shots.found'|trans }}:</span>
-                    <span class="stat-value">{{ spariok }}</span>
+                    <span class="stat-value">{{ successful_hits }}</span>
                 </li>
                 <li>
                     <span class="stat-label">{{ 'statistics.shots.not_found'|trans }}:</span>
-                    <span class="stat-value">{{ errspari }}</span>
+                    <span class="stat-value">{{ error_hits }}</span>
                 </li>
                 <li>
                     <span class="stat-label">{{ 'statistics.shots.total'|trans }}:</span>
-                    <span class="stat-value">{{ totspari }}</span>
+                    <span class="stat-value">{{ total_hits }}</span>
                 </li>
             </ul>
         </div>

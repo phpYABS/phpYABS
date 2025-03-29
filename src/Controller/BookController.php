@@ -118,7 +118,8 @@ class BookController extends AbstractController
             $book = $form->getData();
             $isbn = ISBN10::fromNineDigits($book->getISBN());
             $book
-                ->setISBN($isbn->withoutChecksum);
+                ->setISBN($isbn->withoutChecksum)
+            ;
 
             $this->entityManager->persist($book);
             $this->entityManager->flush();

@@ -15,7 +15,7 @@ class StatisticsRepository
     public function getStatistics(): array
     {
         $sql = <<<SQL
-            SELECT 'purchases_count' as metric, COUNT(purchase_id) as value FROM purchases
+            SELECT 'purchases_count' as metric, COUNT(DISTINCT purchase_id) as value FROM purchases
             UNION ALL
             SELECT 'books_purchased', COUNT(*) FROM purchases
             UNION ALL
@@ -27,18 +27,18 @@ class StatisticsRepository
         SQL;
 
         $results = $this->connection->fetchAllAssociative($sql);
-
+        
         $stats = array_column($results, 'value', 'metric');
-
+        
         $stats['successful_hits'] = ($stats['total_hits'] ?? 0) - ($stats['error_hits'] ?? 0);
 
         return [
-            'nacquisti' => (int) ($stats['purchases_count'] ?? 0),
-            'libriacq' => (int) ($stats['books_purchased'] ?? 0),
-            'nerrori' => (int) ($stats['not_found_count'] ?? 0),
-            'totspari' => (int) ($stats['total_hits'] ?? 0),
-            'errspari' => (int) ($stats['error_hits'] ?? 0),
-            'spariok' => (int) $stats['successful_hits'],
+            'nacquisti' => (int)($stats['purchases_count'] ?? 0),
+            'libriacq' => (int)($stats['books_purchased'] ?? 0),
+            'nerrori' => (int)($stats['not_found_count'] ?? 0),
+            'totspari' => (int)($stats['total_hits'] ?? 0),
+            'errspari' => (int)($stats['error_hits'] ?? 0),
+            'spariok' => (int)$stats['successful_hits'],
         ];
     }
 }

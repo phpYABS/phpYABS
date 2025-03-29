@@ -14,32 +14,31 @@ class StatisticsRepository
 
     public function getStatistics(): array
     {
-        $dbal = $this->connection;
+        $sql = <<<SQL
+            SELECT 'purchases_count' as metric, COUNT(purchase_id) as value FROM purchases
+            UNION ALL
+            SELECT 'books_purchased', COUNT(*) FROM purchases
+            UNION ALL
+            SELECT 'not_found_count', COUNT(ISBN) FROM hits WHERE NOT found
+            UNION ALL
+            SELECT 'total_hits', SUM(hits) FROM hits
+            UNION ALL
+            SELECT 'error_hits', SUM(hits) FROM hits WHERE NOT found
+        SQL;
 
-        $nacquisti = $dbal->fetchOne('SELECT COUNT(purchase_id) FROM purchases') ?: 0;
+        $results = $this->connection->fetchAllAssociative($sql);
 
-        // conto i libri acquistati
-        $libriacq = $dbal->fetchOne('SELECT COUNT(*) FROM purchases') ?: 0;
+        $stats = array_column($results, 'value', 'metric');
 
-        // conto i libri non trovati
-        $nerrori = $dbal->fetchOne('SELECT COUNT(ISBN) FROM hits WHERE NOT found') ?: 0;
+        $stats['successful_hits'] = ($stats['total_hits'] ?? 0) - ($stats['error_hits'] ?? 0);
 
-        // conto gli spari totali
-        $totspari = $dbal->fetchOne('SELECT SUM(hits) FROM hits') ?: 0;
-
-        // conto gli spari falliti
-        $errspari = $dbal->fetchOne('SELECT SUM(hits) FROM hits WHERE NOT found') ?: 0;
-
-        // calcolo gli spari con successo
-        $spariok = $totspari - $errspari;
-
-        return compact(
-            'nacquisti',
-            'libriacq',
-            'nerrori',
-            'totspari',
-            'errspari',
-            'spariok',
-        );
+        return [
+            'nacquisti' => (int) ($stats['purchases_count'] ?? 0),
+            'libriacq' => (int) ($stats['books_purchased'] ?? 0),
+            'nerrori' => (int) ($stats['not_found_count'] ?? 0),
+            'totspari' => (int) ($stats['total_hits'] ?? 0),
+            'errspari' => (int) ($stats['error_hits'] ?? 0),
+            'spariok' => (int) $stats['successful_hits'],
+        ];
     }
 }

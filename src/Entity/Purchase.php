@@ -21,7 +21,12 @@ class Purchase
     /**
      * @var Collection<PurchaseLine>
      */
-    #[ORM\OneToMany(targetEntity: PurchaseLine::class, mappedBy: 'purchase', cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(
+        targetEntity: PurchaseLine::class,
+        mappedBy: 'purchase',
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true,
+    )]
     private Collection $lines;
 
     public function __construct()
@@ -64,6 +69,19 @@ class Purchase
             $line->setBook($book);
             $line->setPurchase($this);
             $this->lines->add($line);
+        }
+
+        return $this;
+    }
+
+    public function removeBook(Book $book): self
+    {
+        $line = $this->lines->findFirst(
+            fn ($id, PurchaseLine $line) => $line->getBook()->getId() === $book->getId(),
+        );
+
+        if ($line) {
+            $this->lines->removeElement($line);
         }
 
         return $this;

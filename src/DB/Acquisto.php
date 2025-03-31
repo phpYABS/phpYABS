@@ -83,18 +83,11 @@ class Acquisto
         return false;
     }
 
-    public function delBook(string $bookId): bool
+    public function delBook(string $bookId): void
     {
-        $purchase = $this->purchaseLineRepository->findOneBy(['purchase' => $this->purchase, 'book' => $bookId]);
-
-        if ($purchase) {
-            $this->em->remove($purchase);
-            $this->em->flush();
-
-            return true;
-        }
-
-        return false;
+        $book = $this->bookRepository->find($bookId);
+        $this->purchase->removeBook($book);
+        $this->em->flush();
     }
 
     public function numBook(): int

@@ -90,9 +90,9 @@ class Acquisto
         $this->em->flush();
     }
 
-    public function numBook(): int
+    public function count(): int
     {
-        return $this->purchaseLineRepository->count(['purchase' => $this->purchase]);
+        return $this->purchase->getLines()->count();
     }
 
     public function getAcquisti(): iterable

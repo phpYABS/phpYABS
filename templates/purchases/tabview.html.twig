@@ -43,7 +43,7 @@
         <tr>
             <th>{{ 'book.list.actions.title'|trans }}:</th>
             <td class="book-actions">
-                <a href="{{ path('purchase_current', {id: purchase_id, Cancella: bookId}) }}">{{ 'book.list.actions.delete'|trans }}</a>
+                <a href="{{ path('purchase_current', {id: purchase_id, delete: bookId}) }}">{{ 'book.list.actions.delete'|trans }}</a>
                 <a href="{{ path('book_edit', {ISBN: ISBN}) }}">{{ 'book.list.actions.edit'|trans }}</a>
             </td>
         </tr>

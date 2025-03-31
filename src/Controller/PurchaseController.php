@@ -72,8 +72,8 @@ class PurchaseController extends AbstractController
 
         if ($request->request->has('newISBN')) {
             $trovato = $acquisto->addBook($request->request->get('newISBN'));
-        } elseif ($request->query->has('Cancella')) {
-            $acquisto->delBook($request->query->get('Cancella'));
+        } elseif ($request->query->has('delete')) {
+            $acquisto->delBook($request->query->get('delete'));
         }
 
         return $this->render('purchases/current.html.twig', [

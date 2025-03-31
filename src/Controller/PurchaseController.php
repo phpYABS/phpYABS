@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace PhpYabs\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
-use PhpYabs\DB\Acquisto;
 use PhpYabs\Repository\BookRepository;
 use PhpYabs\Repository\HitRepository;
 use PhpYabs\Repository\PurchaseLineRepository;
 use PhpYabs\Repository\PurchaseRepository;
+use PhpYabs\Service\PurchaseService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -50,7 +50,7 @@ class PurchaseController extends AbstractController
             $session->remove('totaleb');
         }
 
-        $acquisto = new Acquisto(
+        $acquisto = new PurchaseService(
             $this->entityManager,
             $this->purchaseRepository,
             $this->purchaseLineRepository,

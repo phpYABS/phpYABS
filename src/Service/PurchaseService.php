@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpYabs\DB;
+namespace PhpYabs\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Money\Money;
@@ -14,7 +14,7 @@ use PhpYabs\Repository\HitRepository;
 use PhpYabs\Repository\PurchaseLineRepository;
 use PhpYabs\Repository\PurchaseRepository;
 
-class Acquisto
+class PurchaseService
 {
     private ?Purchase $purchase;
 

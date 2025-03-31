@@ -29,7 +29,7 @@ class StatisticsRepository
         SQL;
 
         $results = $this->connection->fetchAllAssociative($sql);
-        
+
         return array_column($results, 'value', 'metric');
     }
 }

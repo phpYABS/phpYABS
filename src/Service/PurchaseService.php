@@ -101,6 +101,7 @@ class PurchaseService
 
             if ($book instanceof Book) {
                 $fields['bookId'] = $book->getId();
+                $fields['quantity'] = $line->getQuantity();
                 $fields['title'] = $book->getTitle();
                 $fields['author'] = $book->getAuthor();
                 $fields['publisher'] = $book->getPublisher();

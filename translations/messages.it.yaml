@@ -33,6 +33,7 @@ book.list.destination: 'Dest'
 book.list.actions.title: 'Azioni'
 book.list.actions.delete: 'Cancella'
 book.list.actions.edit: 'Modifica'
+book.list.quantity: 'Quantità'
 book.search.button: 'Cerca'
 book.delete.search.button: 'Cerca'
 

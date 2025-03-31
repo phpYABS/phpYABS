@@ -52,4 +52,20 @@ class Purchase
 
         return $this;
     }
+
+    public function addBook(Book $book): self
+    {
+        $line = $this->lines->findFirst(
+            fn (PurchaseLine $line) => $line->getBook()->getId() === $book->getId(),
+        );
+
+        if (!$line) {
+            $line = new PurchaseLine();
+            $line->setBook($book);
+            $line->setPurchase($this);
+            $this->lines->add($line);
+        }
+
+        return $this;
+    }
 }

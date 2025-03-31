@@ -9,7 +9,6 @@ use Money\Money;
 use PhpYabs\Entity\Book;
 use PhpYabs\Entity\Hit;
 use PhpYabs\Entity\Purchase;
-use PhpYabs\Entity\PurchaseLine;
 use PhpYabs\Repository\BookRepository;
 use PhpYabs\Repository\HitRepository;
 use PhpYabs\Repository\PurchaseLineRepository;
@@ -69,13 +68,10 @@ class Acquisto
         }
 
         if ($book) {
-            $purchase = new PurchaseLine();
-            $purchase->setBook($book)
-                ->setPurchase($this->purchase)
-            ;
+            $this->getId(); // ensure persist of purchase
+            $this->purchase->addBook($book);
 
             $hit->matched();
-            $this->em->persist($purchase);
             $this->em->flush();
 
             return true;

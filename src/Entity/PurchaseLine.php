@@ -16,8 +16,8 @@ class PurchaseLine
     private ?Book $book;
 
     #[ORM\Id]
-    #[ORM\Column(name: 'purchase_id', options: ['default' => 0])]
-    private ?int $purchaseId;
+    #[ORM\ManyToOne]
+    private ?Purchase $purchase;
 
     #[ORM\Column(name: 'quantity', options: ['default' => 1])]
     private int $quantity = 1;
@@ -34,14 +34,14 @@ class PurchaseLine
         return $this;
     }
 
-    public function getPurchaseId(): ?int
+    public function getPurchase(): ?Purchase
     {
-        return $this->purchaseId;
+        return $this->purchase;
     }
 
-    public function setPurchaseId(?int $purchaseId): self
+    public function setPurchase(?Purchase $purchase): self
     {
-        $this->purchaseId = $purchaseId;
+        $this->purchase = $purchase;
 
         return $this;
     }

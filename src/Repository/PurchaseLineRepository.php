@@ -23,17 +23,6 @@ class PurchaseLineRepository extends ServiceEntityRepository
         parent::__construct($registry, PurchaseLine::class);
     }
 
-    public function list(): array
-    {
-        $sql = <<<SQL
-        SELECT purchase_id, COUNT(purchase_id) AS `count`
-        FROM purchase_lines
-        GROUP BY purchase_id
-        SQL;
-
-        return $this->getEntityManager()->getConnection()->fetchAllAssociative($sql);
-    }
-
     public function getCurrentId(): int
     {
         $sql = <<<SQL

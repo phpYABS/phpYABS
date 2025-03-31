@@ -15,7 +15,7 @@ class StatisticsRepository
     public function getStatistics(): array
     {
         $sql = <<<SQL
-            SELECT 'purchases_count' as metric, COALESCE(COUNT(DISTINCT purchase_id), 0) as value FROM purchases
+            SELECT 'purchases_count' as metric, COALESCE(COUNT(DISTINCT purchase_id), 0) as value FROM purchase_lines
             UNION ALL
             SELECT 'books_purchased', COALESCE(COUNT(*), 0) FROM purchases
             UNION ALL

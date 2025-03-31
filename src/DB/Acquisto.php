@@ -8,39 +8,50 @@ use Doctrine\ORM\EntityManagerInterface;
 use Money\Money;
 use PhpYabs\Entity\Book;
 use PhpYabs\Entity\Hit;
+use PhpYabs\Entity\Purchase;
 use PhpYabs\Entity\PurchaseLine;
 use PhpYabs\Repository\BookRepository;
 use PhpYabs\Repository\HitRepository;
 use PhpYabs\Repository\PurchaseLineRepository;
+use PhpYabs\Repository\PurchaseRepository;
 
 class Acquisto
 {
-    private int $ID;
+    private ?Purchase $purchase;
 
     public function __construct(
         private readonly EntityManagerInterface $em,
-        private readonly PurchaseLineRepository $purchaseRepository,
+        private readonly PurchaseRepository $purchaseRepository,
+        private readonly PurchaseLineRepository $purchaseLineRepository,
         private readonly BookRepository $bookRepository,
         private readonly HitRepository $hitRepository,
     ) {
-        $this->ID = $this->purchaseRepository->getCurrentId() + 1;
+        $this->purchase = $this->purchaseRepository->getLatest();
+        if (!$this->purchase || !$this->purchase->getLines()->isEmpty()) {
+            $this->purchase = new Purchase();
+        }
     }
 
     public function getID(): int
     {
-        return $this->ID;
+        if (!$this->purchase->getId()) {
+            $this->em->persist($this->purchase);
+            $this->em->flush();
+        }
+
+        return $this->purchase->getId();
     }
 
     public function setID(int $ID): bool
     {
-        if ($ID === $this->ID) {
+        if ($ID === $this->purchase->getId()) {
             return true;
         }
 
-        $entity = $this->purchaseRepository->findOneBy(['purchaseId' => $ID]);
+        $entity = $this->purchaseRepository->find($ID);
 
         if ($entity) {
-            $this->ID = $ID;
+            $this->purchase = $entity;
 
             return true;
         }
@@ -60,7 +71,7 @@ class Acquisto
         if ($book) {
             $purchase = new PurchaseLine();
             $purchase->setBook($book)
-                ->setPurchaseId($this->ID)
+                ->setPurchase($this->purchase)
             ;
 
             $hit->matched();
@@ -78,7 +89,7 @@ class Acquisto
 
     public function delBook(string $bookId): bool
     {
-        $purchase = $this->purchaseRepository->findOneBy(['purchaseId' => $this->ID, 'book' => $bookId]);
+        $purchase = $this->purchaseLineRepository->findOneBy(['purchase' => $this->purchase, 'book' => $bookId]);
 
         if ($purchase) {
             $this->em->remove($purchase);
@@ -92,12 +103,12 @@ class Acquisto
 
     public function numBook(): int
     {
-        return $this->purchaseRepository->count(['purchaseId' => $this->ID]);
+        return $this->purchaseLineRepository->count(['purchase' => $this->purchase]);
     }
 
     public function getAcquisti(): iterable
     {
-        $purchases = $this->purchaseRepository->findBy(['purchaseId' => $this->ID]);
+        $purchases = $this->purchaseLineRepository->findBy(['purchase' => $this->purchase]);
 
         $numero = 0;
         foreach ($purchases as $purchase) {
@@ -137,7 +148,7 @@ class Acquisto
      */
     public function getBill(): array
     {
-        $purchases = $this->purchaseRepository->findBy(['purchaseId' => $this->ID]);
+        $purchases = $this->purchaseLineRepository->findBy(['purchase' => $this->purchase]);
 
         $totaleb = Money::EUR(0);
         $totalec = Money::EUR(0);

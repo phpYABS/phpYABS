@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use PhpYabs\DB\Acquisto;
 use PhpYabs\Repository\BookRepository;
 use PhpYabs\Repository\HitRepository;
-use PhpYabs\Repository\PurchaseRepository;
+use PhpYabs\Repository\PurchaseLineRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -19,7 +19,7 @@ class PurchaseController extends AbstractController
 {
     public function __construct(
         EntityManagerInterface $entityManager,
-        private readonly PurchaseRepository $purchaseRepository,
+        private readonly PurchaseLineRepository $purchaseRepository,
         private readonly BookRepository $bookRepository,
         private readonly HitRepository $hitRepository,
     ) {

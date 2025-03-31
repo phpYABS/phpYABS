@@ -8,10 +8,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Money\Money;
 use PhpYabs\Entity\Book;
 use PhpYabs\Entity\Hit;
-use PhpYabs\Entity\Purchase;
+use PhpYabs\Entity\PurchaseLine;
 use PhpYabs\Repository\BookRepository;
 use PhpYabs\Repository\HitRepository;
-use PhpYabs\Repository\PurchaseRepository;
+use PhpYabs\Repository\PurchaseLineRepository;
 
 class Acquisto
 {
@@ -19,7 +19,7 @@ class Acquisto
 
     public function __construct(
         private readonly EntityManagerInterface $em,
-        private readonly PurchaseRepository $purchaseRepository,
+        private readonly PurchaseLineRepository $purchaseRepository,
         private readonly BookRepository $bookRepository,
         private readonly HitRepository $hitRepository,
     ) {
@@ -58,7 +58,7 @@ class Acquisto
         }
 
         if ($book) {
-            $purchase = new Purchase();
+            $purchase = new PurchaseLine();
             $purchase->setBook($book)
                 ->setPurchaseId($this->ID)
             ;

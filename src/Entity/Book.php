@@ -179,15 +179,10 @@ class Book
         };
     }
 
-    public function getDestinations(): Collection
+    public function getDestinations(): string
     {
-        return $this->destinations;
-    }
-
-    public function setDestinations(Collection $destinations): Book
-    {
-        $this->destinations = $destinations;
-
-        return $this;
+        return implode(', ', $this->destinations->map(
+            fn (Destination $d) => $d->getDestination(),
+        )->toArray());
     }
 }

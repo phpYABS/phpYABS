@@ -111,17 +111,7 @@ class PurchaseService
                 $fields['rate'] = $book->getRate()->value;
                 $fields['storeCredit'] = $book->getStoreCredit();
                 $fields['cashValue'] = $book->getCashValue();
-                $fields['dest'] = $book
-                    ->getDestinations()
-                    ->map(fn ($d) => $d->getDestination())
-                    ->reduce(function ($a, $b) {
-                        if (strlen((string) $a) > 0) {
-                            return $a . ', ' . $b;
-                        }
-
-                        return $b;
-                    })
-                ;
+                $fields['dest'] = $book->getDestinations();
 
                 $fields['sequence'] = ++$numero;
 

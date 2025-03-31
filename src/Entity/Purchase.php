@@ -7,6 +7,7 @@ namespace PhpYabs\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Money\Money;
 use PhpYabs\Repository\PurchaseRepository;
 
 #[ORM\Table(name: 'purchases')]
@@ -78,5 +79,22 @@ class Purchase
         }
 
         return $this;
+    }
+
+    /**
+     * @return array<string,Money>
+     */
+    public function getBill(): array
+    {
+        $totaleb = Money::EUR(0);
+        $totalec = Money::EUR(0);
+
+        foreach ($this->lines as $line) {
+            $book = $line->getBook();
+            $totaleb = $totaleb->add($book->getStoreCredit()->multiply($line->getQuantity()));
+            $totalec = $totalec->add($book->getCashValue()->multiply($line->getQuantity()));
+        }
+
+        return ['totaleb' => $totaleb, 'totalec' => $totalec];
     }
 }

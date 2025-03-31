@@ -137,17 +137,8 @@ class Acquisto
      */
     public function getBill(): array
     {
-        $purchases = $this->purchaseLineRepository->findBy(['purchase' => $this->purchase]);
+        $this->getId(); // ensure persist of purchase
 
-        $totaleb = Money::EUR(0);
-        $totalec = Money::EUR(0);
-
-        foreach ($purchases as $purchase) {
-            $book = $purchase->getBook();
-            $totaleb = $totaleb->add($book->getStoreCredit());
-            $totalec = $totalec->add($book->getCashValue());
-        }
-
-        return ['totaleb' => $totaleb, 'totalec' => $totalec];
+        return $this->purchase->getBill();
     }
 }

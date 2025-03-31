@@ -51,13 +51,6 @@ class Purchase
         return $this->lines;
     }
 
-    public function setLines(Collection $lines): self
-    {
-        $this->lines = $lines;
-
-        return $this;
-    }
-
     public function addBook(Book $book): self
     {
         $line = $this->lines->findFirst(

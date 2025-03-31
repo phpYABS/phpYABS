@@ -106,7 +106,8 @@ class PurchaseService
                 $fields['author'] = $book->getAuthor();
                 $fields['publisher'] = $book->getPublisher();
                 $fields['price'] = $book->getPriceObject();
-                $fields['ISBN'] = $book->getFullIsbn();
+                $fields['fullISBN'] = $book->getFullIsbn();
+                $fields['ISBN'] = $book->getIsbnWithoutChecksum();
                 $fields['rate'] = $book->getRate()->value;
                 $fields['storeCredit'] = $book->getStoreCredit();
                 $fields['cashValue'] = $book->getCashValue();

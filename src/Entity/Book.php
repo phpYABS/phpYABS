@@ -149,6 +149,11 @@ class Book
         return (string) ISBN::fromString($this->isbn)->version10;
     }
 
+    public function getIsbnWithoutChecksum(): string
+    {
+        return ISBN::fromString($this->isbn)->version10->withoutChecksum;
+    }
+
     public function getPriceObject(): Money
     {
         return Money::EUR((int) ((float) $this->price * 100));

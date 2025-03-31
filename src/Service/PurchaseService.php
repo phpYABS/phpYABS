@@ -6,6 +6,7 @@ namespace PhpYabs\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Money\Money;
+use PhpYabs\DTO\PurchaseLineDTO;
 use PhpYabs\Entity\Book;
 use PhpYabs\Entity\Hit;
 use PhpYabs\Entity\Purchase;
@@ -93,29 +94,30 @@ class PurchaseService
         return $this->purchase->getLines()->count();
     }
 
+    /**
+     * @return iterable<PurchaseLineDTO>
+     */
     public function getLines(): iterable
     {
-        $numero = 0;
-        foreach ($this->purchase->getLines() as $line) {
+        foreach ($this->purchase->getLines() as $i => $line) {
             $book = $line->getBook();
 
             if ($book instanceof Book) {
-                $fields['bookId'] = $book->getId();
-                $fields['quantity'] = $line->getQuantity();
-                $fields['title'] = $book->getTitle();
-                $fields['author'] = $book->getAuthor();
-                $fields['publisher'] = $book->getPublisher();
-                $fields['price'] = $book->getPriceObject();
-                $fields['fullISBN'] = $book->getFullIsbn();
-                $fields['ISBN'] = $book->getIsbnWithoutChecksum();
-                $fields['rate'] = $book->getRate()->value;
-                $fields['storeCredit'] = $book->getStoreCredit();
-                $fields['cashValue'] = $book->getCashValue();
-                $fields['dest'] = $book->getDestinations();
-
-                $fields['sequence'] = ++$numero;
-
-                yield $fields;
+                yield new PurchaseLineDTO(
+                    bookId: $book->getId(),
+                    quantity: $line->getQuantity(),
+                    title: $book->getTitle(),
+                    author: $book->getAuthor(),
+                    publisher: $book->getPublisher(),
+                    price: $book->getPriceObject(),
+                    fullISBN: $book->getFullIsbn(),
+                    ISBN: $book->getIsbnWithoutChecksum(),
+                    rate: $book->getRate()->value,
+                    storeCredit: $book->getStoreCredit(),
+                    cashValue: $book->getCashValue(),
+                    dest: $book->getDestinations(),
+                    sequence: $i + 1,
+                );
             }
         }
     }

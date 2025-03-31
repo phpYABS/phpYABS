@@ -14,7 +14,7 @@
     {% endif %}
 
     {% for acq in acquisto.lines %}
-        {% include 'purchases/tabview.html.twig' with acq %}
+        {% include 'purchases/tabview.html.twig' with acq.toArray %}
     {% endfor %}
 
     {% if not trovato %}

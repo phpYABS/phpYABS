@@ -59,14 +59,14 @@ class PurchaseController extends AbstractController
         );
 
         if ('current' === $id && $session->has('purchase_id')) {
-            $acquisto->setID($session->get('purchase_id'));
+            $acquisto->setId($session->get('purchase_id'));
         } elseif (preg_match('/^\\d+$/', $id)) {
-            if (!$acquisto->setID((int) $id)) {
+            if (!$acquisto->setId((int) $id)) {
                 $errmsg = "L'acquisto $id non esiste!";
             }
         }
 
-        $session->set('purchase_id', $acquisto->getID());
+        $session->set('purchase_id', $acquisto->getId());
 
         $trovato = true;
 
@@ -78,7 +78,7 @@ class PurchaseController extends AbstractController
 
         return $this->render('purchases/current.html.twig', [
             'acquisto' => $acquisto,
-            'purchase_id' => $acquisto->getID(),
+            'purchase_id' => $acquisto->getId(),
             'trovato' => $trovato,
             'errmsg' => $errmsg ?? '',
         ]);

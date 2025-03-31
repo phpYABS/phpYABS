@@ -32,7 +32,7 @@ class Acquisto
         }
     }
 
-    public function getID(): int
+    public function getId(): int
     {
         if (!$this->purchase->getId()) {
             $this->em->persist($this->purchase);
@@ -42,13 +42,13 @@ class Acquisto
         return $this->purchase->getId();
     }
 
-    public function setID(int $ID): bool
+    public function setId(int $id): bool
     {
-        if ($ID === $this->purchase->getId()) {
+        if ($id === $this->purchase->getId()) {
             return true;
         }
 
-        $entity = $this->purchaseRepository->find($ID);
+        $entity = $this->purchaseRepository->find($id);
 
         if ($entity) {
             $this->purchase = $entity;

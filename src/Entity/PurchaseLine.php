@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace PhpYabs\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use PhpYabs\Repository\PurchaseLineRepository;
 
 #[ORM\Table(name: 'purchase_lines')]
-#[ORM\Entity(repositoryClass: PurchaseLineRepository::class)]
+#[ORM\Entity]
 class PurchaseLine
 {
     #[ORM\Id]

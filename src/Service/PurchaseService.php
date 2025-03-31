@@ -11,7 +11,6 @@ use PhpYabs\Entity\Hit;
 use PhpYabs\Entity\Purchase;
 use PhpYabs\Repository\BookRepository;
 use PhpYabs\Repository\HitRepository;
-use PhpYabs\Repository\PurchaseLineRepository;
 use PhpYabs\Repository\PurchaseRepository;
 
 class PurchaseService
@@ -21,7 +20,6 @@ class PurchaseService
     public function __construct(
         private readonly EntityManagerInterface $em,
         private readonly PurchaseRepository $purchaseRepository,
-        private readonly PurchaseLineRepository $purchaseLineRepository,
         private readonly BookRepository $bookRepository,
         private readonly HitRepository $hitRepository,
     ) {
@@ -95,13 +93,11 @@ class PurchaseService
         return $this->purchase->getLines()->count();
     }
 
-    public function getAcquisti(): iterable
+    public function getLines(): iterable
     {
-        $purchases = $this->purchaseLineRepository->findBy(['purchase' => $this->purchase]);
-
         $numero = 0;
-        foreach ($purchases as $purchase) {
-            $book = $purchase->getBook();
+        foreach ($this->purchase->getLines() as $line) {
+            $book = $line->getBook();
 
             if ($book instanceof Book) {
                 $fields['bookId'] = $book->getId();

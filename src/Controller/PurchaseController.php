@@ -7,7 +7,6 @@ namespace PhpYabs\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpYabs\Repository\BookRepository;
 use PhpYabs\Repository\HitRepository;
-use PhpYabs\Repository\PurchaseLineRepository;
 use PhpYabs\Repository\PurchaseRepository;
 use PhpYabs\Service\PurchaseService;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +20,6 @@ class PurchaseController extends AbstractController
     public function __construct(
         EntityManagerInterface $entityManager,
         private readonly PurchaseRepository $purchaseRepository,
-        private readonly PurchaseLineRepository $purchaseLineRepository,
         private readonly BookRepository $bookRepository,
         private readonly HitRepository $hitRepository,
     ) {
@@ -53,7 +51,6 @@ class PurchaseController extends AbstractController
         $acquisto = new PurchaseService(
             $this->entityManager,
             $this->purchaseRepository,
-            $this->purchaseLineRepository,
             $this->bookRepository,
             $this->hitRepository,
         );

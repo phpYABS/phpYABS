@@ -13,7 +13,7 @@
         <p class="error-message">{{ errmsg }}</p>
     {% endif %}
 
-    {% for acq in acquisto.acquisti %}
+    {% for acq in acquisto.lines %}
         {% include 'purchases/tabview.html.twig' with acq %}
     {% endfor %}
 

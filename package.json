@@ -10,6 +10,8 @@
         "vue": "^3.5.13"
     },
     "devDependencies": {
+        "@hotwired/stimulus": "^3.0.0",
+        "@symfony/stimulus-bridge": "^3.2.0",
         "@vitejs/plugin-vue": "^5.2.3",
         "@vue/tsconfig": "^0.7.0",
         "typescript": "^5.8.2",

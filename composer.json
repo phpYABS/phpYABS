@@ -35,6 +35,7 @@
         "symfony/translation": "^7.2",
         "symfony/twig-bundle": "^7.2",
         "symfony/uid": "^7.2",
+        "symfony/ux-translator": "^2.23",
         "symfony/ux-vue": "^2.23",
         "symfony/validator": "^7.2",
         "symfony/var-dumper": "^7.2",

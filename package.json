@@ -12,9 +12,11 @@
     "devDependencies": {
         "@hotwired/stimulus": "^3.0.0",
         "@symfony/stimulus-bridge": "^3.2.0",
+        "@symfony/ux-translator": "file:vendor/symfony/ux-translator/assets",
         "@symfony/ux-vue": "file:vendor/symfony/ux-vue/assets",
         "@vitejs/plugin-vue": "^5.2.3",
         "@vue/tsconfig": "^0.7.0",
+        "intl-messageformat": "^10.5.11",
         "typescript": "^5.8.2",
         "vite": "^6.0",
         "vite-plugin-symfony": "^8.0"

@@ -1,28 +1,4 @@
 {% extends "base.html.twig" %}
 {% block content %}
-<section class="book-list">
-    <table class="book-table">
-        <thead>
-            <tr>
-                <th>{{ 'book.fields.isbn'|trans }}</th>
-                <th>{{ 'book.fields.title'|trans }}</th>
-                <th>{{ 'book.fields.author'|trans }}</th>
-                <th>{{ 'book.fields.publisher'|trans }}</th>
-                <th>{{ 'book.fields.price'|trans }}</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for book in books %}
-                <tr>
-                    <td>{{ book.ISBN }}</td>
-                    <td>{{ book.title }}</td>
-                    <td>{{ book.author }}</td>
-                    <td>{{ book.publisher }}</td>
-                    <td>{{ book.priceObject | money_format }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <p class="book-count">{{ 'book.list.count'|trans({'%count%': count}) }}</p>
-</section>
+    <div {{ vue_component('BookList') }}></div>
 {% endblock content %}

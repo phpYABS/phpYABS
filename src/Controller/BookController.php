@@ -71,7 +71,14 @@ class BookController extends AbstractController
 
         $books = $this->bookRepository->findPaginated($offset, 50);
 
-        return $this->render('books/list.html.twig', compact('count', 'books'));
+        $parameters = compact('count', 'books');
+
+        $contentTypes = $request->getAcceptableContentTypes();
+        if (array_any($contentTypes, fn($type) => str_contains($type, 'json'))) {
+            return $this->json($parameters);
+        }
+
+        return $this->render('books/list.html.twig', $parameters);
     }
 
     #[Route('/{ISBN}/delete', name: 'book_delete', methods: ['GET', 'POST'])]

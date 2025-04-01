@@ -6,6 +6,8 @@ services:
     ports:
       - "18080:80"
     environment:
+      - APP_ENV=dev
+      - APP_DEBUG=1
       - DATABASE_URL=pdo-mysql://phpyabs:yabbadabbadoo@database/phpyabs
     volumes:
       - .:/var/www/project

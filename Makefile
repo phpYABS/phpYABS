@@ -51,6 +51,14 @@ composer:
 composer-install:
 	docker compose exec php composer install
 
+.PHONY: npm-install
+npm-install:
+	docker compose run --rm node npm install
+
+.PHONY: npm-update
+npm-update:
+	docker compose run --rm node npm update
+
 vendor/autoload.php:
 	$(MAKE) get-ready
 

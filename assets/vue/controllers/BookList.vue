@@ -91,12 +91,6 @@ onMounted(() => {
       td {
         padding: 1rem;
         color: #212529;
-
-        // Price column specific styling
-        &:last-child {
-          font-family: monospace;
-          text-align: right;
-        }
       }
     }
   }

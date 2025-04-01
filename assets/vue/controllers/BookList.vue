@@ -46,5 +46,99 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
+.book-list {
+  padding: 1.5rem;
 
+  .book-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+
+    thead {
+      background-color: #f8f9fa;
+
+      th {
+        padding: 1rem;
+        text-align: left;
+        font-weight: 600;
+        color: #495057;
+        border-bottom: 2px solid #dee2e6;
+        white-space: nowrap;
+      }
+    }
+
+    tbody {
+      tr {
+        &:hover {
+          background-color: #f8f9fa;
+        }
+
+        &:not(:last-child) {
+          border-bottom: 1px solid #dee2e6;
+        }
+      }
+
+      td {
+        padding: 1rem;
+        color: #212529;
+
+        // Price column specific styling
+        &:last-child {
+          font-family: monospace;
+          text-align: right;
+        }
+      }
+    }
+  }
+
+  .book-count {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  .loading {
+    text-align: center;
+    padding: 2rem;
+    color: #6c757d;
+  }
+
+  .error-message {
+    background-color: #fff3f3;
+    color: #dc3545;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ffcdd2;
+    margin-bottom: 1rem;
+  }
+
+  // Responsive design
+  @media (max-width: 768px) {
+    padding: 1rem;
+
+    .book-table {
+      display: block;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+
+      th, td {
+        padding: 0.75rem;
+      }
+    }
+  }
+
+  // Fade transition
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.3s ease;
+  }
+
+  .fade-enter-from,
+  .fade-leave-to {
+    opacity: 0;
+  }
+}
 </style>

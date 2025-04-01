@@ -18,6 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Index(name: 'author', columns: ['author'])]
 #[ORM\Index(name: 'publisher', columns: ['publisher'])]
 #[ORM\Entity(repositoryClass: BookRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 #[UniqueEntity(fields: 'isbn')]
 class Book
 {
@@ -26,8 +27,8 @@ class Book
     #[ORM\GeneratedValue]
     private ?int $id;
 
-    #[Assert\Length(min: 9, max: 9)]
-    #[ORM\Column(name: 'ISBN', length: 9, unique: true, options: ['fixed' => true])]
+    #[Assert\Isbn]
+    #[ORM\Column(name: 'ISBN', length: 13, unique: true)]
     private ?string $isbn = null;
 
     #[Assert\NotBlank]
@@ -184,5 +185,12 @@ class Book
         return implode(', ', $this->destinations->map(
             fn (Destination $d) => $d->getDestination(),
         )->toArray());
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function convertISBNto13(): void
+    {
+        $this->isbn = (string) ISBN::fromString($this->isbn)->version13;
     }
 }

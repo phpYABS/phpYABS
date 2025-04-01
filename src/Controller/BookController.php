@@ -9,7 +9,6 @@ use PhpYabs\Entity\Book;
 use PhpYabs\Entity\Rate;
 use PhpYabs\Form\BookType;
 use PhpYabs\Repository\BookRepository;
-use PhpYabs\ValueObject\ISBN10;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -116,11 +115,6 @@ class BookController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $book = $form->getData();
-            $isbn = ISBN10::fromNineDigits($book->getISBN());
-            $book
-                ->setISBN($isbn->withoutChecksum)
-            ;
-
             $this->entityManager->persist($book);
             $this->entityManager->flush();
 

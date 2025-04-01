@@ -12,8 +12,7 @@ const BookSchema = z.object({
   title: z.string().nonempty(),
   author: z.string().nonempty(),
   publisher: z.string().nonempty(),
-  price: z.string().nonempty(),
-  priceObject: PriceSchema,
+  price: PriceSchema,
 });
 
 export type Book = z.infer<typeof BookSchema>;

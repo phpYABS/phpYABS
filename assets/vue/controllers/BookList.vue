@@ -42,7 +42,7 @@ onMounted(() => {
           <td>{{ book.title }}</td>
           <td>{{ book.author }}</td>
           <td>{{ book.publisher }}</td>
-          <td>{{ fmt(book.priceObject) }}</td>
+          <td>{{ fmt(book.price) }}</td>
         </tr>
       </tbody>
     </table>

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace PhpYabs\Entity;
 
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 use PhpYabs\Repository\BookRepository;
@@ -43,8 +42,8 @@ class Book
     #[ORM\Column(name: 'publisher', length: 25)]
     private ?string $publisher = 'NULL';
 
-    #[ORM\Column(name: 'price', type: Types::DECIMAL, precision: 5, scale: 2, options: ['default' => 0.00])]
-    private ?string $price = '0.00';
+    #[ORM\Column(type: 'money')]
+    private ?Money $price = null;
 
     #[ORM\Column(enumType: Rate::class)]
     private ?Rate $rate = Rate::ZERO;
@@ -115,7 +114,7 @@ class Book
         return $this;
     }
 
-    public function getPrice(): ?string
+    public function getPrice(): ?Money
     {
         return $this->price;
     }
@@ -123,11 +122,9 @@ class Book
     public function setPrice(string|int|Money $price): Book
     {
         if ($price instanceof Money) {
-            $this->price = bcdiv($price->getAmount(), '100', 2);
-        } elseif (is_int($price)) {
-            $this->price = bcdiv((string) $price, '100', 2);
-        } else {
             $this->price = $price;
+        } else {
+            $this->price = Money::EUR($price);
         }
 
         return $this;
@@ -155,17 +152,12 @@ class Book
         return ISBN::fromString($this->isbn)->version10->withoutChecksum;
     }
 
-    public function getPriceObject(): Money
-    {
-        return Money::EUR((int) ((float) $this->price * 100));
-    }
-
     public function getStoreCredit(): Money
     {
         return match ($this->getRate()) {
             Rate::ROTMED => Money::EUR(50),
             Rate::ROTSUP => Money::EUR(100),
-            Rate::BUONO => $this->getPriceObject()->divide(3),
+            Rate::BUONO => $this->getPrice()->divide(3),
             default => Money::EUR(0),
         };
     }
@@ -175,7 +167,7 @@ class Book
         return match ($this->getRate()) {
             Rate::ROTMED => Money::EUR(50),
             Rate::ROTSUP => Money::EUR(100),
-            Rate::BUONO => $this->getPriceObject()->divide(4),
+            Rate::BUONO => $this->getPrice()->divide(4),
             default => Money::EUR(0),
         };
     }

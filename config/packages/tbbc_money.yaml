@@ -1,0 +1,13 @@
+tbbc_money:
+    currencies: ["USD", "EUR"]
+    reference_currency: "EUR"
+    decimals: 2
+
+doctrine:
+    dbal:
+        types:
+            money: Tbbc\MoneyBundle\Type\MoneyType
+
+twig:
+    form_themes:
+        - '@TbbcMoney/Form/fields.html.twig'

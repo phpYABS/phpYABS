@@ -74,7 +74,7 @@ class BookController extends AbstractController
         $parameters = compact('count', 'books');
 
         $contentTypes = $request->getAcceptableContentTypes();
-        if (array_any($contentTypes, fn($type) => str_contains($type, 'json'))) {
+        if (array_any($contentTypes, fn ($type) => str_contains($type, 'json'))) {
             return $this->json($parameters);
         }
 

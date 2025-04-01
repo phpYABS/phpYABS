@@ -13,14 +13,14 @@ interface BookResponse {
 
 export const bookService = {
   async getBooks(): Promise<BookResponse> {
-    const response = await fetch('/books', {
+    const response = await fetch("/books", {
       headers: {
-        'Accept': 'application/json'
+        "Accept": "application/json"
       }
     });
     
     if (!response.ok) {
-      throw new Error('Failed to fetch books');
+      throw new Error("Failed to fetch books");
     }
     
     return response.json();

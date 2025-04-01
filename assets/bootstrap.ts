@@ -1,4 +1,4 @@
-import { startStimulusApp, registerControllers } from "vite-plugin-symfony/stimulus/helpers"
+import { registerControllers, startStimulusApp } from "vite-plugin-symfony/stimulus/helpers"
 import { registerVueControllerComponents, type VueModule } from "vite-plugin-symfony/stimulus/helpers/vue"
 
 // register Vue components before startStimulusApp

@@ -3,7 +3,9 @@ import symfonyPlugin from "vite-plugin-symfony";
 
 export default defineConfig({
     plugins: [
-        symfonyPlugin(),
+        symfonyPlugin({
+            viteDevServerHostname: "localhost",
+        }),
     ],
     build: {
         rollupOptions: {
@@ -12,4 +14,7 @@ export default defineConfig({
             },
         }
     },
+    server: {
+        host: "0.0.0.0"
+    }
 });

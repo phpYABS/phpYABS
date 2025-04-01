@@ -9,7 +9,10 @@
 {% if updated %}
     <p class="success-message">{{ 'book.edit.success'|trans }}</p>
 {% elseif book %}
-    {{ form(form) }}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit" >{{ 'book.actions.modify' | trans }}</button>
+    {{ form_end(form) }}
 {% else %}
     {% include "books/tabsearch4mod.html.twig" %}
 {% endif %}

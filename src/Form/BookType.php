@@ -9,7 +9,6 @@ use PhpYabs\Entity\Rate;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -28,7 +27,6 @@ class BookType extends AbstractType
                 'choice_label' => 'name',
                 'label' => 'book.fields.rating',
             ])
-            ->add('save', SubmitType::class, ['label' => 'book.actions.add'])
         ;
     }
 

@@ -11,17 +11,19 @@
         {{ vite_entry_script_tags('app') }}
     {% endblock %}
 </head>
-<body {% block body_attr %}{% endblock %}>
+<body class="body-layout" {% block body_attr %}{% endblock %}>
 {% block body %}
-    <header>
-        <nav id="menu">
-            {% include 'menu.html.twig' %}
-        </nav>
-    </header>
-    <main id="content">
-        {% block content %}
-        {% endblock content %}
-    </main>
+    <div class="layout-container">
+        <header class="header-layout">
+            <nav id="menu" class="nav-layout">
+                {% include 'menu.html.twig' %}
+            </nav>
+        </header>
+        <main id="content" class="main-layout">
+            {% block content %}
+            {% endblock content %}
+        </main>
+    </div>
 {% endblock body %}
 </body>
 </html>

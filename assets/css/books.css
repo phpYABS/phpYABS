@@ -1,121 +1,87 @@
+@import "tailwindcss";
+
 .book-form {
-    width: 600px;
-    margin: 0 auto;
-    border: 1px solid #dcdde1;
-    border-radius: 5px;
-    padding: 20px;
+    @apply w-96 mx-auto border border-gray-300 rounded-lg p-5;
 }
 
 .book-form th {
-    width: 80px;
-    text-align: left;
-    padding: 10px;
+    @apply w-20 text-left p-2.5;
 }
 
 .book-form td {
-    padding: 10px;
+    @apply p-2.5;
 }
 
 .book-form input[type="text"],
 .book-form select {
-    width: 300px;
-    padding: 8px;
-    border: 1px solid #dcdde1;
-    border-radius: 4px;
+    @apply w-72 p-2 border border-gray-300 rounded;
 }
 
 .book-form input[type="submit"],
 .book-form input[type="reset"] {
-    padding: 8px 15px;
-    margin: 5px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    @apply p-2 px-4 m-1.5 border-none rounded cursor-pointer transition-colors duration-300 ease-in-out;
 }
 
 .book-form input[type="submit"] {
-    background-color: #3498db;
-    color: #ffffff;
+    @apply bg-blue-600 text-white;
 }
 
 .book-form input[type="submit"]:hover {
-    background-color: #2980b9;
+    @apply bg-blue-700;
 }
 
 .book-form input[type="reset"] {
-    background-color: #e74c3c;
-    color: #ffffff;
+    @apply bg-red-500 text-white;
 }
 
 .book-form input[type="reset"]:hover {
-    background-color: #c0392b;
+    @apply bg-red-600;
 }
 
 .book-table {
-    width: 590px;
-    margin: 0 auto;
-    border: 1px solid #dcdde1;
-    border-radius: 5px;
-    border-collapse: collapse;
+    @apply w-96 mx-auto border border-gray-300 rounded-lg border-collapse;
 }
 
 .book-table th {
-    width: 80px;
-    text-align: left;
-    padding: 10px;
-    background-color: #f8f9fa;
+    @apply w-20 text-left p-2.5 bg-gray-100;
 }
 
 .book-table td {
-    padding: 10px;
+    @apply p-2.5;
 }
 
 .book-table tr:nth-child(even) {
-    background-color: #f8f9fa;
+    @apply bg-gray-100;
 }
 
 .book-actions {
-    display: flex;
-    gap: 10px;
+    @apply flex gap-2.5;
 }
 
 .book-actions a {
-    padding: 5px 10px;
-    border-radius: 4px;
-    background-color: #f8f9fa;
-    color: #2c3e50;
-    transition: all 0.3s ease;
+    @apply p-1.5 px-2.5 rounded bg-gray-100 text-gray-800 transition-all duration-300 ease-in-out;
 }
 
 .book-actions a:hover {
-    background-color: #3498db;
-    color: #ffffff;
+    @apply bg-blue-600 text-white;
 }
 
 .book-search {
-    text-align: center;
-    margin: 20px 0;
+    @apply text-center my-5;
 }
 
 .book-search input[type="text"] {
-    padding: 8px;
-    border: 1px solid #dcdde1;
-    border-radius: 4px;
-    width: 200px;
-    margin-right: 10px;
+    @apply p-2 border border-gray-300 rounded w-48 mr-2.5;
 }
 
 .book-search input[type="submit"] {
-    padding: 8px 15px;
-    background-color: #3498db;
-    color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    @apply p-2 px-4 bg-blue-600 text-white border-none rounded cursor-pointer transition-colors duration-300 ease-in-out;
 }
 
 .book-search input[type="submit"]:hover {
-    background-color: #2980b9;
+    @apply bg-blue-700;
+}
+
+#book_price {
+    @apply w-15/20 mr-2;
 }

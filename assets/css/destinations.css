@@ -1,175 +1,105 @@
+@import "tailwindcss";
+
 .destinations {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+    @apply max-w-5xl mx-auto p-5;
 }
 
 .page-number {
-    text-align: center;
-    color: #7f8c8d;
-    margin-bottom: 20px;
+    @apply text-center text-gray-600 mb-5;
 }
 
 .destination-form {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    @apply bg-white p-5 rounded-lg shadow-md;
 }
 
 .destination-header {
-    margin-bottom: 20px;
-    text-align: center;
+    @apply mb-5 text-center;
 }
 
 .destination-header label {
-    display: block;
-    margin-bottom: 5px;
-    color: #2c3e50;
-    font-weight: 500;
+    @apply block mb-1 text-gray-800 font-medium;
 }
 
 .destination-header input[type="text"] {
-    width: 100%;
-    max-width: 400px;
-    padding: 8px 12px;
-    border: 1px solid #dcdde1;
-    border-radius: 4px;
-    font-size: 16px;
+    @apply w-full max-w-md p-2 border border-gray-300 rounded text-base;
 }
 
 .destination-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
+    @apply w-full border-collapse my-5;
 }
 
 .destination-table th,
 .destination-table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #dcdde1;
+    @apply p-3 text-left border-b border-gray-300;
 }
 
 .destination-table th {
-    background-color: #f8f9fa;
-    font-weight: 600;
-    color: #2c3e50;
+    @apply bg-gray-100 font-semibold text-gray-800;
 }
 
 .destination-table tr:hover {
-    background-color: #f8f9fa;
+    @apply bg-gray-100;
 }
 
 .destination-actions {
-    display: flex;
-    gap: 20px;
+    @apply flex gap-5;
 }
 
 .radio-label {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    cursor: pointer;
+    @apply flex items-center gap-1.5 cursor-pointer;
 }
 
 .radio-label input[type="radio"] {
-    margin: 0;
+    @apply m-0;
 }
 
 .destination-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
+    @apply flex justify-center gap-2.5 mt-5;
 }
 
 .destination-buttons button {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.3s ease;
-}
-
-.destination-buttons button[type="submit"] {
-    background-color: #3498db;
-    color: #ffffff;
-}
-
-.destination-buttons button[type="submit"]:hover {
-    background-color: #2980b9;
-}
-
-.destination-buttons button[type="reset"] {
-    background-color: #e74c3c;
-    color: #ffffff;
-}
-
-.destination-buttons button[type="reset"]:hover {
-    background-color: #c0392b;
+    @apply p-2 px-4 border-none rounded cursor-pointer text-sm transition-all duration-300 ease-in-out;
 }
 
 .pagination {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin: 20px 0;
+    @apply flex justify-center gap-2.5 my-5;
 }
 
 .page-link {
-    padding: 5px 10px;
-    border: 1px solid #dcdde1;
-    border-radius: 4px;
-    color: #3498db;
-    text-decoration: none;
-    transition: all 0.3s ease;
+    @apply p-1.5 px-2.5 border border-gray-300 rounded text-blue-500 no-underline transition-all duration-300 ease-in-out;
 }
 
 .page-link:hover {
-    background-color: #3498db;
-    color: #ffffff;
-    border-color: #3498db;
+    @apply bg-blue-500 text-white;
 }
 
 .new-destination {
-    text-align: center;
-    margin-top: 20px;
+    @apply text-center mt-5;
 }
 
 .new-destination a {
-    display: inline-block;
-    padding: 8px 16px;
-    background-color: #2ecc71;
-    color: #ffffff;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
+    @apply inline-block p-2 px-4 bg-green-500 text-white no-underline rounded transition-colors duration-300 ease-in-out;
 }
 
 .new-destination a:hover {
-    background-color: #27ae60;
+    @apply bg-green-700;
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
     .destination-actions {
-        flex-direction: column;
-        gap: 10px;
+        @apply flex-col gap-2.5;
     }
 
     .destination-buttons {
-        flex-wrap: wrap;
+        @apply flex-wrap;
     }
 
     .destination-buttons button {
-        flex: 1;
-        min-width: 120px;
+        @apply flex-1 min-w-[120px];
     }
 
     .destination-table {
-        display: block;
-        overflow-x: auto;
+        @apply block overflow-x-auto;
     }
 }

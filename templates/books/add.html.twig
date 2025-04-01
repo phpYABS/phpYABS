@@ -7,6 +7,9 @@
 {% elseif inserted %}
     <p class="success-message">{{ 'book.add.success'|trans }}</p>
 {% else %}
-    {{ form(form) }}
+    {{ form_start(form, {attr: {class: 'sf-form'}}) }}
+    {{ form_widget(form) }}
+    <button type="submit" >{{ 'book.actions.add' | trans }}</button>
+    {{ form_end(form) }}
 {% endif %}
 {% endblock content %}

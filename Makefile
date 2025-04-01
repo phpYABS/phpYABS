@@ -59,6 +59,10 @@ npm-install:
 npm-update:
 	docker compose run --rm node npm update
 
+.PHONY: assets
+assets:
+	docker compose run --rm node npm run build
+
 vendor/autoload.php:
 	$(MAKE) get-ready
 

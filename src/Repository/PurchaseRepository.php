@@ -42,7 +42,7 @@ class PurchaseRepository extends ServiceEntityRepository
             ->orderBy('pl.id', 'DESC')
             ->setMaxResults(1)
             ->getQuery()
-            ->getSingleResult()
+            ->getOneOrNullResult()
         ;
     }
 }

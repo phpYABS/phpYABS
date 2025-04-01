@@ -6,6 +6,5 @@ namespace PhpYabs\Configuration;
 
 class Constants
 {
-    public const string VERSION = '0.2.0';
     public const string TIMEZONE = 'Europe/Rome';
 }

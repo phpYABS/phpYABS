@@ -15,7 +15,7 @@ class PurchaseLine
     private ?Book $book;
 
     #[ORM\Id]
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(inversedBy: 'lines')]
     private ?Purchase $purchase;
 
     #[ORM\Column(name: 'quantity', options: ['default' => 1])]

@@ -63,6 +63,11 @@ npm-update:
 assets:
 	docker compose run --rm node npm run build
 
+.PHONY: clean
+clean:
+	docker compose exec php bin/console cache:clear
+	docker compose exec node bash -c 'rm -f /app/public/build/assets/*'
+
 vendor/autoload.php:
 	$(MAKE) get-ready
 

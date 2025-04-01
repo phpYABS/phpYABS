@@ -17,6 +17,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.4",
         "doctrine/orm": "^3.3",
         "moneyphp/money": "^4.6",
+        "pentatrion/vite-bundle": "^8.0",
         "ronanguilloux/isocodes": "^2.3",
         "siburuxue/doctrine-helper": "^1.0",
         "symfony/flex": "^2.5",

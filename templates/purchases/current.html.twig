@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block title %}{{ 'purchase.evaluation.title'|trans }}{% endblock %}
 {% block stylesheets %}
+    {{ parent() }}
     <link href="/css/purchases.css" rel="stylesheet">
 {% endblock %}
 {% block body_attr %}onLoad="document.libro.newISBN.focus()"{% endblock %}

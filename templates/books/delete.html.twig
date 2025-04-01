@@ -1,9 +1,11 @@
 {% extends "base.html.twig" %}
 {% block title %}{{ 'book.delete.title'|trans }}{% endblock title %}
 {% block stylesheets %}
+    {{ parent() }}
     <link href="/css/books.css" rel="stylesheet">
 {% endblock %}
 {% block javascripts %}
+    {{ parent() }}
     <script src="/js/books/common.js"></script>
 {% endblock %}
 {% block content %}

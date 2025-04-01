@@ -4,9 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}phpYABS - menu{% endblock title %}</title>
-    <link href="/css/main.css" rel="stylesheet">
-    {% block stylesheets %}{% endblock %}
-    {% block javascripts %}{% endblock %}
+    {% block stylesheets %}
+        {{ vite_entry_link_tags('app') }}
+    {% endblock %}
+    {% block javascripts %}
+        {{ vite_entry_script_tags('app') }}
+    {% endblock %}
 </head>
 <body {% block body_attr %}{% endblock %}>
 {% block body %}

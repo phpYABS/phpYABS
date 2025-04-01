@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block title %}{{ 'destination.add.title'|trans }}{% endblock title %}
 {% block stylesheets %}
+    {{ parent() }}
     <link href="/css/destinations.css" rel="stylesheet">
 {% endblock %}
 {% block content %}

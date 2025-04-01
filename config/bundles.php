@@ -10,4 +10,5 @@ return [
     Doctrine\Helper\Bundle\DoctrineHelperBundle::class => ['all' => true],
     FriendsOfBehat\SymfonyExtension\Bundle\FriendsOfBehatSymfonyExtensionBundle::class => ['test' => true],
     Yceruto\MoneyBundle\MoneyBundle::class => ['all' => true],
+    Pentatrion\ViteBundle\PentatrionViteBundle::class => ['all' => true],
 ];

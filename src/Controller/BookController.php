@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace PhpYabs\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
-use PhpYabs\Entity\Book;
-use PhpYabs\Entity\Rate;
 use PhpYabs\Form\BookType;
 use PhpYabs\Repository\BookRepository;
 use Symfony\Component\Form\FormInterface;
@@ -100,14 +98,6 @@ class BookController extends AbstractController
         }
 
         return $this->render('books/delete.html.twig', $vars);
-    }
-
-    private function addRate(Request $request, Book $book): void
-    {
-        $rate = $request->get('rate');
-        if ($rate) {
-            $book->setRate(Rate::tryFrom($rate));
-        }
     }
 
     private function handleForm(FormInterface $form, Request $request): bool

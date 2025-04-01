@@ -1,6 +1,6 @@
 import { ref } from "vue";
 
-import { type Book, bookService } from "../services/bookService";
+import { type Book, bookService, formatPrice } from "../services/bookService";
 
 export function useBooks() {
   const books = ref<Book[]>([]);
@@ -29,6 +29,7 @@ export function useBooks() {
     count,
     loading,
     error,
-    fetchBooks
+    fetchBooks,
+    formatPrice,
   };
 } 

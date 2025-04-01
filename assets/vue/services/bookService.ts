@@ -1,15 +1,29 @@
-export interface Book {
-  isbn: string;
-  title: string;
-  author: string;
-  publisher: string;
-  price: number;
-}
+import z from "zod";
 
-interface BookResponse {
-  books: Book[];
-  count: number;
-}
+const PriceSchema = z.object({
+  currency: z.string().nonempty(),
+  amount: z.string().nonempty(),
+});
+
+type Price = z.infer<typeof PriceSchema>;
+
+const BookSchema = z.object({
+  isbn: z.string().nonempty(),
+  title: z.string().nonempty(),
+  author: z.string().nonempty(),
+  publisher: z.string().nonempty(),
+  price: z.string().nonempty(),
+  priceObject: PriceSchema,
+});
+
+export type Book = z.infer<typeof BookSchema>;
+
+const BookResponseSchema = z.object({
+  books: z.array(BookSchema),
+  count: z.number(),
+});
+
+export type BookResponse = z.infer<typeof BookResponseSchema>;
 
 export const bookService = {
   async getBooks(): Promise<BookResponse> {
@@ -23,6 +37,15 @@ export const bookService = {
       throw new Error("Failed to fetch books");
     }
     
-    return response.json();
+    return BookResponseSchema.parseAsync(await response.json());
   }
-}; 
+};
+
+export const formatPrice = (locale?: string) => (price: Price): string => {
+  const formatter = new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency: price.currency,
+  });
+
+  return formatter.format(Number(price.amount) / 100);
+};

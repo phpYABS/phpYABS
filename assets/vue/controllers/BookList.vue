@@ -12,7 +12,9 @@ import {
 } from "../../translator";
 import { useBooks } from "../composables/useBooks"
 
-const { books, count, fetchBooks } = useBooks()
+const { books, count, fetchBooks, formatPrice } = useBooks()
+const props = defineProps(["locale"]);
+const fmt = formatPrice(props.locale);
 
 onMounted(() => {
   fetchBooks()
@@ -40,7 +42,7 @@ onMounted(() => {
           <td>{{ book.title }}</td>
           <td>{{ book.author }}</td>
           <td>{{ book.publisher }}</td>
-          <td>{{ book.price }}</td>
+          <td>{{ fmt(book.priceObject) }}</td>
         </tr>
       </tbody>
     </table>

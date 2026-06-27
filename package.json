@@ -5,7 +5,9 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "lint": "npx eslint assets --fix"
+        "lint": "npx eslint assets --fix",
+        "cypress:open": "cypress open",
+        "e2e": "cypress run"
     },
     "dependencies": {
         "@tailwindcss/vite": "^4.1.0",
@@ -21,6 +23,7 @@
         "@symfony/ux-vue": "file:vendor/symfony/ux-vue/assets",
         "@vitejs/plugin-vue": "^5.2.3",
         "@vue/tsconfig": "^0.7.0",
+        "cypress": "^15.18.0",
         "eslint": "^9.23.0",
         "eslint-plugin-simple-import-sort": "^12.1.1",
         "eslint-plugin-vue": "^10.0.0",

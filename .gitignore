@@ -4,6 +4,12 @@ auth.json
 failure.png
 vendor
 
+###> cypress ###
+/cypress/screenshots/
+/cypress/videos/
+/cypress/downloads/
+###< cypress ###
+
 ###> friendsofphp/php-cs-fixer ###
 /.php-cs-fixer.php
 /.php-cs-fixer.cache

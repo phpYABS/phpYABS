@@ -26,9 +26,11 @@ over invoking tools directly, because the PHP/Node toolchain lives in the contai
 - `make pipeline` — full CI sequence: `get-ready` → unit → phpstan → cs-fixer.
 
 Tests & quality (each shells into the container):
-- `make phpunit` — full PHPUnit suite. Pass args via `args=...`, e.g. `make phpunit args="--filter ISBN13Test"`
-  to run a single test, or `make phpunit args=tests/ValueObject/ISBN13Test.php`.
-- `make unit` — runs `phpunit --testsuite=unit`.
+- `make phpunit` — full PHPUnit suite (PHPUnit 13). Pass args via `args=...`, e.g.
+  `make phpunit args="--filter ISBN13Test"` to run a single test, or `make phpunit args=tests/ValueObject/ISBN13Test.php`.
+- `make unit` — fast `unit` testsuite (everything under `tests/` except `tests/Integration/`, so no DB needed).
+  The companion `integration` testsuite (`tests/Integration/`) needs the database and runs as part of `make phpunit`.
+  Both suites are defined in `phpunit.dist.xml`.
 - `make behat` — Behat feature tests (`features/*.feature`, context in `tests/Behat/`). Uses MinkExtension
   with the Symfony driver (no real browser).
 - `make phpstan` — static analysis (level 4, config `phpstan.dist.neon`).

@@ -33,6 +33,8 @@ Tests & quality (each shells into the container):
   Both suites are defined in `phpunit.dist.xml`.
 - `make behat` — Behat feature tests (`features/*.feature`, context in `tests/Behat/`). Uses MinkExtension
   with the Symfony driver (no real browser).
+- `make e2e` — Cypress smoke tests (`cypress/e2e/`). Runs on the **host** (needs a browser), against the
+  dockerized app on `:18080` — bring it up with `make up` first. Also `npm run cypress:open` for the UI.
 - `make phpstan` — static analysis (level 4, config `phpstan.dist.neon`).
 - `make cs-fixer` / `make cs-fixer-dry` — PHP CS Fixer (config `.php-cs-fixer.dist.php`).
 - `make rector args=...` — Rector (config `rector.php`).

@@ -13,6 +13,7 @@ use PhpYabs\Entity\Purchase;
 use PhpYabs\Repository\BookRepository;
 use PhpYabs\Repository\HitRepository;
 use PhpYabs\Repository\PurchaseRepository;
+use PhpYabs\ValueObject\ISBN;
 
 class PurchaseService
 {
@@ -59,10 +60,19 @@ class PurchaseService
 
     public function addBook(string $ISBN): bool
     {
-        $book = $this->bookRepository->findOneBy(['isbn' => $ISBN]);
-        $hit = $this->hitRepository->findOneBy(['isbn' => $ISBN]);
+        try {
+            $isbn = ISBN::fromString($ISBN);
+        } catch (\InvalidArgumentException) {
+            return false;
+        }
+
+        $book = $this->bookRepository->findOneBy(['isbn' => (string) $isbn->version13]);
+
+        // the hits table is keyed on the 9-digit ISBN core (CHAR(9) column)
+        $hitKey = $isbn->version10->withoutChecksum;
+        $hit = $this->hitRepository->findOneBy(['isbn' => $hitKey]);
         if (!$hit) {
-            $hit = new Hit()->setIsbn($ISBN);
+            $hit = new Hit()->setIsbn($hitKey);
             $this->em->persist($hit);
         }
 
@@ -109,7 +119,7 @@ class PurchaseService
                     title: $book->getTitle(),
                     author: $book->getAuthor(),
                     publisher: $book->getPublisher(),
-                    price: $book->getPriceObject(),
+                    price: $book->getPrice(),
                     fullISBN: $book->getFullIsbn(),
                     ISBN: $book->getIsbnWithoutChecksum(),
                     rate: $book->getRate()->value,

@@ -55,15 +55,20 @@ class PurchaseController extends AbstractController
             $this->hitRepository,
         );
 
+        $isExplicitId = (bool) preg_match('/^\\d+$/', $id);
+
         if ('current' === $id && $session->has('purchase_id')) {
             $acquisto->setId($session->get('purchase_id'));
-        } elseif (preg_match('/^\\d+$/', $id)) {
+        } elseif ($isExplicitId) {
             if (!$acquisto->setId((int) $id)) {
                 $errmsg = "L'acquisto $id non esiste!";
             }
         }
 
-        $session->set('purchase_id', $acquisto->getId());
+        // viewing an explicit purchase must not turn it into the session's current cart
+        if (!$isExplicitId) {
+            $session->set('purchase_id', $acquisto->getId());
+        }
 
         $trovato = true;
 

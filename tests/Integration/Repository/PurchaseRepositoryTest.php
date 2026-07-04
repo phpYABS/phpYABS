@@ -12,6 +12,7 @@ use PhpYabs\Entity\Book;
 use PhpYabs\Entity\Purchase;
 use PhpYabs\Repository\BookRepository;
 use PhpYabs\Repository\PurchaseRepository;
+use PhpYabs\ValueObject\ISBN;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 #[CoversClass(PurchaseRepository::class)]
@@ -74,9 +75,11 @@ class PurchaseRepositoryTest extends KernelTestCase
         return $purchase;
     }
 
-    private function bakeBook(string $isbn): ?Book
+    private function bakeBook(string $isbn): Book
     {
-        $book = $this->bookRepository->findOneBy(['isbn' => $isbn]);
+        // books are stored under their ISBN-13 form (see Book::convertISBNto13)
+        $stored = (string) ISBN::fromString($isbn)->version13;
+        $book = $this->bookRepository->findOneBy(['isbn' => $stored]);
         if (!$book) {
             $book = new Book()
                 ->setIsbn($isbn)

@@ -38,11 +38,11 @@ abstract class ISBN implements \Stringable
         throw new \InvalidArgumentException('Invalid ISBN provided');
     }
 
-    public abstract ISBN10 $version10 {
+    abstract public ISBN10 $version10 {
         get;
     }
 
-    public abstract ISBN13 $version13 {
+    abstract public ISBN13 $version13 {
         get;
     }
 

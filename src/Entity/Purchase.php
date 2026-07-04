@@ -55,7 +55,7 @@ class Purchase
     public function addBook(Book $book): self
     {
         $line = $this->lines->findFirst(
-            fn (PurchaseLine $line) => $line->getBook()->getId() === $book->getId(),
+            fn ($id, PurchaseLine $line) => $line->getBook()->getId() === $book->getId(),
         );
 
         if (!$line) {

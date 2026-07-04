@@ -35,21 +35,6 @@
             "migrations/.gitignore"
         ]
     },
-    "friends-of-behat/symfony-extension": {
-        "version": "2.6",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "main",
-            "version": "2.0",
-            "ref": "1e012e04f573524ca83795cd19df9ea690adb604"
-        },
-        "files": [
-            "behat.yml.dist",
-            "config/services_test.yaml",
-            "features/demo.feature",
-            "tests/Behat/DemoContext.php"
-        ]
-    },
     "friendsofphp/php-cs-fixer": {
         "version": "3.73",
         "recipe": {
@@ -96,15 +81,6 @@
             "phpunit.dist.xml",
             "tests/bootstrap.php"
         ]
-    },
-    "siburuxue/doctrine-helper": {
-        "version": "1.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "main",
-            "version": "1.0",
-            "ref": "b5d5e097e1037ea03aa254078130a32e1ca2e066"
-        }
     },
     "symfony/console": {
         "version": "7.2",

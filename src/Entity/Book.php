@@ -43,7 +43,7 @@ class Book
     #[ORM\Column(name: 'publisher', length: 25)]
     private ?string $publisher = 'NULL';
 
-    #[ORM\Column(type: 'money')]
+    #[ORM\Column(type: 'money', length: 255)]
     private ?Money $price = null;
 
     #[ORM\Column(enumType: Rate::class)]

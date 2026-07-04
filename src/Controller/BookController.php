@@ -37,8 +37,8 @@ class BookController extends AbstractController
     #[Route('/edit', name: 'book_search_for_edit', methods: ['GET', 'POST'])]
     public function searchForEditAction(Request $request): Response
     {
-        $ISBN = $request->get('ISBN');
-        if ($ISBN) {
+        $ISBN = (string) $request->request->get('ISBN', $request->query->get('ISBN', ''));
+        if ('' !== $ISBN) {
             return $this->redirectToRoute('book_edit', ['ISBN' => $ISBN]);
         }
 
@@ -87,12 +87,9 @@ class BookController extends AbstractController
     {
         $vars = ['deleted' => false, 'book' => null, 'rate' => null];
 
-        $ISBN = $request->get('ISBN');
-        if ($ISBN) {
-            $book = $this->bookRepository->findOneBy(['isbn' => $ISBN]);
-        } else {
-            $book = null;
-        }
+        $ISBN = (string) ($request->attributes->get('ISBN')
+            ?? $request->request->get('ISBN', $request->query->get('ISBN', '')));
+        $book = '' !== $ISBN ? $this->bookRepository->findOneBy(['isbn' => $ISBN]) : null;
 
         $delete = $book && 'true' === $request->request->get('delete');
         if ($delete) {

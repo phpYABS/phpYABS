@@ -1,8 +1,11 @@
-import { setLocaleFallbacks, trans } from "@symfony/ux-translator";
+import { createTranslator, getDefaultLocale } from "@symfony/ux-translator";
 
-import { localeFallbacks } from "../var/translations/configuration";
+import { localeFallbacks, messages } from "../var/translations";
 
-setLocaleFallbacks(localeFallbacks);
+const { trans, setLocale } = createTranslator({
+  messages,
+  locale: getDefaultLocale(),
+  localeFallbacks,
+});
 
-export { trans };
-export * from "../var/translations";
+export { setLocale, trans };

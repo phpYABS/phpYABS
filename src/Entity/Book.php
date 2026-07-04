@@ -150,12 +150,17 @@ class Book
 
     public function getFullIsbn(): string
     {
-        return (string) ISBN::fromString($this->isbn)->version10;
+        $isbn13 = ISBN::fromString((string) $this->isbn)->version13;
+
+        // 979-prefixed ISBNs have no ISBN-10 equivalent
+        return str_starts_with((string) $isbn13, '978')
+            ? (string) $isbn13->version10
+            : (string) $isbn13;
     }
 
     public function getIsbnWithoutChecksum(): string
     {
-        return ISBN::fromString($this->isbn)->version10->withoutChecksum;
+        return substr((string) ISBN::fromString((string) $this->isbn)->version13, 3, 9);
     }
 
     public function getStoreCredit(): Money

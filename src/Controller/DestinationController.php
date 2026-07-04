@@ -23,54 +23,55 @@ class DestinationController extends AbstractController
         parent::__construct($entityManager);
     }
 
-    #[Route('/destinations', name: 'destination_list', methods: ['GET'])]
+    #[Route('/destinations', name: 'destination_list', methods: ['GET', 'POST'])]
     public function index(Request $request, SessionInterface $session): Response
     {
         $data = ['books' => []];
         $totlibri = $this->bookRepository->countAll();
         $data['totLibri'] = $totlibri;
 
+        // navigation arrives via GET links, saves and paging buttons via POST
+        $input = $request->isMethod('POST') ? $request->request : $request->query;
+
         $get_start = 0;
         $destination = '';
 
-        if ('_NEW' !== $request->query->get('destination', '')) {
-            $destination = $request->query->get('destination') ?? $session->get('destination', '');
-            $get_start = (int) ($request->query->get('start') ?? $session->get('start', 0));
+        if ('_NEW' !== $input->get('destination', '')) {
+            $destination = $input->get('destination') ?? $session->get('destination', '');
+            $get_start = (int) ($input->get('start') ?? $session->get('start', 0));
         }
         $data['destination'] = $destination;
 
         $session->set('start', $get_start);
         $session->set('destination', $destination);
 
-        switch ($request->query->get('invia', '')) {
-            case 'Avanti':
+        switch ($request->isMethod('POST') ? $input->get('invia', '') : '') {
+            case 'forward':
                 $start = $get_start + 50;
                 if ($start > $totlibri) {
                     $start = $totlibri - ($totlibri % 50);
                 }
                 break;
-            case 'Indietro':
-                $start = $get_start - 50;
-                if ($start < 0) {
-                    $start = 0;
-                }
+            case 'back':
+                $start = max($get_start - 50, 0);
                 break;
             default:
-                if (strlen((string) $get_start) > 0) {
-                    $start = $get_start;
-                } else {
-                    $start = 0;
-                }
+                $start = $get_start;
                 break;
         }
         if (!strlen($destination)) {
             $start = 0;
         }
+        $data['start'] = $start;
+        $session->set('start', $start);
         $pag = (int) ($start / 50) + 1;
         $data['pag'] = $pag;
         if (strlen($destination) > 0) {
-            if ($request->query->has('destina')) {
-                $destina = $request->query->all('destina');
+            if ($request->isMethod('POST')
+                && $request->request->has('destina')
+                && $this->isCsrfTokenValid('submit', $request->request->getString('_token'))
+            ) {
+                $destina = $request->request->all('destina');
                 foreach ($destina as $chiave => $valore) {
                     $book = $this->bookRepository->find($chiave);
                     if (!$book) {

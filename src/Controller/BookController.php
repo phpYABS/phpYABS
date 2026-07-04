@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PhpYabs\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
+use PhpYabs\Entity\Book;
 use PhpYabs\Form\BookType;
 use PhpYabs\Repository\BookRepository;
 use Symfony\Component\Form\FormInterface;
@@ -61,6 +62,12 @@ class BookController extends AbstractController
     #[Route('', name: 'book_list', methods: ['GET'])]
     public function index(Request $request): Response
     {
+        $contentTypes = $request->getAcceptableContentTypes();
+        if (!array_any($contentTypes, fn ($type) => str_contains($type, 'json'))) {
+            // the HTML page is fully client-rendered and fetches its own data
+            return $this->render('books/list.html.twig');
+        }
+
         $count = $this->bookRepository->countAll();
         $offset = $request->query->get('offset', '0');
         if (is_string($offset) && preg_match('/^\\d+$/', $offset)) {
@@ -69,16 +76,20 @@ class BookController extends AbstractController
             $offset = 0;
         }
 
-        $books = $this->bookRepository->findPaginated($offset, 50);
+        // expose a flat DTO instead of the entity: serializing Book would drag in
+        // every getter (lazy destinations, ISBN conversions that throw on bad data)
+        $books = array_map(
+            fn (Book $book) => [
+                'isbn' => $book->getIsbn(),
+                'title' => $book->getTitle(),
+                'author' => $book->getAuthor(),
+                'publisher' => $book->getPublisher(),
+                'price' => $book->getPrice(),
+            ],
+            [...$this->bookRepository->findPaginated($offset, 50)],
+        );
 
-        $parameters = compact('count', 'books');
-
-        $contentTypes = $request->getAcceptableContentTypes();
-        if (array_any($contentTypes, fn ($type) => str_contains($type, 'json'))) {
-            return $this->json($parameters);
-        }
-
-        return $this->render('books/list.html.twig', $parameters);
+        return $this->json(compact('count', 'books'));
     }
 
     #[Route('/{ISBN}/delete', name: 'book_delete', methods: ['GET', 'POST'])]
@@ -91,7 +102,8 @@ class BookController extends AbstractController
             ?? $request->request->get('ISBN', $request->query->get('ISBN', '')));
         $book = '' !== $ISBN ? $this->bookRepository->findOneBy(['isbn' => $ISBN]) : null;
 
-        $delete = $book && 'true' === $request->request->get('delete');
+        $delete = $book && 'true' === $request->request->get('delete')
+            && $this->isCsrfTokenValid('submit', $request->request->getString('_token'));
         if ($delete) {
             $this->entityManager->remove($book);
             $this->entityManager->flush();

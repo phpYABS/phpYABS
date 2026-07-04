@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PhpYabs\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\Persistence\ManagerRegistry;
 use PhpYabs\Entity\Destination;
@@ -41,7 +42,8 @@ class DestinationRepository extends ServiceEntityRepository
         LIMIT :offset,50
         SQL;
 
-        return $this->getEntityManager()->getConnection()->fetchAllAssociative(
+        $connection = $this->getEntityManager()->getConnection();
+        $rows = $connection->fetchAllAssociative(
             $sql,
             [
                 'destination' => $destination,
@@ -52,5 +54,14 @@ class DestinationRepository extends ServiceEntityRepository
                 'offset' => Types::INTEGER,
             ],
         );
+
+        // the raw column holds the tbbc "EUR <cents>" encoding; hand templates a Money
+        $moneyType = Type::getType('money');
+        $platform = $connection->getDatabasePlatform();
+        foreach ($rows as &$row) {
+            $row['price'] = $moneyType->convertToPHPValue($row['price'], $platform);
+        }
+
+        return $rows;
     }
 }

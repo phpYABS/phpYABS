@@ -1,8 +1,0 @@
-services:
-    _defaults:
-        autowire: true
-        autoconfigure: true
-
-    PhpYabs\Tests\Behat\:
-        public: true
-        resource: '../tests/Behat/*'

@@ -10,7 +10,7 @@ to be partially broken at any given time — the rewrite is in progress.
 
 ## Stack
 
-- **Backend**: Symfony 8 (PHP `^8.5`), Doctrine ORM 3 + DBAL 3, MariaDB.
+- **Backend**: Symfony 8 (PHP `^8.5`), Doctrine ORM 3 + DBAL 4, MariaDB.
 - **Frontend**: Vite + Vue 3 + Stimulus (Symfony UX), Tailwind 4, TypeScript, served via `pentatrion/vite-bundle`.
 - **Money**: `moneyphp/money` + `tbbc/money-bundle` — never use floats for monetary amounts.
 - **PSR-4**: `PhpYabs\` → `src/`, `PhpYabs\Tests\` → `tests/`.
@@ -31,10 +31,8 @@ Tests & quality (each shells into the container):
 - `make unit` — fast `unit` testsuite (everything under `tests/` except `tests/Integration/`, so no DB needed).
   The companion `integration` testsuite (`tests/Integration/`) needs the database and runs as part of `make phpunit`.
   Both suites are defined in `phpunit.dist.xml`.
-- `make behat` — Behat feature tests (`features/*.feature`, context in `tests/Behat/`). Uses MinkExtension
-  with the Symfony driver (no real browser).
 - `make e2e` — Cypress smoke tests (`cypress/e2e/`). Runs on the **host** (not in a container), against the
-  dockerized app on `:18080` — bring it up with `make up` first. Requires a local `npm install` and a Node
+  dockerized app on `:18888` — bring it up with `make up` first. Requires a local `npm install` and a Node
   version compatible with Cypress 15 (`^20.1 || ^22 || >=24`). Also `npm run cypress:open` for the UI.
 - `make phpstan` — static analysis (level 4, config `phpstan.dist.neon`).
 - `make cs-fixer` / `make cs-fixer-dry` — PHP CS Fixer (config `.php-cs-fixer.dist.php`).
@@ -46,7 +44,7 @@ Frontend / assets:
 - `npm run dev` (the `node` container runs this by default) — Vite dev server on port 5173.
 - `npm run lint` — ESLint with `--fix` over `assets/`.
 
-Local ports: app `:18080`, MariaDB `:13306`, phpMyAdmin `:18090`, Vite `:5173`.
+Local ports: app `:18888`, MariaDB `:13306`, phpMyAdmin `:18090`, Vite `:5173`.
 
 ## Architecture
 

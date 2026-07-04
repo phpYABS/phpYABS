@@ -1,19 +1,11 @@
 <script setup lang="ts">
 import { onMounted } from "vue"
 
-import {
-  BOOK_FIELDS_AUTHOR,
-  BOOK_FIELDS_ISBN,
-  BOOK_FIELDS_PRICE,
-  BOOK_FIELDS_PUBLISHER,
-  BOOK_FIELDS_TITLE,
-  BOOK_LIST_COUNT,
-  trans,
-} from "../../translator";
+import { trans } from "../../translator";
 import { useBooks } from "../composables/useBooks"
 
 const { books, count, fetchBooks, formatPrice } = useBooks()
-const props = defineProps(["locale"]);
+const props = defineProps({ locale: { type: String, required: true } });
 const fmt = formatPrice(props.locale);
 
 onMounted(() => {
@@ -26,11 +18,11 @@ onMounted(() => {
     <table class="book-table">
       <thead>
         <tr>
-          <th>{{ trans(BOOK_FIELDS_ISBN) }}</th>
-          <th>{{ trans(BOOK_FIELDS_TITLE) }}</th>
-          <th>{{ trans(BOOK_FIELDS_AUTHOR) }}</th>
-          <th>{{ trans(BOOK_FIELDS_PUBLISHER) }}</th>
-          <th>{{ trans(BOOK_FIELDS_PRICE) }}</th>
+          <th>{{ trans("book.fields.isbn") }}</th>
+          <th>{{ trans("book.fields.title") }}</th>
+          <th>{{ trans("book.fields.author") }}</th>
+          <th>{{ trans("book.fields.publisher") }}</th>
+          <th>{{ trans("book.fields.price") }}</th>
         </tr>
       </thead>
       <tbody>
@@ -47,7 +39,7 @@ onMounted(() => {
       </tbody>
     </table>
     <p class="book-count">
-      {{ trans(BOOK_LIST_COUNT, { "%count%": count }) }}
+      {{ trans("book.list.count", { "%count%": count }) }}
     </p>
   </section>
 </template>

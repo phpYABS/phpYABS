@@ -96,7 +96,7 @@ cs-fixer-dry: vendor/autoload.php
 	docker compose exec php vendor/bin/php-cs-fixer fix -v --dry-run
 
 # Cypress smoke tests run on the host (needs a browser + local `npm install`),
-# against the dockerized app on :18080 — bring it up with `make up` first.
+# against the dockerized app on :18888 — bring it up with `make up` first.
 .PHONY: e2e
 e2e:
 	npm run e2e

@@ -66,10 +66,12 @@ class PurchaseService
             return false;
         }
 
-        $book = $this->bookRepository->findOneBy(['isbn' => (string) $isbn->version13]);
+        $isbn13 = (string) $isbn->version13;
+        $book = $this->bookRepository->findOneBy(['isbn' => $isbn13]);
 
-        // the hits table is keyed on the 9-digit ISBN core (CHAR(9) column)
-        $hitKey = $isbn->version10->withoutChecksum;
+        // the hits table is keyed on the 9-digit ISBN core (CHAR(9) column);
+        // derive it from the ISBN-13 to avoid the lossy 13-to-10 conversion
+        $hitKey = substr($isbn13, 3, 9);
         $hit = $this->hitRepository->findOneBy(['isbn' => $hitKey]);
         if (!$hit) {
             $hit = new Hit()->setIsbn($hitKey);

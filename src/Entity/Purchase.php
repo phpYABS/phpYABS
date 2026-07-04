@@ -55,7 +55,7 @@ class Purchase
     public function addBook(Book $book): self
     {
         $line = $this->lines->findFirst(
-            fn ($id, PurchaseLine $line) => $line->getBook()->getId() === $book->getId(),
+            fn ($key, PurchaseLine $line) => $line->getBook()->getId() === $book->getId(),
         );
 
         if (!$line) {
@@ -71,7 +71,7 @@ class Purchase
     public function removeBook(Book $book): self
     {
         $line = $this->lines->findFirst(
-            fn ($id, PurchaseLine $line) => $line->getBook()->getId() === $book->getId(),
+            fn ($key, PurchaseLine $line) => $line->getBook()->getId() === $book->getId(),
         );
 
         if ($line) {

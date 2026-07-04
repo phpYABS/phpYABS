@@ -85,7 +85,7 @@ behat: vendor/autoload.php
 
 .PHONY: phpstan
 phpstan: vendor/autoload.php
-	docker compose exec php vendor/bin/phpstan analyze -v
+	docker compose exec php vendor/bin/phpstan analyze -v --memory-limit=512M
 
 .PHONY: rector
 rector: vendor/autoload.php

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PhpYabs\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
@@ -53,6 +54,11 @@ class Book
      */
     #[ORM\OneToMany(targetEntity: Destination::class, mappedBy: 'book', cascade: ['persist', 'remove'])]
     private Collection $destinations;
+
+    public function __construct()
+    {
+        $this->destinations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {

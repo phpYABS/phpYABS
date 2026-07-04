@@ -30,9 +30,13 @@ final class ISBN10 extends ISBN
 
     public static function from13(ISBN13 $isbn): ISBN10
     {
-        $clean = preg_replace('[^0-9]', '', (string) $isbn);
+        // only the 978 range maps back to ISBN-10; a 979 "conversion" would
+        // silently produce the ISBN-10 of a different (978) book
+        if (!str_starts_with((string) $isbn, '978')) {
+            throw new \InvalidArgumentException('Only 978-prefixed ISBN-13 can be converted to ISBN-10');
+        }
 
-        return self::fromNineDigits(substr((string) $clean, 3, 9));
+        return self::fromNineDigits(substr((string) $isbn, 3, 9));
     }
 
     #[\Override]

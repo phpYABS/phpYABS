@@ -5,7 +5,8 @@
     <h1>{{ 'destination.add.title'|trans }}</h1>
     <p class="page-number">{{ 'destination.add.page'|trans }} {{ pag }}</p>
 
-    <form action="{{ path('destination_list') }}" method="GET" class="destination-form">
+    <form action="{{ path('destination_list') }}" method="post" class="destination-form">
+        <input type="hidden" name="_token" value="{{ csrf_token('submit') }}" data-controller="csrf-protection">
         {% if destination %}
             <input type="hidden" name="destination" value="{{ destination | upper }}">
         {% endif %}
@@ -46,7 +47,7 @@
                         <td>{{ book.title }}</td>
                         <td>{{ book.author }}</td>
                         <td>{{ book.publisher }}</td>
-                        <td>{{ book.price | format_currency('EUR') }}</td>
+                        <td>{{ book.price ? (book.price | money_format) }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

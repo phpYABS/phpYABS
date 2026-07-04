@@ -97,6 +97,10 @@ class PurchaseService
     public function delBook(string $bookId): void
     {
         $book = $this->bookRepository->find($bookId);
+        if (!$book) {
+            return;
+        }
+
         $this->purchase->removeBook($book);
         $this->em->flush();
     }

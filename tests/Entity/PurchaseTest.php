@@ -29,7 +29,7 @@ class PurchaseTest extends TestCase
         $this->assertCount(2, $purchase->getLines());
     }
 
-    public function testAddSameBookTwiceKeepsSingleLine(): void
+    public function testAddSameBookTwiceIncrementsQuantity(): void
     {
         $book = $this->makeBook(1);
 
@@ -38,6 +38,7 @@ class PurchaseTest extends TestCase
         $purchase->addBook($book);
 
         $this->assertCount(1, $purchase->getLines());
+        $this->assertSame(2, $purchase->getLines()->first()->getQuantity());
     }
 
     public function testRemoveBook(): void

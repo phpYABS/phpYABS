@@ -57,6 +57,19 @@ class PurchaseServiceTest extends KernelTestCase
         $this->assertTrue(Money::EUR(1000)->equals($lines[0]->price));
         $this->assertSame(1, $lines[0]->sequence);
         $this->assertSame(2, $lines[1]->sequence);
+
+        // the re-scan of $isbn2 above incremented its quantity
+        $this->assertSame([1, 2], [$lines[0]->quantity, $lines[1]->quantity]);
+    }
+
+    public function testDelBookWithUnknownIdIsANoOp(): void
+    {
+        $service = $this->makeService();
+        $before = $service->count();
+
+        $service->delBook('99999999');
+
+        $this->assertSame($before, $service->count());
     }
 
     private function makeService(): PurchaseService

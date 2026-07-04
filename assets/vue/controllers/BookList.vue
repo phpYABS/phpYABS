@@ -4,7 +4,18 @@ import { onMounted } from "vue"
 import { trans } from "../../translator";
 import { useBooks } from "../composables/useBooks"
 
-const { books, count, fetchBooks, formatPrice } = useBooks()
+const {
+  books,
+  count,
+  page,
+  pageCount,
+  loading,
+  error,
+  fetchBooks,
+  nextPage,
+  previousPage,
+  formatPrice,
+} = useBooks()
 const props = defineProps({ locale: { type: String, required: true } });
 const fmt = formatPrice(props.locale);
 
@@ -15,6 +26,18 @@ onMounted(() => {
 
 <template>
   <section class="book-list">
+    <p
+      v-if="error"
+      class="error-message"
+    >
+      {{ trans("book.list.error") }}
+    </p>
+    <p
+      v-if="loading"
+      class="loading"
+    >
+      {{ trans("book.list.loading") }}
+    </p>
     <table class="book-table">
       <thead>
         <tr>
@@ -41,6 +64,24 @@ onMounted(() => {
     <p class="book-count">
       {{ trans("book.list.count", { "%count%": count }) }}
     </p>
+    <nav
+      v-if="pageCount > 1"
+      class="pagination"
+    >
+      <button
+        :disabled="page <= 1 || loading"
+        @click="previousPage"
+      >
+        {{ trans("book.list.previous") }}
+      </button>
+      <span>{{ page }} / {{ pageCount }}</span>
+      <button
+        :disabled="page >= pageCount || loading"
+        @click="nextPage"
+      >
+        {{ trans("book.list.next") }}
+      </button>
+    </nav>
   </section>
 </template>
 
@@ -106,6 +147,18 @@ onMounted(() => {
     border-radius: 8px;
     border: 1px solid #ffcdd2;
     margin-bottom: 1rem;
+  }
+
+  .pagination {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    color: #6c757d;
+
+    button:disabled {
+      opacity: 0.5;
+    }
   }
 
   // Responsive design

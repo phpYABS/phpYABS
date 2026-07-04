@@ -29,5 +29,6 @@
         <button type="submit">{{ 'book.actions.delete'|trans }}</button>
         <input type="hidden" name="ISBN" value="{{ book.ISBN }}">
         <input type="hidden" name="delete" value="true">
+        <input type="hidden" name="_token" value="{{ csrf_token('submit') }}" data-controller="csrf-protection">
     </form>
 </section>

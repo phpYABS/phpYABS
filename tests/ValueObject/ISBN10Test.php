@@ -18,4 +18,16 @@ class ISBN10Test extends TestCase
 
         $this->assertSame('316148410', $isbn10->withoutChecksum);
     }
+
+    public function testFromNineDigitsComputesXCheckDigit(): void
+    {
+        $this->assertSame('123456789X', (string) ISBN10::fromNineDigits('123456789'));
+    }
+
+    public function test979PrefixedIsbn13HasNoIsbn10Equivalent(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        ISBN::fromString('9791234567896')->version10;
+    }
 }

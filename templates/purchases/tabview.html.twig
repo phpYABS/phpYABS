@@ -47,7 +47,11 @@
         <tr>
             <th>{{ 'book.list.actions.title'|trans }}:</th>
             <td class="book-actions">
-                <a href="{{ path('purchase_current', {id: purchase_id, delete: bookId}) }}">{{ 'book.list.actions.delete'|trans }}</a>
+                <form action="{{ path('purchase_current', {id: purchase_id}) }}" method="post">
+                    <input type="hidden" name="delete" value="{{ bookId }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('submit') }}" data-controller="csrf-protection">
+                    <button type="submit">{{ 'book.list.actions.delete'|trans }}</button>
+                </form>
                 <a href="{{ path('book_edit', {ISBN: ISBN}) }}">{{ 'book.list.actions.edit'|trans }}</a>
             </td>
         </tr>

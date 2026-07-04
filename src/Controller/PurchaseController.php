@@ -73,9 +73,11 @@ class PurchaseController extends AbstractController
         $trovato = true;
 
         if ($request->request->has('newISBN')) {
-            $trovato = $acquisto->addBook($request->request->get('newISBN'));
-        } elseif ($request->query->has('delete')) {
-            $acquisto->delBook($request->query->get('delete'));
+            $trovato = $acquisto->addBook($request->request->getString('newISBN'));
+        } elseif ($request->request->has('delete')
+            && $this->isCsrfTokenValid('submit', $request->request->getString('_token'))
+        ) {
+            $acquisto->delBook($request->request->getString('delete'));
         }
 
         return $this->render('purchases/current.html.twig', [

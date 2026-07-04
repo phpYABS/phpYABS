@@ -58,7 +58,9 @@ class Purchase
             fn ($key, PurchaseLine $line) => $line->getBook()->getId() === $book->getId(),
         );
 
-        if (!$line) {
+        if ($line) {
+            $line->setQuantity($line->getQuantity() + 1);
+        } else {
             $line = new PurchaseLine();
             $line->setBook($book);
             $line->setPurchase($this);

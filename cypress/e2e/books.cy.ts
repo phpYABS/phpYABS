@@ -1,6 +1,7 @@
-// Book lifecycle smoke test: add, edit, delete (ports the old Behat features).
-// Runs against the dockerized app, whose database persists between runs,
-// so each run works on a book with a freshly generated ISBN.
+// Book lifecycle smoke test: add, list, edit, delete (ports the old Behat features).
+// Runs against the dockerized app, whose database persists between runs, so the
+// whole lifecycle lives in one test working on a freshly generated ISBN: it leaves
+// no state behind and each (re)run starts from scratch.
 
 function randomIsbn13(): string {
   let core = "";
@@ -15,11 +16,12 @@ function randomIsbn13(): string {
   return digits + ((10 - (sum % 10)) % 10);
 }
 
-const isbn = randomIsbn13();
-const title = `Smoke ${isbn}`;
-
 describe("book lifecycle", () => {
-  it("adds a book", () => {
+  it("adds, lists, edits and deletes a book", () => {
+    const isbn = randomIsbn13();
+    const title = `Smoke ${isbn}`;
+
+    // add
     cy.visit("/books/add");
     cy.get("input[name='book[isbn]']").type(isbn);
     cy.get("input[name='book[title]']").type(title);
@@ -28,33 +30,27 @@ describe("book lifecycle", () => {
     cy.get("input[name='book[price][tbbc_amount]']").type("3");
     cy.get("form.sf-form button[type=submit]").click();
     cy.contains("Libro inserito");
-  });
 
-  it("shows the book in the list", () => {
+    // list
     cy.visit("/books");
     cy.contains("td", isbn);
     cy.contains("td", title);
-  });
 
-  it("edits the book", () => {
+    // edit
     cy.visit("/books/edit");
     cy.get("input[name='ISBN']").type(isbn);
     cy.get("input[name='ISBN']").closest("form").submit();
-
     cy.get("input[name='book[title]']").clear().type(`${title} edited`);
     cy.get("input[name='book[title]']").closest("form").submit();
     cy.contains("Libro modificato");
-  });
 
-  it("deletes the book", () => {
+    // delete
     cy.visit("/books/delete");
     cy.get("input[name='ISBN']").type(isbn);
     cy.get("input[name='ISBN']").closest("form").submit();
-
     cy.contains(`${title} edited`);
     cy.get("form.book-actions button[type=submit]").click();
     cy.contains("Libro cancellato!");
-
     cy.visit("/books");
     cy.contains("td", isbn).should("not.exist");
   });
